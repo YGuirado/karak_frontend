@@ -75,10 +75,6 @@ function Map() {
      
 
         const tilePosition = playedData[playedCoords.indexOf(lastTileID)];
-
-        // const isMago = (player.find((player) => {
-        //   player.userName === playerTurn && player.type === 'mage'
-        // }))
         
         const isMago = (player.find((player) => player.userName === playerTurn).type);
 
