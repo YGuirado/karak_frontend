@@ -10,6 +10,7 @@ function Home() {
           Welcome to Karak!
         </h1>
         <Link href="/maptest"> Map </Link>
+        <Link href="/inventorytest"> Inventory </Link>
       </main>
     </div>
   );
