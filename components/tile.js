@@ -1,13 +1,20 @@
-function Tile(props) {
+import Image from 'next/image'
 
+function Tile(props) {
+  console.log(props.card)
   let playable = (<div style={{position: 'absolute', zIndex: '2', width: '100px', height: '100px'}}></div>)
   if(props.isPlayable) playable = (<div style={{position: 'absolute', zIndex: '2', width: '100px', height: '100px', backgroundColor: 'green', opacity: '.2'}}></div>)
+  let rotationStyle = `rotate(${props.card.rotation * 90}deg)`
   
   return (
     <div 
-    style={{backgroundImage: `url(${props.card.img})`, backgroundSize: 'cover', width: '100px', height: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} 
+    style={{position: 'relative', width: '100px', height: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }} 
     onClick={() => props.isPlayable && props.onTileClick(props.id)}
     >
+      <img
+      style={{position: 'absolute', width: '100px', zIndex: -1, transform: rotationStyle}}
+      src={`/tuiles/${props.card.img}.png`}
+      />
     {playable}
       <div style={{width: '100px'}}>&nbsp;&nbsp;{props.card.data[0]}</div>
       <div style={{width: '100px', justifyContent: 'space-between'}}>
