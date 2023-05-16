@@ -1,22 +1,118 @@
-.main {
+
+
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 4rem 0;
+
+}
+
+.logocontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 40px;
+
+}
+
+.logo {
+  width: 360px;
 }
 
 .title {
+  font-family: 'Permanent Marker', cursive;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 65;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+.titleH2 {
+  font-family: 'Merriweather', serif;
+  line-height: 1.15;
+  font-size: 50;
+  margin-bottom: 2px;
+  
+}
+.lauchGame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+}
+.createBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 60px;
+  background: #324E01;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+
 }
 
-.title a:hover, .title a:focus, .title a:active {
-  text-decoration: underline;
+.createGame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinGame {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinBtn {
+  background: #324E01;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  margin-top: 10px;
+  width: 300px;
+  height: 45px;
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.rulesBtn {
+  background: #324E01;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  width: 300px;
+  height: 45px;
+  font-family: 'Permanent Marker';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+
+.inputUrl {
+  width: 300px;
+  height: 65px;
+  font-size: 30px;
+  background: #FFFFFF;
 }
