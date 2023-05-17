@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Shareurl.module.css';
 import Link from 'next/link';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -41,10 +41,13 @@ function Shareurl() {
     return (
         <div className={styles.container}>
 
-            <div className={styles.headercontainer}>
-                <h1 className={styles.logoletter}>K</h1>
+            <div className={styles.headerContainer}>
+                <h1 className={styles.logoLetter}>K</h1>
                 <p className={styles.headerText}>Partage le lien de la partie</p>
             </div>
+
+
+
 
             <div className={styles.urlSection}>
                 <h2>
@@ -64,10 +67,11 @@ function Shareurl() {
                         <span>Lancer la partie</span>
                     </button>
                 </div>
+                </div>
 
 
 
-            </div>
+            
 
 
 

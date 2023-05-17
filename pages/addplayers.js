@@ -1,3 +1,4 @@
+import Addplayer from '../components/Addplayer';
 
 function Addplayers() {
 
@@ -5,9 +6,7 @@ function Addplayers() {
         <div >
 
 
-            <h1 >
-                Welcome to Addplayers !
-            </h1>
+        <Addplayer/>
 
         </div>
     )
