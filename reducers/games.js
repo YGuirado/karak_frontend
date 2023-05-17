@@ -16,8 +16,12 @@ export const gamesSlice = createSlice({
     state.value.push(action.payload);
   },
 
+  AddPlayersNames: (state, action) => {
+    state.value.push(action.payload);
+  },
+
  },
 });
 
-export const { addNewGame,joinAGame  } = gamesSlice.actions;
+export const { addNewGame,joinAGame, AddPlayersNames  } = gamesSlice.actions;
 export default gamesSlice.reducer;
