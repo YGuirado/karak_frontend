@@ -15,7 +15,7 @@ function Home() {
 
   //au clic sur "créer une partie", la DB renvoie un iD dans le store redux"
   const handleNewGame = () => {
-    fetch('http://192.168.1.22:3000/users/newGame')
+    fetch('http://localhost:3000/users/newGame')
       .then(response => response.json())
       .then(data => {
         if (data.result === true) {
