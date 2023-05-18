@@ -11,7 +11,7 @@ import { RWebShare } from "react-web-share";
 
 function Shareurl() {
     const router = useRouter()
-    const games = useSelector((state) => state.games.id);
+    const gameId = useSelector((state) => state.games.id);
 
    
     return (
@@ -36,7 +36,7 @@ function Shareurl() {
                             }}
                             onClick={() => console.log("shared successfully!")}
                         >
-                            <span className={styles.h2}>Id :{games.id}
+                            <span className={styles.h2}>Id :{gameId}
                         <FontAwesomeIcon icon={faShareNodes} className={styles.shareIcon}/>  
                         </span>
                         </RWebShare>

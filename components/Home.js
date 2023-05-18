@@ -19,7 +19,7 @@ function Home() {
       .then(response => response.json())
       .then(data => {
         if (data.result === true) {
-          dispatch(gameId({ id: data.game.id }));
+          dispatch(gameId(data.id ));
           //ajouter navigation vers share URL
 
           //hook de route useRouter de next/router 
