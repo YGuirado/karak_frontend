@@ -4,7 +4,7 @@ import React from 'react';
 import { useState, } from 'react';
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
-import { addNewGame, joinAGame } from '../reducers/games';
+import { gameId } from '../reducers/games';
 
 
 
@@ -15,12 +15,13 @@ function Home() {
 
   //au clic sur "créer une partie", la DB renvoie un iD dans le store redux"
   const handleNewGame = () => {
-    fetch('http://localhost:3000/users/newGame')
+    fetch('http://localhost:3000/newGame')
       .then(response => response.json())
       .then(data => {
         if (data.result === true) {
-          dispatch(addNewGame({ id: joinGame }));
+          dispatch(gameId({ id: data.game.id }));
           //ajouter navigation vers share URL
+
           //hook de route useRouter de next/router 
           router.push('/inviteplayers')
         } else {
@@ -31,7 +32,7 @@ function Home() {
 //Rejoindre une partie
   const handleJoinGame = () => {
     if (joinGame !== ""){}
-    fetch('http://localhost:3000/users/joinGame', {
+    fetch('http://localhost:3000/joinGame', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: "id345" }),
@@ -39,7 +40,7 @@ function Home() {
       .then(data => {
         if (data.result === true) {
           //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
-          dispatch(joinAGame({ id: "id" }));
+          dispatch(gameId({ id: "id" }));
           router.push('/addplayers')
         } else {
           res.json({ result: false, error: 'Game cannot be lauched' });
@@ -86,7 +87,7 @@ function Home() {
 
         <div title="Découvrir les règles ?"  >
           <button onClick={() => router.push('/regles_karak.pdf')} className={styles.rulesBtn}>
-            <span>Découvrir les règles (résumé)?</span>
+            <span>Découvrir les règles</span>
           </button>
         </div>
     </div>
