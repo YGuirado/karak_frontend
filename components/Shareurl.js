@@ -1,4 +1,4 @@
-import styles from '../styles/Shareurl.module.css';
+import styles from '../styles/ConfigGame.module.css';
 import Link from 'next/link';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +18,7 @@ function Shareurl() {
         <div className={styles.container}>
 
             <div className={styles.headerContainer}>
-                <h1 className={styles.logoLetter}>K</h1>
+                <span className={styles.logoLetter}>K</span>
                 <p className={styles.headerText}>Partage le lien de la partie</p>
             </div>
             <div className={styles.subContainer}>
@@ -45,7 +45,7 @@ function Shareurl() {
                         Puis lance la partie
                     </span>
                     <div title="Lance la partie"  >
-                        <button onClick={() => router.push('/addplayers')} className={styles.launchBtn}>
+                        <button onClick={() => router.push('/addplayers')} className={styles.largeBtn}>
                             <span>Lancer la partie</span>
                         </button>
                     </div>
