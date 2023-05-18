@@ -1,0 +1,16 @@
+.player {
+    flex : 1;
+    width: 100%;
+    text-align: end;
+    font-family: 'Permanent Marker', cursive;    
+}
+.tour {
+    flex : 1;
+    padding: 0 8%;
+    font-family: 'Permanent Marker', cursive;
+}
+.info {
+    flex : 1;
+    padding: 0 8%;
+    width: 100%;
+}
