@@ -16,7 +16,7 @@ function Tile(props) {
 
   let playable = (<div style={{position: 'absolute', zIndex: '2', width: '100px', height: '100px'}}></div>)
   if(props.isPlayable) playable = (<div style={{position: 'absolute', zIndex: '2', width: '100px', height: '100px', backgroundColor: 'green', opacity: '.2'}}></div>)
-  let rotationStyle = `rotate(${props.card.rotation * -90}deg)`
+  let rotationStyle = `rotate(${props.card.rotation * 90}deg)`
   
   let player = [];
   for(let i=0; i<props.player.length; i++){
