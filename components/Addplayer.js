@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Slider from '@mui/material/Slider'
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AddPlayersNames } from '../reducers/games';
 
 function ValueLabelComponent(props) {
@@ -61,7 +61,9 @@ const KarakSlider = styled(Slider)({
 function Addplayer() {
   const dispatch = useDispatch();
   const [nbrPlayers, setNbrPlayers] = useState(1);
-  const [playerNames, setPlayerNames] = useState([]);
+  const [playerNames, setPlayerNames] = useState(['']);
+
+const gameId = useSelector((state) => state.games.id);
 
 
   const playerInputs = [];
@@ -71,7 +73,7 @@ function Addplayer() {
         <p>Joueur {i + 1}</p>
         <input id={i} value={playerNames[i]}
           className={styles.inputName}
-          onChange={(e) => handleInputChange(e, i)} />
+          onChange={(e) => handleInputChange(e, i)}/>
       </div>
     );
   }
@@ -84,23 +86,26 @@ function Addplayer() {
 
   const handleLaunchGame = () => {
     // Vérifier si tous les champs d'entrée sont remplis
-    if (nbrPlayers === playerNames.length) {
-      console.log(playerNames)
+    const nbrElem = playerNames.slice(0,nbrPlayers)
+    const emptyFields = nbrElem.every((name) => name !== '');
+    console.log(emptyFields, nbrElem, nbrPlayers)
+    if (emptyFields) {
+      console.log(nbrElem)
       fetch('http://localhost:3000/addPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: "id345", token: "1234", players: playerNames }),
+        body: JSON.stringify({ id: gameId, players: nbrElem }),
       }).then(response => response.json())
         .then(data => {
           if (data.result === true) {
 
-            dispatch(AddPlayersNames({ players: playerNames }));
+            dispatch(AddPlayersNames({ players: nbrElem }));
             //router.push('/game')
 
             // Vider les champs d'entrée une fois le fetch passé avec succès
             setPlayerNames(Array(playerNames.length).fill(''));
           } else {
-            res.json({ result: false, error: 'Game cannot be lauched' });
+            console.log ('Cannot add players' );
           }
         });
     }else {

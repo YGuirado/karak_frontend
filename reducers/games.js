@@ -1,27 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
- value: [],
-};
+  id : '',
+  playerName: [],
+ }
 
 export const gamesSlice = createSlice({
  name: 'games',
 
   initialState,
  reducers: {
-   addNewGame: (state, action) => {
-     state.value.push(action.payload);
+   gameId: (state, action) => {
+     state.id = action.payload;
    },
-   joinAGame: (state, action) => {
-    state.value.push(action.payload);
-  },
 
   AddPlayersNames: (state, action) => {
-    state.value.push(action.payload);
+    state.playerName = action.payload;
   },
 
  },
 });
 
-export const { addNewGame,joinAGame, AddPlayersNames  } = gamesSlice.actions;
+export const { gameId, AddPlayersNames } = gamesSlice.actions;
 export default gamesSlice.reducer;
