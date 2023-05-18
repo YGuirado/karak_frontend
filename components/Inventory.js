@@ -171,11 +171,7 @@ function Home() {
 
   return (
     <div>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to KaraK <br/> Inventory & Encounter Test Camp
-        </h1>
-        <div className={styles.encounterContainer}>
+        {/* <div className={styles.encounterContainer}>
           <div className={styles.meet}>
             <button>Find me someone</button>
           </div>
@@ -184,7 +180,7 @@ function Home() {
             <span>Life: </span><br/>
             <span>Object: </span>
           </div>
-        </div>
+        </div> */}
         <div className={styles.itemContainer}>
           <div>
             Weapons
@@ -228,7 +224,6 @@ function Home() {
             {inventory.s3 || ''}
           </div>
         </div>
-      </main>
     </div>
   );
 }
