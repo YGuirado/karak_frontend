@@ -45,29 +45,28 @@ function Shareurl() {
                 <h1 className={styles.logoLetter}>K</h1>
                 <p className={styles.headerText}>Partage le lien de la partie</p>
             </div>
+            <div className={styles.subContainer}>
 
-
-
-
-            <div className={styles.urlSection}>
-                <h2>
-                    Invite les autres joueurs en partageant le lien ci-dessous.
-                </h2>
-                <p>Id : {games.id}
-                    <FontAwesomeIcon icon={faShareNodes} className={styles.shareIcon}
-                    onClick={() => handleShare()}/>  
-                </p>
-                <span >
-                </span>
-                <h2>
-                    Puis lance la partie.
-                </h2>
-                <div title="Lance la partie"  >
-                    <button onClick={() => router.push('/addplayers')} className={styles.launchBtn}>
-                        <span>Lancer la partie</span>
-                    </button>
-                </div>
-                </div>
+                <div className={styles.urlSection}>
+                    <span className={styles.h2}>
+                        Invite les autres joueurs <br/>en partageant le lien ci-dessous
+                    </span>
+                    <div className={styles.idSection}>
+                        <span className={styles.h2}>Id : {games.id}
+                        <FontAwesomeIcon icon={faShareNodes} className={styles.shareIcon}
+                            onClick={() => handleShare()}/>  
+                        </span>
+                    </div>
+                    <span className={styles.h2}>
+                        Puis lance la partie
+                    </span>
+                    <div title="Lance la partie"  >
+                        <button onClick={() => router.push('/addplayers')} className={styles.launchBtn}>
+                            <span>Lancer la partie</span>
+                        </button>
+                    </div>
+                    </div>
+            </div>
 
 
 
