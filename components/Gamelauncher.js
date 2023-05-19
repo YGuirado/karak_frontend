@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
-import { RWebShare } from "react-web-share";
+
 
 
 

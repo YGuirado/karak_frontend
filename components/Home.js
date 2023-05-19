@@ -28,7 +28,7 @@ function Home() {
           //ajouter navigation vers share URL
 
           //hook de route useRouter de next/router 
-          router.push('/inviteplayers')
+          router.push(`/addplayers/${data.id}`)
         } else {
           alert('error: The Game cannot be created');
         }
