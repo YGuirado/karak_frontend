@@ -4,6 +4,7 @@ const initialState = {
   id : '',
   playerName: [],
   gamecreator: false,
+  playerHeroeNames: [],
  }
 
 export const gamesSlice = createSlice({
@@ -21,10 +22,17 @@ export const gamesSlice = createSlice({
 
   setCreator: (state) => {
     state.gamecreator = true
-  }
+  },
+
+  AddPlayerHeroeNames: (state, action) => {
+    // action.payload is an array of {username:..., heroe:...}
+    state.playerHeroeNames = action.payload;
+    console.log('Exit AddPlayerHeroeNames, state.playerHeroeNames: ', state.playerHeroeNames);
+  },
+
 
  },
 });
 
-export const { gameId, AddPlayersNames, setCreator } = gamesSlice.actions;
+export const { gameId, AddPlayersNames, setCreator, AddPlayerHeroeNames} = gamesSlice.actions;
 export default gamesSlice.reducer;

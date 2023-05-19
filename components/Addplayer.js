@@ -7,7 +7,7 @@ import Slider from '@mui/material/Slider'
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
-import { AddPlayersNames } from '../reducers/games';
+import { AddPlayersNames, AddPlayerHeroeNames } from '../reducers/games';
 
 
 // const REMOTE_URL = process.env.REMOTE_URL;
@@ -109,6 +109,7 @@ const gameId = useSelector((state) => state.games.id);
 
             // Vider les champs d'entrée une fois le fetch passé avec succès
             setPlayerNames(Array(playerNames.length).fill(''));
+            dispatch(AddPlayerHeroeNames(data.infos))
             router.push('/gamelauncher')
           } else {
             console.log ('Cannot add players' );
