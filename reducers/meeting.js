@@ -11,8 +11,11 @@ export const meetingSlice = createSlice({
     pushMeet: (state, action) => {
         state.value = action.payload;
     },
+    clearMeet: (state) => {
+        state.value = {};
+    },
  },
 });
 
-export const { pushMeet } = meetingSlice.actions;
+export const { pushMeet, clearMeet } = meetingSlice.actions;
 export default meetingSlice.reducer;

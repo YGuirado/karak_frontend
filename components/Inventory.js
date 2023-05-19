@@ -7,36 +7,22 @@ import { useSelector } from 'react-redux';
 function Inventory() {
 
   const type = useSelector((state) => state.header.value.type);
-  //const inventoryPlayersOrigin = useSelector((state) => state.inventory.value);
-
-  const [inventoryPlayersOrigin, setInventoryPlayersOrigin] = useState([
-    {type: 'aderyn', powers:[null,null], tresor: 12.5, life: 1, weapons: ['sword',null], key: 1, scroll: ['fireScroll',null,null] },
-    {type: 'argentus', powers:[null,null], tresor: 10, life: 5, weapons: ['daggers',null], key: null, scroll: [null,'firescroll',null] },
-    {type: 'taia', powers:[null,null], tresor:8, life: 5, weapons: [null,null], key: null, scroll: ['lifescroll',null,null] },
-    {type: 'horan', powers:[null,null], tresor: 11, life: 5, weapons: ['axe',null], key: null, scroll: [null,null,null] },
-  ])
+  const inventoryPlayersReducer = useSelector((state) => state.inventory.value);
   
-  const [inventoryPlayer, setInventoryPlayer] = useState(inventoryPlayersOrigin.find(e => e.type === type))
-  
-  const [inventoryPlayers, setInventoryPlayers] = useState([
-    {type: 'aderyn', powers:[null,null], tresor: 12.5, life: 1, weapons: ['sword',null], key: 1, scroll: ['fireScroll',null,null] },
-    {type: 'argentus', powers:[null,null], tresor: 10, life: 5, weapons: [null,null], key: null, scroll: [null,null,null] },
-    {type: 'taia', powers:[null,null], tresor:8, life: 5, weapons: [null,null], key: null, scroll: [null,null,null] },
-    {type: 'horan', powers:[null,null], tresor: 11, life: 5, weapons: [null,null], key: null, scroll: [null,null,null] },
-  ])
+  const [inventoryPlayers, setInventoryPlayers] = useState(inventoryPlayersReducer)
+  const [inventoryPlayer, setInventoryPlayer] = useState(inventoryPlayersReducer.find(e => e.type === type))
 
   const shiftArray = (arr, player) => {
-    const index = inventoryPlayersOrigin.findIndex(e => e.type === player)
-    for(let i=0; i<index; i++){
-      arr.push(arr.shift()) 
-    }
-    return arr
+    const index = inventoryPlayersReducer.findIndex(e => e.type === player)
+    let array1 = arr.slice(index, arr.length)
+    let array2 = arr.slice(0,index)
+    return array1.concat(array2)
   }
 
   useEffect(()=>{
-    setInventoryPlayer(inventoryPlayersOrigin.find(e => e.type === type))
-    setInventoryPlayers(shiftArray(inventoryPlayersOrigin, type)) 
-  },[type])
+    setInventoryPlayer(inventoryPlayersReducer.find(e => e.type === type))
+    setInventoryPlayers(shiftArray(inventoryPlayersReducer, type)) 
+  },[type,inventoryPlayersReducer])
 
   
   let players = [];
@@ -53,7 +39,7 @@ function Inventory() {
           style={{ borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity: `${isActive}`}}
           src={`/heros/${inventoryPlayers[i].type}.png`}
           onMouseEnter={(e) => setInventoryPlayer(inventoryPlayers[e.target.id])}
-          onMouseLeave={()=> setInventoryPlayer(inventoryPlayersOrigin.find(e => e.type === type))}
+          onMouseLeave={()=> setInventoryPlayer(inventoryPlayersReducer.find(e => e.type === type))}
         />
       </div>
     )

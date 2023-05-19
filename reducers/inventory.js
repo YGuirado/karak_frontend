@@ -13,11 +13,14 @@ export const inventorySlice = createSlice({
     name: 'inventory',
     initialState,
     reducers: {
-    updateInventory: (state, action) => { 
-        state.value = action.payload;
+    updateTresor: (state, action) => { 
+        state.value[state.value.findIndex(e => e.type === action.payload)].tresor += 1;
+    },
+    useKey: (state, action) => { 
+        state.value[state.value.findIndex(e => e.type === action.payload)].key = null;
     },
  },
 });
 
-export const { updateInventory } = inventorySlice.actions;
+export const { updateTresor, useKey } = inventorySlice.actions;
 export default inventorySlice.reducer;

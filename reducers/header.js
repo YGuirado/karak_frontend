@@ -11,8 +11,11 @@ export const headerSlice = createSlice({
     pushInfo: (state, action) => {
         state.value = action.payload;
     },
+    updateMsg: (state, action) => {
+        state.value.msg = action.payload;
+    },
  },
 });
 
-export const { pushInfo } = headerSlice.actions;
+export const { pushInfo, updateMsg } = headerSlice.actions;
 export default headerSlice.reducer;
