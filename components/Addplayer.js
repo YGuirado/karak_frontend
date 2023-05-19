@@ -9,6 +9,10 @@ import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
 import { AddPlayersNames } from '../reducers/games';
 
+
+// const REMOTE_URL = process.env.REMOTE_URL;
+const { REMOTE_URL } = require('../modules/urls');
+
 function ValueLabelComponent(props) {
   const { children, value } = props;
 
@@ -60,6 +64,7 @@ const KarakSlider = styled(Slider)({
 
 function Addplayer() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [nbrPlayers, setNbrPlayers] = useState(1);
   const [playerNames, setPlayerNames] = useState(Array(5).fill(''));
 console.log(playerNames)
@@ -91,7 +96,7 @@ const gameId = useSelector((state) => state.games.id);
     console.log(emptyFields, nbrElem, nbrPlayers)
     if (emptyFields) {
       console.log(nbrElem)
-      fetch('http://localhost:3000/addPlayers', {
+      fetch(REMOTE_URL + '/addPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: gameId, players: nbrElem }),
@@ -104,6 +109,7 @@ const gameId = useSelector((state) => state.games.id);
 
             // Vider les champs d'entrée une fois le fetch passé avec succès
             setPlayerNames(Array(playerNames.length).fill(''));
+            router.push('/gamelauncher')
           } else {
             console.log ('Cannot add players' );
           }
