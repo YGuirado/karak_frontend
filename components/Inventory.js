@@ -1,305 +1,153 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from '../styles/Inventory.module.css';
+import Image from 'next/image';
+import { useSelector } from 'react-redux';
 
-function Home() {
-  const [inventory, setInventory] = useState({
-    w1: null,
-    w2: null,
-    k: null,
-    s1: null,
-    s2: null,
-    s3: null, 
-  });
 
-  const handleClickKey = (id) => {
-    if (inventory.k) {
-      const replaceWeapon = new Promise((resolve, reject) => {
-        const modal = document.createElement('div');
-        modal.classList.add(styles.modal);
+function Inventory() {
 
-        const message = document.createElement('p');
-        message.textContent = `You already have a key !`;
+  const type = useSelector((state) => state.header.value.type);
+  //const inventoryPlayersOrigin = useSelector((state) => state.inventory.value);
 
-        const button1 = document.createElement('button');
-        button1.textContent = 'Keep on floor';
-        button1.onclick = () => {
-          modal.remove();
-          reject('You drop the object on the floor !');
-        };
+  const [inventoryPlayersOrigin, setInventoryPlayersOrigin] = useState([
+    {type: 'aderyn', powers:[null,null], tresor: 12.5, life: 1, weapons: ['sword',null], key: 1, scroll: ['fireScroll',null,null] },
+    {type: 'argentus', powers:[null,null], tresor: 10, life: 5, weapons: ['daggers',null], key: null, scroll: [null,'firescroll',null] },
+    {type: 'taia', powers:[null,null], tresor:8, life: 5, weapons: [null,null], key: null, scroll: ['lifescroll',null,null] },
+    {type: 'horan', powers:[null,null], tresor: 11, life: 5, weapons: ['axe',null], key: null, scroll: [null,null,null] },
+  ])
   
-        modal.appendChild(message);
-        modal.appendChild(button1);
+  const [inventoryPlayer, setInventoryPlayer] = useState(inventoryPlayersOrigin.find(e => e.type === type))
+  
+  const [inventoryPlayers, setInventoryPlayers] = useState([
+    {type: 'aderyn', powers:[null,null], tresor: 12.5, life: 1, weapons: ['sword',null], key: 1, scroll: ['fireScroll',null,null] },
+    {type: 'argentus', powers:[null,null], tresor: 10, life: 5, weapons: [null,null], key: null, scroll: [null,null,null] },
+    {type: 'taia', powers:[null,null], tresor:8, life: 5, weapons: [null,null], key: null, scroll: [null,null,null] },
+    {type: 'horan', powers:[null,null], tresor: 11, life: 5, weapons: [null,null], key: null, scroll: [null,null,null] },
+  ])
 
-        document.body.appendChild(modal);
-      });
-
+  const shiftArray = (arr, player) => {
+    const index = inventoryPlayersOrigin.findIndex(e => e.type === player)
+    for(let i=0; i<index; i++){
+      arr.push(arr.shift()) 
     }
-    else {
-      setInventory((prevInventory) => ({
-        ...prevInventory, k: id,
-      }))
+    return arr
+  }
+
+  useEffect(()=>{
+    setInventoryPlayer(inventoryPlayersOrigin.find(e => e.type === type))
+    setInventoryPlayers(shiftArray(inventoryPlayersOrigin, type)) 
+  },[type])
+
+  
+  let players = [];
+  for(let i=0; i<inventoryPlayers.length; i++){
+    let isActive = 1;
+    if(inventoryPlayer.type !== inventoryPlayers[i].type) isActive = .5;
+    players.push(
+      <div key={i} style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
+        <Image
+          id={i}
+          alt={inventoryPlayers[i].type} 
+          width={100}
+          height={100}
+          style={{ borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity: `${isActive}`}}
+          src={`/heros/${inventoryPlayers[i].type}.png`}
+          onMouseEnter={(e) => setInventoryPlayer(inventoryPlayers[e.target.id])}
+          onMouseLeave={()=> setInventoryPlayer(inventoryPlayersOrigin.find(e => e.type === type))}
+        />
+      </div>
+    )
+  }
+  
+//gestion de la pool de vie
+  let vie = []; 
+  for(let i=0; i<5; i++){
+    if(i < 5 - inventoryPlayer.life){
+      vie.push(
+        <img
+          key={i}
+          style={{width: '30px'}}
+          src={`/inventaire/mort.png`}
+        />
+      )
+    }else{
+      vie.push(
+        <img
+          key={i}
+          style={{width: '30px'}}
+          src={`/inventaire/vie.png`}
+        />
+      )
+    }
+    
+  }
+
+  const weaponsStyle = [{backgroundImage: 'url(inventaire/arme.png)',backgroundSize: 'contain'},{backgroundImage: 'url(inventaire/arme.png)',backgroundSize: 'contain'}];
+  for(let i=0; i<inventoryPlayer.weapons.length; i++){
+    if(inventoryPlayer.weapons[i]){
+      weaponsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.weapons[i]}.png)`,backgroundSize: 'contain'}
     }
   }
 
-  const handleClickWeapons = (id) => {
-    if (inventory.w1 && inventory.w2) {
-      const replaceWeapon = new Promise((resolve, reject) => {
-        const modal = document.createElement('div');
-        modal.classList.add(styles.modal);
-  
-        const message = document.createElement('p');
-        message.textContent = `Which weapon do you want to replace?`;
-  
-        const button1 = document.createElement('button');
-        button1.textContent = 'Replace Weapon 1';
-        button1.onclick = () => {
-          modal.remove();
-          resolve('w1');
-        };
-  
-        const button2 = document.createElement('button');
-        button2.textContent = 'Replace Weapon 2';
-        button2.onclick = () => {
-          modal.remove();
-          resolve('w2');
-        };
+ 
+  let keyStyle = {backgroundImage: 'url(inventaire/key-background.png)', backgroundSize: 'contain'}
+  if(inventoryPlayer.key){
+    keyStyle = {backgroundImage: 'url(inventaire/key.png)', backgroundSize: 'contain'}
+  }
 
-        const button3 = document.createElement('button');
-        button3.textContent = 'Keep on floor';
-        button3.onclick = () => {
-          modal.remove();
-          reject('You drop the object on the floor !');
-        };
-  
-        modal.appendChild(message);
-        modal.appendChild(button1);
-        modal.appendChild(button2);
-        modal.appendChild(button3);
-  
-        document.body.appendChild(modal);
-      });
-  
-      replaceWeapon.then((weaponToReplace) => {
-        setInventory((prevInventory) => ({
-          ...prevInventory,
-          [weaponToReplace]: id,
-        }));
-      });
-    } else if (!inventory.w1) {
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        w1: id,
-      }));
-    } else if (!inventory.w2) {
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        w2: id,
-      }));
+  const scrollsStyle = [{backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'},{backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'}, {backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'}];
+  for(let i=0; i<inventoryPlayer.scroll.length; i++){
+    if(inventoryPlayer.scroll[i]){
+      scrollsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.scroll[i]}.png)`,backgroundSize: 'contain'}
     }
-  };
+  }
 
-  const handleClickScroll = (id) => {
-    if (inventory.s1 && inventory.s2 && inventory.s3) {
-      const replaceScroll = new Promise((resolve, reject) => {
-        const modal = document.createElement('div');
-        modal.classList.add(styles.modal);
-  
-        const message = document.createElement('p');
-        message.textContent = `Which scroll do you want to replace?`;
-  
-        const button1 = document.createElement('button');
-        button1.textContent = 'Replace Scroll 1';
-        button1.onclick = () => {
-          modal.remove();
-          resolve('s1');
-        };
-  
-        const button2 = document.createElement('button');
-        button2.textContent = 'Replace Scroll 2';
-        button2.onclick = () => {
-          modal.remove();
-          resolve('s2');
-        };
+  let scrolls = [];
 
-        const button3 = document.createElement('button');
-        button3.textContent = 'Replace Scroll 3';
-        button3.onclick = () => {
-          modal.remove();
-          resolve('s3');
-        };
-
-        const button4 = document.createElement('button');
-        button4.textContent = 'Keep on floor';
-        button4.onclick = () => {
-          modal.remove();
-          reject('You drop the object on the floor !');
-        };
-  
-        modal.appendChild(message);
-        modal.appendChild(button1);
-        modal.appendChild(button2);
-        modal.appendChild(button3);
-        modal.appendChild(button4);
-  
-        document.body.appendChild(modal);
-      });
-  
-      replaceScroll.then((scrollToReplace) => {
-        setInventory((prevInventory) => ({
-          ...prevInventory,
-          [scrollToReplace]: id,
-        }));
-      });
-    } else if (!inventory.s1) {
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        s1: id,
-      }));
-    } else if (!inventory.s2) {
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        s2: id,
-      }));
-    }
-    else if (!inventory.s3) {
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        s3: id,
-      }));
-    }
-  };
-
-  return (
-    <div>
-        {/* <div className={styles.encounterContainer}>
-          <div className={styles.meet}>
-            <button>Find me someone</button>
+  let inventory = (
+    <div className={styles.inventory}>
+        <div className={styles.vie}>
+          {vie}
+        </div>
+        <div className={styles.objets}>
+          <div className={styles.objetsrow}>
+            <div className={styles.invWeapons} style={weaponsStyle[0]}></div>
+            <div className={styles.invWeapons} style={weaponsStyle[1]}></div>
+            <div className={styles.invKey} style={keyStyle}></div>
           </div>
-          <div className={styles.someoneAppair}>
-            <span>Name: </span><br/>
-            <span>Life: </span><br/>
-            <span>Object: </span>
-          </div>
-        </div> */}
-
-        {/* <div className={styles.itemContainer}>
-          <div>
-            Weapons
-            <div className={styles.weapons}>
-              <button onClick={() => handleClickWeapons('w1')}>W1</button>
-              <button onClick={() => handleClickWeapons('w2')}>W2</button>
-              <button onClick={() => handleClickWeapons('w3')}>W3</button>
-            </div>
-          </div>
-          <div>
-            Key
-            <div className={styles.weapons}>
-              <button onClick={() => handleClickKey('k')}>K</button>
-            </div>
-          </div>
-          <div>
-            Scrolls
-            <div className={styles.weapons}>
-              <button onClick={() => handleClickScroll('s1')}>S1</button>
-              <button onClick={() => handleClickScroll('s2')}>S2</button>      
-           </div>
-          </div>
-        </div> */}
-
-
-        <div className={styles.inventoryContainer}>
-          <div className={styles.players}>
-            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
-              <img
-                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%'}}
-                src={`/heros/alderyn.png`}
-              />
-            </div>
-            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
-              <img
-                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity:.3}}
-                src={`/heros/argentus.png`}
-              />
-            </div>
-            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
-              <img
-                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity:.3}}
-                src={`/heros/horan.png`}
-              />
-            </div>
-            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
-              <img
-                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity:.3}}
-                src={`/heros/lord-xantus.png`}
-              />
-            </div>
-
-          </div>
-          <div className={styles.inventory}>
-            <div className={styles.vie}>
-              <img
-                style={{width: '30px'}}
-                src={`/inventaire/vie.png`}
-              />
-              <img
-                style={{width: '30px'}}
-                src={`/inventaire/vie.png`}
-              />
-              <img
-                style={{width: '30px'}}
-                src={`/inventaire/vie.png`}
-              />
-              <img
-                style={{width: '30px'}}
-                src={`/inventaire/vie.png`}
-              />
-              <img
-                style={{width: '30px'}}
-                src={`/inventaire/vie.png`}
-              />
-            </div>
-            
-            <div className={styles.objets}>
-              <div className={styles.objetsrow}>
-                <div id="W1" className={styles.invWeapons}>
-                  {inventory.w1 || ''}
-                </div>
-                <div id="W2" className={styles.invWeapons}>
-                  {inventory.w2 || ''}
-                </div>
-                <div id="K" className={styles.invKey}>
-                  {inventory.k || ''}
-                </div>
-              </div>
-              <div className={styles.objetsrow}>
-                <div id="S1" className={styles.invScroll}>
-                  {inventory.s1 || ''}
-                </div>
-                <div id="S2" className={styles.invScroll}>
-                  {inventory.s2 || ''}
-                </div>
-                <div id="S3" className={styles.invScroll}>
-                  {inventory.s3 || ''}
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.pouvoirs}>
-              <img
-                style={{width: '35px', margin: '10%'}}
-                src={`/inventaire/pouvoirs/horan-1.png`}
-              />
-              <img
-                style={{width: '35px', margin: '10%'}}
-                src={`/inventaire/pouvoirs/horan-2.png`}
-              />
-              <p style={{width: '35px', height: '35px', margin: '10%', backgroundColor: '#E6A840', borderRadius: '50%', textAlign: 'center', paddingTop:'5px',fontSize: '16px', fontFamily: 'Permanent Marker'}}>12.5</p>
-            </div>
+          <div className={styles.objetsrow}>
+            <div className={styles.invScroll} style={scrollsStyle[0]}></div>
+            <div className={styles.invScroll} style={scrollsStyle[1]}></div>
+            <div className={styles.invScroll} style={scrollsStyle[2]}></div>
           </div>
         </div>
+
+        <div className={styles.pouvoirs}>
+          <img
+            style={{width: '35px', margin: '10%'}}
+            src={`/inventaire/pouvoirs/horan-1.png`}
+          />
+          <img
+            style={{width: '35px', margin: '10%'}}
+            src={`/inventaire/pouvoirs/horan-2.png`}
+          />
+          <p className='tresor' style={{width: '35px', height: '35px', margin: '10%', backgroundColor: '#E6A840', borderRadius: '50%', textAlign: 'center', paddingTop:'5px',fontSize: '16px', fontFamily: 'Permanent Marker'}}>
+            {inventoryPlayer.tresor}
+          </p>
+        </div>
+      </div>
+  );
+  
+
+  return (
+    <div className={styles.inventoryContainer}>
+      <div className={styles.players}>
+        {players}
+      </div>
+      {inventory}     
     </div>
   );
 }
 
-export default Home;
+export default Inventory;
 
