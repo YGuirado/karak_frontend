@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css';
+import styles from '../styles/ConfigGame.module.css';
 import Link from 'next/link';
 import React from 'react';
 import { useState, } from 'react';
@@ -19,7 +19,7 @@ function Home() {
       .then(response => response.json())
       .then(data => {
         if (data.result === true) {
-          dispatch(gameId({ id: data.game.id }));
+          dispatch(gameId(data.id ));
           //ajouter navigation vers share URL
 
           //hook de route useRouter de next/router 
@@ -54,39 +54,28 @@ function Home() {
     <div className={styles.container}>
       
         <div className={styles.logocontainer}>
-          <img src="logo-karak.png" alt="Logo" className={styles.logo} />
-          <h1 className={styles.title}>
+          <img src="logo-karak.png" alt="Logo" className={styles.logo}/>
+          <span className={styles.title}>
             Welcome to Karak!
-          </h1>
-          <h2 className={styles.titleH2}>
-            Jouez en famille ou entre amis, 
-          </h2>
-          <h2 className={styles.titleH2}>
-            même à distance.
-          </h2>
-          
+          </span>
+          <span className={styles.h2}>
+            Jouez en famille ou entre amis, <br/> même à distance.
+          </span>          
         </div>
 
-        <div className={styles.launchGame}>
-
-          <div title="Créer une partie"  >
-            <button onClick={() => handleNewGame()} className={styles.createBtn}>
+        <div className={styles.launchGame}>  
+            <button onClick={() => handleNewGame()} className={styles.largeBtn}>
               <span>Créer une partie</span>
             </button>
-          </div>
-
-          <div className={styles.joinGame}>
-            <div>
-              <input onChange={(e) => setJoinGame(e.target.value)} value={joinGame} className={styles.inputUrl} />
-            </div>
-            <div title="Rejoindre une partie"  >
-              <button onClick={() => handleJoinGame()} className={styles.joinBtn}><span>Rejoindre une partie</span></button>
-            </div>
-          </div>
         </div>
+        <div className={styles.joinGame}>            
+              <input onChange={(e) => setJoinGame(e.target.value)} value={joinGame} className={styles.inputUrl} />              
+              <button onClick={() => handleJoinGame()} className={styles.mediumBtn}><span>Rejoindre une partie</span></button>
+         </div>
+        
 
         <div title="Découvrir les règles ?"  >
-          <button onClick={() => router.push('/regles_karak.pdf')} className={styles.rulesBtn}>
+          <button onClick={() => router.push('/regles_karak.pdf')} className={styles.mediumBtn}>
             <span>Découvrir les règles</span>
           </button>
         </div>

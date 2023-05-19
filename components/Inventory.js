@@ -181,7 +181,8 @@ function Home() {
             <span>Object: </span>
           </div>
         </div> */}
-        <div className={styles.itemContainer}>
+
+        {/* <div className={styles.itemContainer}>
           <div>
             Weapons
             <div className={styles.weapons}>
@@ -203,25 +204,97 @@ function Home() {
               <button onClick={() => handleClickScroll('s2')}>S2</button>      
            </div>
           </div>
-        </div>
+        </div> */}
+
+
         <div className={styles.inventoryContainer}>
-          <div id="W1" className={styles.invWeapons}>
-            {inventory.w1 || ''}
+          <div className={styles.players}>
+            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
+              <img
+                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%'}}
+                src={`/heros/alderyn.png`}
+              />
+            </div>
+            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
+              <img
+                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity:.3}}
+                src={`/heros/argentus.png`}
+              />
+            </div>
+            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
+              <img
+                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity:.3}}
+                src={`/heros/horan.png`}
+              />
+            </div>
+            <div style={{width: '72px', height: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', backgroundColor:'white'}}>
+              <img
+                style={{width: '72px', borderTopLeftRadius: '15%', borderTopRightRadius: '15%', opacity:.3}}
+                src={`/heros/lord-xantus.png`}
+              />
+            </div>
+
           </div>
-          <div id="W2" className={styles.invWeapons}>
-            {inventory.w2 || ''}
-          </div>
-          <div id="K" className={styles.invKey}>
-            {inventory.k || ''}
-          </div>
-          <div id="S1" className={styles.invScroll}>
-            {inventory.s1 || ''}
-          </div>
-          <div id="S2" className={styles.invScroll}>
-            {inventory.s2 || ''}
-          </div>
-          <div id="S3" className={styles.invScroll}>
-            {inventory.s3 || ''}
+          <div className={styles.inventory}>
+            <div className={styles.vie}>
+              <img
+                style={{width: '30px'}}
+                src={`/inventaire/vie.png`}
+              />
+              <img
+                style={{width: '30px'}}
+                src={`/inventaire/vie.png`}
+              />
+              <img
+                style={{width: '30px'}}
+                src={`/inventaire/vie.png`}
+              />
+              <img
+                style={{width: '30px'}}
+                src={`/inventaire/vie.png`}
+              />
+              <img
+                style={{width: '30px'}}
+                src={`/inventaire/vie.png`}
+              />
+            </div>
+            
+            <div className={styles.objets}>
+              <div className={styles.objetsrow}>
+                <div id="W1" className={styles.invWeapons}>
+                  {inventory.w1 || ''}
+                </div>
+                <div id="W2" className={styles.invWeapons}>
+                  {inventory.w2 || ''}
+                </div>
+                <div id="K" className={styles.invKey}>
+                  {inventory.k || ''}
+                </div>
+              </div>
+              <div className={styles.objetsrow}>
+                <div id="S1" className={styles.invScroll}>
+                  {inventory.s1 || ''}
+                </div>
+                <div id="S2" className={styles.invScroll}>
+                  {inventory.s2 || ''}
+                </div>
+                <div id="S3" className={styles.invScroll}>
+                  {inventory.s3 || ''}
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.pouvoirs}>
+              <img
+                style={{width: '35px', margin: '10%'}}
+                src={`/inventaire/pouvoirs/horan-1.png`}
+              />
+              <img
+                style={{width: '35px', margin: '10%'}}
+                src={`/inventaire/pouvoirs/horan-2.png`}
+              />
+              <p style={{width: '35px', height: '35px', margin: '10%', backgroundColor: '#E6A840', borderRadius: '50%', textAlign: 'center', paddingTop:'5px',fontSize: '16px', fontFamily: 'Permanent Marker'}}>12.5</p>
+            </div>
           </div>
         </div>
     </div>

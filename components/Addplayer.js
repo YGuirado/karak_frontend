@@ -1,4 +1,4 @@
-import styles from '../styles/Addplayer.module.css';
+import styles from '../styles/ConfigGame.module.css';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -61,8 +61,8 @@ const KarakSlider = styled(Slider)({
 function Addplayer() {
   const dispatch = useDispatch();
   const [nbrPlayers, setNbrPlayers] = useState(1);
-  const [playerNames, setPlayerNames] = useState(['']);
-
+  const [playerNames, setPlayerNames] = useState(Array(5).fill(''));
+console.log(playerNames)
 const gameId = useSelector((state) => state.games.id);
 
 
@@ -144,7 +144,7 @@ const gameId = useSelector((state) => state.games.id);
       <div className={styles.playersNames}>
         {playerInputs}
         <div>
-          <button onClick={() => handleLaunchGame()} className={styles.btnValid}><span>Valider</span></button>
+          <button onClick={() => handleLaunchGame()} className={styles.mediumBtn}><span>Valider</span></button>
         </div>
       </div>
 
