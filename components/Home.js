@@ -49,7 +49,7 @@ function Home() {
           if (data.result === true) {
             //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
             dispatch(gameId(id));
-            router.push('/addplayers')
+            router.push('/addplayers/' + id)
           } else {
             alert('Sorry but we cannot join the game, check the url');
           }

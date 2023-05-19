@@ -32,7 +32,7 @@ function Shareurl() {
                         <RWebShare
                             data={{
                                 text: "Rejoins moi sur une partie de Karak !",
-                                url: FRONTEND_URL + '/' + gameId,
+                                url: FRONTEND_URL + '/addplayers/' + gameId,
                                 title: "Karak",
                             }}
                             onClick={() => console.log("shared successfully!")}
@@ -46,7 +46,7 @@ function Shareurl() {
                         Puis lance la partie
                     </span>
                     <div title="Lance la partie"  >
-                        <button onClick={() => router.push('/addplayers')} className={styles.largeBtn}>
+                        <button onClick={() => router.push('/addplayers/' + gameId)} className={styles.largeBtn}>
                             <span>Lancer la partie</span>
                         </button>
                     </div>
