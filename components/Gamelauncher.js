@@ -6,9 +6,6 @@ import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router';
 
-
-
-
 function Gamelauncher() {
     const router = useRouter()
     const gameId = useSelector((state) => state.games.id);

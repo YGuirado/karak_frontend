@@ -13,9 +13,8 @@ import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { RWebShare } from "react-web-share";
 
 
-// const REMOTE_URL = process.env.REMOTE_URL;
-const { REMOTE_URL } = require('../modules/urls');
-const { FRONTEND_URL } = require('../modules/urls');
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
 
 function ValueLabelComponent(props) {
@@ -75,6 +74,7 @@ function Addplayer() {
   console.log(playerNames)
   const gameId = useSelector((state) => state.games.id);
   console.log(gameId)
+  console.log('FRONTEND_URL: ', FRONTEND_URL);
 
 
   const playerInputs = [];
@@ -110,7 +110,7 @@ slider : le mettre au nbr de joueurs inscrits +1
     console.log(emptyFields, nbrElem, nbrPlayers, gameId)
     if (emptyFields) {
       console.log(nbrElem)
-      fetch(REMOTE_URL + '/addPlayers', {
+      fetch(BACKEND_URL + '/addPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: gameId, players: nbrElem }),

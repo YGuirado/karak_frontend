@@ -5,21 +5,18 @@ import { useState, } from 'react';
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
 import { gameId, setCreator } from '../reducers/games';
-// require('dotenv').config()
 
-// const REMOTE_URL = process.env.REMOTE_URL;
-const { REMOTE_URL } = require('../modules/urls');
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 function Home() {
   const dispatch = useDispatch();
   const [joinGame, setJoinGame] = useState('');
   const router = useRouter()
-  console.log('REMOTE_URL: ', REMOTE_URL);
+  console.log('BACKEND_URL: ', BACKEND_URL);
 
   //au clic sur "créer une partie", la DB renvoie un iD dans le store redux"
   const handleNewGame = () => {
-    console.log('REMOTE_URL: ', REMOTE_URL);
-    fetch(REMOTE_URL + '/newGame')
+    fetch(BACKEND_URL + '/newGame')
       .then(response => response.json())
       .then(data => {
         if (data.result === true) {
@@ -40,7 +37,7 @@ function Home() {
     console.log('id from url: ', id_array)
     if ( id_array) {
       const id = id_array[1]
-      fetch(REMOTE_URL + '/joinGame', {
+      fetch(BACKEND_URL + '/joinGame', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: id }),
