@@ -21,7 +21,6 @@ function Gamelauncher() {
     console.log('playerHeroeNames:', playerHeroeNames)
     const dispatch = useDispatch();
 
-
     function fetch_getPlayerHeroe() {
         console.log('Entry in fetch_getPlayerHeroe');
         fetch(REMOTE_URL + '/getPlayerHeroe', {
