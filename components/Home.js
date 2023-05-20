@@ -5,10 +5,9 @@ import { useState, } from 'react';
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
 import { gameId, setCreator } from '../reducers/games';
-// require('dotenv').config()
 
-// const REMOTE_URL = process.env.REMOTE_URL;
-const { REMOTE_URL } = require('../modules/urls');
+const REMOTE_URL = process.env.NEXT_PUBLIC_REMOTE_URL;
+// const { REMOTE_URL } = require('../modules/urls');
 
 function Home() {
   const dispatch = useDispatch();
