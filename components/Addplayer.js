@@ -125,6 +125,8 @@ slider : le mettre au nbr de joueurs inscrits +1
             dispatch(AddPlayerHeroeNames(data.infos))
             router.push('/gamelauncher')
 
+          } else if (data.gameStarted) {
+            alert('Sorry but the game is yet started');
           } else {
             console.log('Cannot add players');
           }
@@ -145,21 +147,21 @@ slider : le mettre au nbr de joueurs inscrits +1
       </div>
 
       <div className={styles.idSection}>
-          <button className={styles.mediumBtn}>
-            <RWebShare
-              data={{
-                text: "Rejoins moi sur une partie de Karak !",
-                url: FRONTEND_URL + '/addplayers/' + gameId,
-                title: "Karak",
-              }}
-              onClick={() => console.log("shared successfully!")}
-            >
-              <span>Inviter les joueurs à distance<span>&nbsp;&nbsp;</span>
-                <FontAwesomeIcon icon={faShareNodes} className={styles.shareIcon} />
-              </span>
-            </RWebShare>
-          </button>
-        </div>
+        <button className={styles.mediumBtn}>
+          <RWebShare
+            data={{
+              text: "Rejoins moi sur une partie de Karak !",
+              url: FRONTEND_URL + '/addplayers/' + gameId,
+              title: "Karak",
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <span>Inviter les joueurs à distance<span>&nbsp;&nbsp;</span>
+              <FontAwesomeIcon icon={faShareNodes} className={styles.shareIcon} />
+            </span>
+          </RWebShare>
+        </button>
+      </div>
 
       <div className={styles.subContainer}>
         <div className={styles.slidecontainer}>

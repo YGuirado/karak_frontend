@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
 import { AddPlayerHeroeNames } from '../reducers/games';
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 function Gamelauncher() {
     const [nbJoueurs, setNbJoueurs] = useState(0)
     const router = useRouter()
@@ -20,7 +22,7 @@ function Gamelauncher() {
 
     function fetch_getPlayerHeroe() {
         console.log('Entry in fetch_getPlayerHeroe');
-        fetch(REMOTE_URL + '/getPlayerHeroe', {
+        fetch(BACKEND_URL + '/getPlayerHeroe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: gameId }),
@@ -38,8 +40,7 @@ function Gamelauncher() {
     }
 
     useEffect(() => {
-        setNbJoueurs(playerHeroeNames.length)
-        const local_intervalID = setInterval(fetch_getPlayerHeroe, 1000 * 30)
+        const local_intervalID = setInterval(fetch_getPlayerHeroe, 1000 * 5)
         // setIntervalID(local_intervalID)
         console.log('set intervalID: ', local_intervalID)
 
@@ -60,6 +61,29 @@ function Gamelauncher() {
         )
     })
     console.log('joueurs_heroes jsx : ', playerHeroeNames_jsx);
+
+    useEffect(() => {
+        setNbJoueurs(playerHeroeNames.length)
+    }, [playerHeroeNames])
+
+    const handleStartGame = () => {
+        fetch(BACKEND_URL + '/startGame', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: gameId }),
+        })
+            .then(response => response.json())
+            .then(data_game => {
+                if (data_game.result === true) {
+                    console.log(data_game.game);
+                    // dispatch(???(data.game))
+                    router.push('/game')
+                } else {
+                    alert('Bad luck : Cannot get the game');
+                }
+            });
+
+    }
 
     return (
         <div className={styles.container}>
@@ -82,7 +106,7 @@ function Gamelauncher() {
 
                     {gamecreator &&
                         (<div title="Démarrer la partie"  >
-                            <button onClick={() => alert('La partie commence')} className={styles.largeBtn}>
+                            <button onClick={handleStartGame} className={styles.largeBtn}>
                                 <span>Démarrer à {nbJoueurs}</span>
                             </button>
                         </div>)

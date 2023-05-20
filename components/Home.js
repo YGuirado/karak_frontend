@@ -35,7 +35,7 @@ function Home() {
   const handleJoinGame = () => {
     const id_array = joinGame.match(/.*\/(.*$)/)
     console.log('id from url: ', id_array)
-    if ( id_array) {
+    if (id_array) {
       const id = id_array[1]
       fetch(BACKEND_URL + '/joinGame', {
         method: 'POST',
@@ -47,6 +47,8 @@ function Home() {
             //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
             dispatch(gameId(id));
             router.push('/addplayers/' + id)
+          } else if (data.gameStarted) {
+            alert('Sorry but the game is yet started');
           } else {
             alert('Sorry but we cannot join the game, check the url');
           }
