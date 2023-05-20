@@ -6,6 +6,7 @@ import { TransformWrapper, TransformComponent, Template } from "react-zoom-pan-p
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { pushInfo } from '../reducers/header';
+import { pushMeet } from '../reducers/meeting';
 
 
 function Map() {
@@ -20,10 +21,11 @@ function Map() {
   const dataStart = {type: 'start', "meeting": false, data: [1,1,1,1], "isRotate": true, "rotation": 0, img: 'depart_fontaine-1111'}
   const dataVide = {type: 'vide', data: [0,0,0,0], "isRotate": false, "rotation": 0,img: 'vide'}
   
+  //{mob: 'coffre', strength: 5, loot: 'daggers', value:1}
   let dataPioche=[
     {"type":"start","specificity":"fontaine","meeting": false,"data":[1,1,1,1],"isRotate":false,"rotation": 0,"img":"depart_fontaine-1111"},
     {"type":"couloir","specificity":"portail","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_portail-1010"},
-    {"type":"couloir","specificity":"salle","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
+    {"type":"couloir","specificity":"salle","meeting": {mob: 'coffre', strength: 5, loot: 'daggers', value:1},"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
     {"type":"couloir","specificity":"portail","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_portail-1010"},
     {"type":"couloir","specificity":"salle","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
     {"type":"couloir","specificity":"portail","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_portail-1010"},
@@ -127,7 +129,7 @@ function Map() {
       setPlayerTurn(playerTurn +1)
     }else{
       setPlayerTurn(0);
-      setNbTours(nbTours +1)
+      setNbTours(nbTours +1) 
     }
   }
 
@@ -167,7 +169,10 @@ function Map() {
         setMooves(mooves +1)
         // cf. onTileClick
         if(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting && !isAderyn) {
-          console.log('combat')
+          console.log('meeting')
+          //insérer meeting
+          dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting))
+          
           setMooves(0)
           if(playerTurn < player.length -1){
             setPlayerTurn(playerTurn +1)
@@ -176,7 +181,10 @@ function Map() {
             setNbTours(nbTours +1)
           }
         }else if(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting && isAderyn){
-          console.log('combat')
+          console.log('meeting')
+          //insérer meeting
+          dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting))
+          
         }
       }} 
       icon={faCheck} />
@@ -218,7 +226,10 @@ function Map() {
   const onTileClick = (id) => {
     // cf. modalValid
     if(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords && playedCoords.includes(id)) +1].meeting && !isAderyn) {
-      console.log('combat')
+      console.log('meeting')
+      //insérer meeting
+      dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting))
+      
       setMooves(0)
       if(playerTurn < player.length -1){
         setPlayerTurn(playerTurn +1)
@@ -227,7 +238,10 @@ function Map() {
         setNbTours(nbTours +1)
       }
     }else if(isAderyn && playedCoords.includes(id) && dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords && playedCoords.includes(id)) +1].meeting) {
-      console.log('combat')
+      console.log('meeting')
+      //insérer meeting
+      dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting))
+     
       setMooves(mooves +1)
     }else if(isAderyn && playedCoords.includes(id)){
       setMooves(mooves +1)
@@ -277,7 +291,7 @@ function Map() {
         const lastTileID = player.find((player) => player.id === playerTurn).coords;
         const coords = lastTileID.split(';');
         const x = Number(coords[0])
-        const y = Number(coords[1])
+        const y = Number(coords[1]) 
                 
         if(!isOpen){
           if(!meeting || isAderyn){

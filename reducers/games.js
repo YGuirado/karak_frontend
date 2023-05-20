@@ -14,6 +14,7 @@ export const gamesSlice = createSlice({
  reducers: {
    gameId: (state, action) => {
      state.id = action.payload;
+     console.log(state.id);
    },
 
   AddPlayersNames: (state, action) => {
