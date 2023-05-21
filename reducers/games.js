@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
   id : '',
@@ -18,22 +18,27 @@ export const gamesSlice = createSlice({
    },
 
   AddPlayersNames: (state, action) => {
-    state.playerName = action.payload;
+    // receive [ <player 1 name>, <player 2 name> ...]
+    // due to implementation and go back to addplayer 
+    // it is better to add the players
+    state.playerName.push(...action.payload);
+    console.log('Exit AddPlayerNames, state.playerName: ', state.playerName)
+    console.log('Exit AddPlayerNames, state.playerName: ', current(state.playerName))
   },
 
   setCreator: (state) => {
     state.gamecreator = true
   },
 
-  AddPlayerHeroeNames: (state, action) => {
+  setPlayerHeroeNames: (state, action) => {
     // action.payload is an array of {username:..., heroe:...}
     state.playerHeroeNames = action.payload;
-    console.log('Exit AddPlayerHeroeNames, state.playerHeroeNames: ', state.playerHeroeNames);
+    console.log('Exit setPlayerHeroeNames, state.playerHeroeNames: ', state.playerHeroeNames);
   },
 
 
  },
 });
 
-export const { gameId, AddPlayersNames, setCreator, AddPlayerHeroeNames} = gamesSlice.actions;
+export const { gameId, AddPlayersNames, setCreator, setPlayerHeroeNames} = gamesSlice.actions;
 export default gamesSlice.reducer;

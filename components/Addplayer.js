@@ -7,7 +7,7 @@ import Slider from '@mui/material/Slider'
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
-import { AddPlayersNames, AddPlayerHeroeNames } from '../reducers/games';
+import { AddPlayersNames, setPlayerHeroeNames } from '../reducers/games';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { RWebShare } from "react-web-share";
@@ -71,10 +71,10 @@ function Addplayer() {
   const router = useRouter();
   const [nbrPlayers, setNbrPlayers] = useState(1);
   const [playerNames, setPlayerNames] = useState(Array(5).fill(''));
-  console.log(playerNames)
+  // console.log(playerNames)
   const gameId = useSelector((state) => state.games.id);
-  console.log(gameId)
-  console.log('FRONTEND_URL: ', FRONTEND_URL);
+  // console.log(gameId)
+  // console.log('FRONTEND_URL: ', FRONTEND_URL);
 
 
   const playerInputs = [];
@@ -105,28 +105,29 @@ slider : le mettre au nbr de joueurs inscrits +1
 
   const handleLaunchGame = () => {
     // Vérifier si tous les champs d'entrée sont remplis
-    const nbrElem = playerNames.slice(0, nbrPlayers)
-    const emptyFields = nbrElem.every((name) => name !== '');
-    console.log(emptyFields, nbrElem, nbrPlayers, gameId)
-    if (emptyFields) {
-      console.log(nbrElem)
+    const playerNames_to_take_into_account = playerNames.slice(0, nbrPlayers)
+    const emptyFields = playerNames_to_take_into_account.some((name) => name === '');
+    console.log(emptyFields, playerNames_to_take_into_account, nbrPlayers, gameId)
+    if (! emptyFields) {
       fetch(BACKEND_URL + '/addPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: gameId, players: nbrElem }),
+        body: JSON.stringify({ id: gameId, players: playerNames_to_take_into_account }),
       }).then(response => response.json())
         .then(data => {
           if (data.result === true) {
 
-            dispatch(AddPlayersNames({ players: nbrElem }));
+            dispatch(AddPlayersNames(playerNames_to_take_into_account));
             //router.push('/game')
             // Vider les champs d'entrée une fois le fetch passé avec succès
             setPlayerNames(Array(playerNames.length).fill(''));
-            dispatch(AddPlayerHeroeNames(data.infos))
+            dispatch(setPlayerHeroeNames(data.infos))
             router.push('/gamelauncher')
 
           } else if (data.gameStarted) {
             alert('Sorry but the game is yet started');
+          }else if (data.infos) {
+              alert(data.infos);
           } else {
             console.log('Cannot add players');
           }

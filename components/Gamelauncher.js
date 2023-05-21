@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
-import { AddPlayerHeroeNames } from '../reducers/games';
+import { setPlayerHeroeNames } from '../reducers/games';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -13,15 +13,15 @@ function Gamelauncher() {
     const [nbJoueurs, setNbJoueurs] = useState(0)
     const router = useRouter()
     const gameId = useSelector((state) => state.games.id);
-    console.log('id game: ', gameId);
+    // console.log('id game: ', gameId);
     const gamecreator = useSelector((state) => state.games.gamecreator);
     const playerHeroeNames = useSelector((state) => state.games.playerHeroeNames);
     const [intervalID, setIntervalID] = useState(null)
-    console.log('playerHeroeNames:', playerHeroeNames)
+    // console.log('playerHeroeNames:', playerHeroeNames)
     const dispatch = useDispatch();
 
     function fetch_getPlayerHeroe() {
-        console.log('Entry in fetch_getPlayerHeroe');
+        // console.log('Entry in fetch_getPlayerHeroe');
         fetch(BACKEND_URL + '/getPlayerHeroe', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -29,9 +29,10 @@ function Gamelauncher() {
         }).then(response => response.json())
             .then(data => {
                 if (data.result === true) {
-                    console.log('ok to  get player/heroe');
-                    if (data.infos !== playerHeroeNames) {
-                        dispatch(AddPlayerHeroeNames(data.infos))
+                    if ( JSON.stringify(data.infos) !== JSON.stringify(playerHeroeNames) ) {
+                        // console.log('data.infos: ', data.infos);
+                        // console.log('playerHeroeNames: ', playerHeroeNames);
+                        dispatch(setPlayerHeroeNames(data.infos))
                     }
                     if (data.gameStarted) {
                         fetch(BACKEND_URL + '/getGame', {
@@ -77,7 +78,7 @@ function Gamelauncher() {
             </div>
         )
     })
-    console.log('joueurs_heroes jsx : ', playerHeroeNames_jsx);
+    // console.log('joueurs_heroes jsx : ', playerHeroeNames_jsx);
 
     useEffect(() => {
         setNbJoueurs(playerHeroeNames.length)
