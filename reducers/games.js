@@ -2,7 +2,7 @@ import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
   id : '',
-  playerName: [],
+  playerNames_local: [],
   gamecreator: false,
   playerHeroeNames: [],
  }
@@ -17,13 +17,13 @@ export const gamesSlice = createSlice({
      console.log(state.id);
    },
 
-  AddPlayersNames: (state, action) => {
-    // receive [ <player 1 name>, <player 2 name> ...]
+  addPlayerNames_local: (state, action) => {
+    // receive [ <player 1 name>, <player 2 name> ...], only local players
     // due to implementation and go back to addplayer 
     // it is better to add the players
-    state.playerName.push(...action.payload);
-    console.log('Exit AddPlayerNames, state.playerName: ', state.playerName)
-    console.log('Exit AddPlayerNames, state.playerName: ', current(state.playerName))
+    state.playerNames_local.push(...action.payload);
+    console.log('Exit AddPlayerNames, state.playerName: ', state.playerNames_local)
+    console.log('Exit AddPlayerNames, state.playerName: ', current(state.playerNames_local))
   },
 
   setCreator: (state) => {
@@ -40,5 +40,5 @@ export const gamesSlice = createSlice({
  },
 });
 
-export const { gameId, AddPlayersNames, setCreator, setPlayerHeroeNames} = gamesSlice.actions;
+export const { gameId, addPlayerNames_local, setCreator, setPlayerHeroeNames} = gamesSlice.actions;
 export default gamesSlice.reducer;
