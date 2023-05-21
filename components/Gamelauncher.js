@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
-import { setPlayerHeroeNames } from '../reducers/games';
+import { setPlayerHeroeNames, setGame } from '../reducers/games';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -21,6 +21,7 @@ function Gamelauncher() {
     const dispatch = useDispatch();
 
     function fetch_getPlayerHeroe() {
+        // this function is launched by setInterval
         // console.log('Entry in fetch_getPlayerHeroe');
         fetch(BACKEND_URL + '/getPlayerHeroe', {
             method: 'POST',
@@ -44,7 +45,7 @@ function Gamelauncher() {
                             .then(data_game => {
                                 if (data_game.result === true) {
                                     console.log(data_game.game);
-                                    // dispatch(???(data.game))
+                                    dispatch(setGame(data_game.game))
                                     router.push('/game')
                                 } else {
                                     alert('Bad luck : Cannot get the game');
@@ -94,7 +95,7 @@ function Gamelauncher() {
             .then(data_game => {
                 if (data_game.result === true) {
                     console.log(data_game.game);
-                    // dispatch(???(data.game))
+                    dispatch(setGame(data_game.game))
                     router.push('/game')
                 } else {
                     alert('Bad luck : Cannot get the game');

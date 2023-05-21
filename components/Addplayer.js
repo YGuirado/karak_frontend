@@ -7,17 +7,13 @@ import Slider from '@mui/material/Slider'
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlayerNames_local, setPlayerHeroeNames } from '../reducers/games';
+import { setId, addPlayerNames_local, setPlayerHeroeNames } from '../reducers/games';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { RWebShare } from "react-web-share";
 
-
-
-
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
-
 
 function ValueLabelComponent(props) {
   const { children, value } = props;
@@ -73,13 +69,33 @@ function Addplayer() {
   const router = useRouter();
   const [nbrPlayers, setNbrPlayers] = useState(1);
   const [playerNames, setPlayerNames] = useState(Array(5).fill(''));
-  // console.log(playerNames)
-  const gameId = useSelector((state) => state.games.id);
-  // console.log(gameId)
-  // console.log('FRONTEND_URL: ', FRONTEND_URL);
   const playerHeroeNames = useSelector((state) => state.games.playerHeroeNames);
   const gamecreator = useSelector((state) => state.games.gamecreator);
   const playerNames_local = useSelector((state) => state.games.playerNames_local);
+  const gameId = router.query.id
+  console.log('gameId: ', gameId)
+
+  useEffect(() => {
+    fetch(BACKEND_URL + '/joinGame', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: gameId }),
+    }).then(response => response.json())
+      .then(data => {
+        if (data.result === true) {
+          //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
+          dispatch(setId(gameId));
+        } else {
+          if (data.gameStarted) {
+            alert('Sorry but the game is yet started');
+          } else {
+            alert('Sorry but we cannot join the game, check the url');
+          }
+          router.push('/index/')
+        }
+
+      })
+  }, [])
 
   const playerInputs = [];
   for (let i = 0; i < nbrPlayers; i++) {
@@ -183,7 +199,7 @@ slider : le mettre au nbr de joueurs inscrits +1
           <p className={styles.introSlider}>Nombre de personnages différents qui jouent à tour de rôle sur mon écran : </p>
           <div className={styles.slider}>
             <KarakSlider defaultValue={nbrPlayers}
-              min={(playerNames_local.length > 1 ) ? 0 : 1}
+              min={(playerNames_local.length >= 1) ? 0 : 1}
               max={5}
               valueLabelDisplay="auto"
               slots={{
