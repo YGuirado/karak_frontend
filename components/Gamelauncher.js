@@ -33,6 +33,23 @@ function Gamelauncher() {
                     if (data.infos !== playerHeroeNames) {
                         dispatch(AddPlayerHeroeNames(data.infos))
                     }
+                    if (data.gameStarted) {
+                        fetch(BACKEND_URL + '/getGame', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: gameId }),
+                        })
+                            .then(response => response.json())
+                            .then(data_game => {
+                                if (data_game.result === true) {
+                                    console.log(data_game.game);
+                                    // dispatch(???(data.game))
+                                    router.push('/game')
+                                } else {
+                                    alert('Bad luck : Cannot get the game');
+                                }
+                            });
+                    }
                 } else {
                     console.log('Cannot get player/heroe');
                 }
