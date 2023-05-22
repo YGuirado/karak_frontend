@@ -6,7 +6,7 @@ import { gameId } from '../../reducers/games';
 function Addplayers() {
     const router = useRouter();
     const dispatch = useDispatch();
-    dispatch(gameId(router.query.id));
+    // dispatch(gameId(router.query.id));
 
     return (
         <div >

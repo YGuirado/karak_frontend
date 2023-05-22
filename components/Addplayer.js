@@ -7,15 +7,13 @@ import Slider from '@mui/material/Slider'
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
-import { AddPlayersNames } from '../reducers/games';
+import { setId, addPlayerNames_local, setPlayerHeroeNames } from '../reducers/games';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { RWebShare } from "react-web-share";
 
-
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
-
 
 function ValueLabelComponent(props) {
   const { children, value } = props;
@@ -71,11 +69,33 @@ function Addplayer() {
   const router = useRouter();
   const [nbrPlayers, setNbrPlayers] = useState(1);
   const [playerNames, setPlayerNames] = useState(Array(5).fill(''));
-  console.log(playerNames)
-  const gameId = useSelector((state) => state.games.id);
-  console.log(gameId)
-  console.log('FRONTEND_URL: ', FRONTEND_URL);
+  const playerHeroeNames = useSelector((state) => state.games.playerHeroeNames);
+  const gamecreator = useSelector((state) => state.games.gamecreator);
+  const playerNames_local = useSelector((state) => state.games.playerNames_local);
+  const gameId = router.query.id
+  console.log('gameId: ', gameId)
 
+  useEffect(() => {
+    fetch(BACKEND_URL + '/joinGame', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: gameId }),
+    }).then(response => response.json())
+      .then(data => {
+        if (data.result === true) {
+          //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
+          dispatch(setId(gameId));
+        } else {
+          if (data.gameStarted) {
+            alert('Sorry but the game is yet started');
+          } else {
+            alert('Sorry but we cannot join the game, check the url');
+          }
+          router.push('/index/')
+        }
+
+      })
+  }, [])
 
   const playerInputs = [];
   for (let i = 0; i < nbrPlayers; i++) {
@@ -105,26 +125,29 @@ slider : le mettre au nbr de joueurs inscrits +1
 
   const handleLaunchGame = () => {
     // Vérifier si tous les champs d'entrée sont remplis
-    const nbrElem = playerNames.slice(0, nbrPlayers)
-    const emptyFields = nbrElem.every((name) => name !== '');
-    console.log(emptyFields, nbrElem, nbrPlayers, gameId)
-    if (emptyFields) {
-      console.log(nbrElem)
+    const playerNames_to_take_into_account = playerNames.slice(0, nbrPlayers)
+    const emptyFields = playerNames_to_take_into_account.some((name) => name === '');
+    console.log(emptyFields, playerNames_to_take_into_account, nbrPlayers, gameId)
+    if (!emptyFields) {
       fetch(BACKEND_URL + '/addPlayers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: gameId, players: nbrElem }),
+        body: JSON.stringify({ id: gameId, players: playerNames_to_take_into_account }),
       }).then(response => response.json())
         .then(data => {
           if (data.result === true) {
 
-            dispatch(AddPlayersNames({ players: nbrElem }));
+            dispatch(addPlayerNames_local(playerNames_to_take_into_account));
             //router.push('/game')
             // Vider les champs d'entrée une fois le fetch passé avec succès
             setPlayerNames(Array(playerNames.length).fill(''));
-          
+            dispatch(setPlayerHeroeNames(data.infos))
             router.push('/gamelauncher')
 
+          } else if (data.gameStarted) {
+            alert('Sorry but the game is yet started');
+          } else if (data.error) {
+            alert(data.error);
           } else {
             console.log('Cannot add players');
           }
@@ -135,6 +158,14 @@ slider : le mettre au nbr de joueurs inscrits +1
     }
   }
 
+  const playerHeroeNames_jsx = playerHeroeNames.map((couple, ii) => {
+    return (
+      <div key={ii}>
+        {/* {couple.username + ' is ' + couple.heroe} */}
+        {couple.username + ' has join the game'}
+      </div>
+    )
+  })
 
   return (
     <div className={styles.container}>
@@ -144,7 +175,8 @@ slider : le mettre au nbr de joueurs inscrits +1
         <p className={styles.headerText}>Configure les joueurs</p>
       </div>
 
-      <div className={styles.idSection}>
+      {gamecreator &&
+        <div className={styles.idSection}>
           <button className={styles.mediumBtn}>
             <RWebShare
               data={{
@@ -160,13 +192,14 @@ slider : le mettre au nbr de joueurs inscrits +1
             </RWebShare>
           </button>
         </div>
+      }
 
       <div className={styles.subContainer}>
         <div className={styles.slidecontainer}>
           <p className={styles.introSlider}>Nombre de personnages différents qui jouent à tour de rôle sur mon écran : </p>
           <div className={styles.slider}>
             <KarakSlider defaultValue={nbrPlayers}
-              min={1}
+              min={(playerNames_local.length >= 1) ? 0 : 1}
               max={5}
               valueLabelDisplay="auto"
               slots={{
@@ -184,13 +217,11 @@ slider : le mettre au nbr de joueurs inscrits +1
         <div>
           <button onClick={() => handleLaunchGame()} className={styles.mediumBtn}><span>Lancer la partie</span></button>
         </div>
+        <div>
+          {playerHeroeNames_jsx}
+        </div>
       </div>
-
-
-
     </div>
-
-
   );
 }
 
