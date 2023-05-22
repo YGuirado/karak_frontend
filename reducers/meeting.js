@@ -11,8 +11,8 @@ export const meetingSlice = createSlice({
     pushMeet: (state, action) => {
         state.value = action.payload;
     },
-    clearMeet: (state) => {
-        state.value = {};
+    clearMeet: (state, action) => {
+        state.value = action.payload;
     },
  },
 });

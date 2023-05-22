@@ -28,7 +28,7 @@ function Meeting() {
                             dispatch(useKey(player))
                             dispatch(updateTresor(player))
                             //mettre à jour la pioche
-                            dispatch(clearMeet())
+                            dispatch(clearMeet({}))
                             setIsModalCoffreOpen(false)
                         }
                     }}
@@ -38,7 +38,7 @@ function Meeting() {
                 <button
                     type='button'
                     onClick={() => {
-                        dispatch(clearMeet())
+                        dispatch(clearMeet({}))
                         setIsModalCoffreOpen(false)
                     }}
                 >
