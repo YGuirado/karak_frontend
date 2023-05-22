@@ -19,7 +19,7 @@ function Meeting() {
     //console.log( inventoryPlayer)
 
     let modalStyle = {}
-    if(isModalCoffreOpen){
+    if(isModalCoffreOpen || isModalCombatOpen){
         modalStyle = {display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', backgroundColor: '#E8E7DD', width: '360px', height: '130px', padding: '20px', paddingTop: '30px', borderBottomRightRadius:' 20px',borderBottomLeftRadius: '20px'}
     }
 
@@ -80,13 +80,52 @@ function Meeting() {
         )
     }
 
-    let modalCombat; 
+    let modalCombat;
+    if(isModalCombatOpen){ 
+        modal = (
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <div style={{width: '72px', height: '72px'}}>
+                    <Image
+                    alt='monstre'
+                    src={`/mobs/${actualMeeting.meeting.mob}.png`}
+                    width={100}
+                    height={100}
+                    />
+                </div>
+                <div style={{marginLeft: '20px'}}>
+                    <button
+                        type='button'
+                        onClick={() => {
+                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            //mettre à jour la pioche
+                            setIsModalCombatOpen(false)
+                        }}
+                    >
+                        Gagner
+                    </button>
+                    <button
+                        type='button'
+                        onClick={() => {
+                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            //mettre à jour la pioche
+                            setIsModalCombatOpen(false)
+                        }}
+                    >
+                        Perdre
+                    </button> 
+                </div>
+            </div>
+        )
+    }
+    
 
     useEffect(()=>{ 
         console.log(actualMeeting) 
         if(actualMeeting){
             if(actualMeeting.meeting.mob === 'closed_chest'){
                 setIsModalCoffreOpen(true)
+            }else{
+                setIsModalCombatOpen(true)
             }
         }else{setIsModalCoffreOpen(false);}
     },[actualMeeting])

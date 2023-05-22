@@ -117,7 +117,7 @@ function Map() {
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
   const [rotation, setRotation] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); 
   const [isRotationValid, setIsRotationValid] = useState(false);
 
   let meetingReducer = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords))
