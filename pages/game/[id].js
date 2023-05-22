@@ -15,11 +15,13 @@ function Game() {
   useEffect( () => {
     console.log('game in store before playing: ', game_in_store)
     console.log('local user: ', local_users)
-  }, [])
+  }, []) 
 
   return (
     <div className={styles.container}>
-      <Meeting/>
+        <div className={styles.meeting}>
+            <Meeting/>
+        </div>
         <div className={styles.header}>
             <Header />
         </div>
