@@ -6,9 +6,10 @@ import games from '../reducers/games'
 import header from '../reducers/header';
 import meeting from '../reducers/meeting';
 import inventory from '../reducers/inventory';
+import position from '../reducers/position';
 
 const store = configureStore({
-  reducer: { games, header, meeting, inventory },
+  reducer: { games, header, meeting, inventory, position },
  });
 
 function App({ Component, pageProps }) {

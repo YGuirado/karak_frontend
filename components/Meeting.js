@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTresor, useKey } from '../reducers/inventory';
-import { clearMeet } from '../reducers/meeting';
+import { updateMeet } from '../reducers/meeting';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -13,11 +13,13 @@ function Meeting() {
     const player = useSelector((state) => state.header.value.type);
     const inventory = useSelector((state) => state.inventory.value);
     const inventoryPlayer = inventory[inventory.findIndex(e => e.type === player)]
+    const position = useSelector((state) => state.position.value.position)
+    const actualMeeting = meeting.find(e => e.coords === position)
 
     //console.log( inventoryPlayer)
 
     let modal;
-    if(isModalCoffreOpen){
+    if(isModalCoffreOpen){ 
         modal = (
             <div>
                 <p>Coffre fermé</p> 
@@ -27,8 +29,8 @@ function Meeting() {
                         if(inventoryPlayer.key){
                             dispatch(useKey(player))
                             dispatch(updateTresor(player))
+                            dispatch(updateMeet({...actualMeeting, isResolved: true}))
                             //mettre à jour la pioche
-                            dispatch(clearMeet({}))
                             setIsModalCoffreOpen(false)
                         }
                     }}
@@ -38,7 +40,7 @@ function Meeting() {
                 <button
                     type='button'
                     onClick={() => {
-                        dispatch(clearMeet({}))
+                        dispatch(updateMeet({...actualMeeting, isSkiped: true}))
                         setIsModalCoffreOpen(false)
                     }}
                 >
@@ -51,9 +53,11 @@ function Meeting() {
     let modalCombat; 
 
     useEffect(()=>{ 
-        if(meeting.mob === 'coffre' && inventoryPlayer.key){
+        console.log(actualMeeting)
+        if(actualMeeting?.mob === 'coffre' && inventoryPlayer.key){
+            console.log(actualMeeting)
             setIsModalCoffreOpen(true)
-        }else if(meeting.mob){
+        }else if(meeting?.mob){
             //modal combat
         }
     },[meeting])
