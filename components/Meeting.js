@@ -21,7 +21,6 @@ function Meeting() {
     let modal;
     if(isModalCoffreOpen){ 
         modal = (
-            <div style={{display:'flex', justifyContent:'center', alignItems:'center', position:'absolute', width: '100vw', height: '100vh', backgroundColor:'#00000080'}}>
             <div style={{width: '300px', height: '200px', border: '1mm ridge red', borderRadius:'10%', display: 'flex', justifyContent:'center', backgroundColor:'#fff', alignItems:'center'}}>
                 <p>Coffre fermé</p> 
                 <button
@@ -48,7 +47,6 @@ function Meeting() {
                     continuer
                 </button>
             </div>
-            </div>
         )
     }
 
@@ -56,7 +54,6 @@ function Meeting() {
     
     if(isModalCombatOpen){
         modalCombat = (
-            <div style={{display:'flex', justifyContent:'center', alignItems:'center', position:'absolute', width: '100vw', height: '100vh', backgroundColor:'#00000080'}}>
             <div style={{width: '400px', height: '400px', border: '1mm ridge red', borderRadius:'10%',  display: 'flex', backgroundColor:'#fff', flexDirection: 'column', justifyContent:'center', alignItems:'center'}}>
                 <h1>Combat</h1>
                 <p>Un monstre apparait: {meeting.mob} avec une force de: {meeting.strength}</p>
@@ -77,7 +74,6 @@ function Meeting() {
                     Ramasse ton loot
                 </button>
                 </div>
-            </div>
             </div>
         )
     }
