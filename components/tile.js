@@ -1,6 +1,16 @@
 function Tile(props) {
+
+  let mob;
+  if(props.card.meeting){
+    mob = (
+      <img
+      style={{position: 'absolute', margin: '30px',width: '42px'}}
+      src={`/mobs/${props.card.meeting.mob}.png`}
+      />
+    )
+  }
   
-  let debug = false;
+  let debug = false; 
   let debugInfo;
   if(debug) {
     debugInfo = (
@@ -39,7 +49,10 @@ function Tile(props) {
       src={`/tiles/${props.card.img}.png`}
       />
     {playable}
-    <p>{player}</p>
+    {mob}
+    <p style={{zIndex: 3}}>
+      {player}
+    </p>
     {debugInfo}
     </div>
   );

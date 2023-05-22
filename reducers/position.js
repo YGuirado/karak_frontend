@@ -4,7 +4,6 @@ const initialState = {
  value: {},
 };
 
-
 export const positionSlice = createSlice({
     name: 'position',
     initialState,
