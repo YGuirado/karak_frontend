@@ -45,46 +45,46 @@ function Inventory() {
     )
   }
   
-//gestion de la pool de vie
-  let vie = []; 
+//gestion de la pool de life
+  let life = []; 
   for(let i=0; i<5; i++){
     if(i < 5 - inventoryPlayer.life){
-      vie.push(
+      life.push(
         <img
           key={i}
           style={{width: '30px'}}
-          src={`/inventaire/mort.png`}
+          src={`/inventory/death.png`}
         />
       )
     }else{
-      vie.push(
+      life.push(
         <img
           key={i}
           style={{width: '30px'}}
-          src={`/inventaire/vie.png`}
+          src={`/inventory/life.png`}
         />
       )
     }
     
   }
 
-  const weaponsStyle = [{backgroundImage: 'url(inventaire/arme.png)',backgroundSize: 'contain'},{backgroundImage: 'url(inventaire/arme.png)',backgroundSize: 'contain'}];
+  const weaponsStyle = [{backgroundImage: 'url(/inventory/weapon.png)',backgroundSize: 'contain'},{backgroundImage: 'url(/inventory/weapon.png)',backgroundSize: 'contain'}];
   for(let i=0; i<inventoryPlayer.weapons.length; i++){
-    if(inventoryPlayer.weapons[i][0]){
-      weaponsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.weapons[i][0]}.png)`,backgroundSize: 'contain'}
+    if(inventoryPlayer.weapons[i]){
+      weaponsStyle[i] = {backgroundImage: `url(/inventory/${inventoryPlayer.weapons[i]}.png)`,backgroundSize: 'contain'}
     }
   }
 
  
-  let keyStyle = {backgroundImage: 'url(inventaire/key-background.png)', backgroundSize: 'contain'}
+  let keyStyle = {backgroundImage: 'url(/inventory/key-background.png)', backgroundSize: 'contain'}
   if(inventoryPlayer.key){
-    keyStyle = {backgroundImage: 'url(inventaire/key.png)', backgroundSize: 'contain'}
+    keyStyle = {backgroundImage: 'url(/inventory/key.png)', backgroundSize: 'contain'}
   }
 
-  const scrollsStyle = [{backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'},{backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'}, {backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'}];
+  const scrollsStyle = [{backgroundImage: 'url(/inventory/scroll.png)',backgroundSize: 'contain'},{backgroundImage: 'url(/inventory/scroll.png)',backgroundSize: 'contain'}, {backgroundImage: 'url(/inventory/scroll.png)',backgroundSize: 'contain'}];
   for(let i=0; i<inventoryPlayer.scroll.length; i++){
-    if(inventoryPlayer.scroll[i][0]){
-      scrollsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.scroll[i][0]}.png)`,backgroundSize: 'contain'}
+    if(inventoryPlayer.scroll[i]){
+      scrollsStyle[i] = {backgroundImage: `url(/inventory/${inventoryPlayer.scroll[i]}.png)`,backgroundSize: 'contain'}
     }
   }
 
@@ -92,8 +92,8 @@ function Inventory() {
 
   let inventory = (
     <div className={styles.inventory}>
-        <div className={styles.vie}>
-          {vie}
+        <div className={styles.life}>
+          {life}
         </div>
         <div className={styles.objets}>
           <div className={styles.objetsrow}>
@@ -111,11 +111,11 @@ function Inventory() {
         <div className={styles.pouvoirs}>
           <img
             style={{width: '35px', margin: '10%'}}
-            src={`/inventaire/pouvoirs/horan-1.png`}
+            src={`/inventory/pouvoirs/horan-1.png`}
           />
           <img
             style={{width: '35px', margin: '10%'}}
-            src={`/inventaire/pouvoirs/horan-2.png`}
+            src={`/inventory/pouvoirs/horan-2.png`}
           />
           <p className='tresor' style={{width: '35px', height: '35px', margin: '10%', backgroundColor: '#E6A840', borderRadius: '50%', textAlign: 'center', paddingTop:'5px',fontSize: '16px', fontFamily: 'Permanent Marker'}}>
             {inventoryPlayer.tresor}

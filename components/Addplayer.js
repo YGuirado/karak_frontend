@@ -73,9 +73,19 @@ function Addplayer() {
   const gamecreator = useSelector((state) => state.games.gamecreator);
   const playerNames_local = useSelector((state) => state.games.playerNames_local);
   const gameId = router.query.id
-  console.log('gameId: ', gameId)
+  console.log('gameId in Addplayer entry from router.query.id: ', gameId)
+  const gameId_from_reducer = useSelector((state) => state.games.id)
+  console.log('gameId in Addplayer entry from store: ', gameId_from_reducer)
+  console.log('router.isReady: ', router.isReady)
+  console.log('router.isPreview: ', router.isPreview);
 
   useEffect(() => {
+    if ( gameId_from_reducer || !router.query.id){
+      console.log('must not fetch the backend');
+      return
+    }
+    console.log('gameID in useEffect: ', gameId)
+    console.log('gameID_from_reducer in useEffect: ', gameId_from_reducer)
     fetch(BACKEND_URL + '/joinGame', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -91,11 +101,11 @@ function Addplayer() {
           } else {
             alert('Sorry but we cannot join the game, check the url');
           }
-          router.push('/index/')
+          router.push('/')
         }
 
       })
-  }, [])
+  }, [router.isReady])
 
   const playerInputs = [];
   for (let i = 0; i < nbrPlayers; i++) {
@@ -138,8 +148,6 @@ slider : le mettre au nbr de joueurs inscrits +1
           if (data.result === true) {
 
             dispatch(addPlayerNames_local(playerNames_to_take_into_account));
-            //router.push('/game')
-            // Vider les champs d'entrée une fois le fetch passé avec succès
             setPlayerNames(Array(playerNames.length).fill(''));
             dispatch(setPlayerHeroeNames(data.infos))
             router.push('/gamelauncher')
