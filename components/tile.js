@@ -46,7 +46,7 @@ function Tile(props) {
     >
       <img
       style={{position: 'absolute', width: '100px', zIndex: -1, transform: rotationStyle}}
-      src={`/tuiles/${props.card.img}.png`}
+      src={`/tiles/${props.card.img}.png`}
       />
     {playable}
     {mob}
