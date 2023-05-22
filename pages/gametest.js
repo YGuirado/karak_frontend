@@ -12,12 +12,14 @@ function Game() {
   
   const game_in_store = useSelector((state) => state.games.game);
   useEffect( () => {
-    console.log('game in store before playing: ', game_in_store)
+    //console.log('game in store before playing: ', game_in_store)
   }, [])
 
   return (
     <div className={styles.container}>
-      <Meeting/>
+        <div className={styles.meeting}>
+            <Meeting/>
+        </div>
         <div className={styles.header}>
             <Header />
         </div>
