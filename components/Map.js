@@ -24,7 +24,7 @@ function Map() {
   
   //{mob: 'coffre', strength: 5, loot: 'daggers', value:1}
   let dataPioche=[
-    {"type":"start","specificity":"fountain","meeting": false,"data":[1,1,1,1],"isRotate":false,"rotation": 0,"img":"depart_fountain-1111"},
+    {"type":"start","specificity":"fountain","meeting": false,"data":[1,1,1,1],"isRotate":false,"rotation": 0,"img":"start_fountain-1111"},
     {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
     {"type":"corridor","specificity":"room","meeting": {mob: 'coffre', strength: 5, loot: 'daggers', value:1},"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
     {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
