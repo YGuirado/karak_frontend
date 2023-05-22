@@ -48,7 +48,7 @@ function Gamelauncher() {
                                 if (data_game.result === true) {
                                     console.log(data_game.game);
                                     dispatch(setGame(data_game.game))
-                                    router.push('/game')
+                                    router.push(`/game/${gameId}`)
                                 } else {
                                     alert('Bad luck : Cannot get the game');
                                 }
@@ -98,7 +98,7 @@ function Gamelauncher() {
                 if (data_game.result === true) {
                     console.log(data_game.game);
                     dispatch(setGame(data_game.game))
-                    router.push('/game')
+                    router.push(`/game/${gameId}`)
                 } else {
                     alert('Bad luck : Cannot get the game');
                 }
@@ -124,10 +124,6 @@ const karakCircularProgress =styled (CircularProgress)({color : "#324E01"})
                     <span className={styles.h2}>
                         {nbJoueurs} joueurs ont rejoint la partie
                     </span>
-
-
-
-
 
                     {gamecreator &&
                         (<div title="Démarrer la partie"  >
