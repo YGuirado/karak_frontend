@@ -15,11 +15,11 @@ function Tile(props) {
   if(debug) {
     debugInfo = (
       <div style={{position: 'absolute', width: '100px', height: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-      <div style={{width: '100px'}}>&nbsp;&nbsp;{props.card.data[0]}</div>
+      <div style={{width: '100px'}}>&nbsp;&nbsp;{props.card.tile.data[0]}</div>
       <div style={{width: '100px', justifyContent: 'space-between'}}>
-        <p style={{textAlign: 'center'}}>{props.card.data[1]}</p><p style={{textAlign: 'center'}}>{props.id}</p><p style={{textAlign: 'center'}}>{props.card.data[3]}</p>
+        <p style={{textAlign: 'center'}}>{props.card.tile.data[1]}</p><p style={{textAlign: 'center'}}>{props.id}</p><p style={{textAlign: 'center'}}>{props.card.data[3]}</p>
       </div>
-      <div style={{width: '100px', textAlign: 'end'}}>{props.card.data[2]}&nbsp;&nbsp;</div>
+      <div style={{width: '100px', textAlign: 'end'}}>{props.card.tile.data[2]}&nbsp;&nbsp;</div>
       </div>
     )
   }
@@ -46,7 +46,8 @@ function Tile(props) {
     >
       <img
       style={{position: 'absolute', width: '100px', zIndex: -1, transform: rotationStyle}}
-      src={`/tiles/${props.card.img}.png`}
+      src={`${props.card.tile.img}`}
+      //src={`/tiles/${props.card.tile.type}`}
       />
     {playable}
     {mob}

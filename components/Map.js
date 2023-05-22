@@ -20,90 +20,91 @@ function Map() {
 
   
   const dataStart = {type: 'start', "meeting": false, data: [1,1,1,1], "isRotate": true, "rotation": 0, img: 'depart_fountain-1111'}
-  const dataEmpty = {type: 'empty', data: [0,0,0,0], "isRotate": false, "rotation": 0,img: 'empty'}
+  const dataEmpty = {type: 'empty',  "isRotate": false, "rotation": 0, tile:{img: '/tiles/empty.png', data: [0,0,0,0], type: 'empty'}}
+
+  let dataPioche = useSelector((state) => state.games.game.tiles)
   
-  //{mob: 'coffre', strength: 5, loot: 'daggers', value:1}
-  let dataPioche=[
-    {"type":"start","specificity":"fountain","meeting": false,"data":[1,1,1,1],"isRotate":false,"rotation": 0,"img":"start_fountain-1111"},
-    {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
-    {"type":"corridor","specificity":"room","meeting": {mob: 'coffre', strength: 5, loot: 'daggers', value:1},"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
-    {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
-    {"type":"angle","specificity":"fountain","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle_fountain-1100"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"angle","specificity":"fountain","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle_fountain-1100"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
-    {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
-    {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
-    {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
-    {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"}]
+  // let dataPioche=[
+  //   {"type":"start","specificity":"fountain","meeting": false,"data":[1,1,1,1],"isRotate":false,"rotation": 0,"img":"start_fountain-1111"},
+  //   {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
+  //   {"type":"corridor","specificity":"room","meeting": {mob: 'coffre', strength: 5, loot: 'daggers', value:1},"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
+  //   {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"te","specificity":"basic","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te-1011"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"corridor","specificity":"portal","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_portal-1010"},
+  //   {"type":"angle","specificity":"fountain","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle_fountain-1100"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"corridor","specificity":"room","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor_room-1010"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"angle","specificity":"fountain","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle_fountain-1100"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"angle","specificity":"basic","meeting": false,"data":[1,1,0,0],"isRotate": false,"rotation": 0,"img":"angle-1100"},
+  //   {"type":"cross","specificity":"basic","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross-1111"},
+  //   {"type":"corridor","specificity":"basic","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"corridor-1010"},
+  //   {"type":"cross","specificity":"room","meeting": false,"data":[1,1,1,1],"isRotate": false,"rotation": 0,"img":"cross_room-1111"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"te","specificity":"room","meeting": false,"data":[1,0,1,1],"isRotate": false,"rotation": 0,"img":"te_room-1011"},
+  //   {"type":"angle","specificity":"room","meeting": false,"data":[1,0,0,1],"isRotate": false,"rotation": 0,"img":"angle_room-1001"}]
 
   const [dataPiocheTemp, setDataPiocheTemp] = useState(dataPioche)
   const [playedCoords, setPlayedCoords ] = useState([`${rowmid};${colmid}`]);
@@ -112,14 +113,13 @@ function Map() {
     {id: 1, userName: "Sam", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "argentus"}, 
     {id: 2, userName: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
     {id: 3, userName: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
-  const [playerTurn, setPlayerTurn] = useState(0);
+  const [playerTurn, setPlayerTurn] = useState(1);
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isRotationValid, setIsRotationValid] = useState(false);
-  //const [isMeetingResolved, setIsMeetingResolved] = useState(false)
-  //const [isMeetingSkiped, setIsMeetingSkiped] = useState(false)
+
   let meetingReducer = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords))
   let isMeetingResolved = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isResolved)
   let isMeetingSkiped = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isSkiped)
@@ -130,12 +130,10 @@ function Map() {
   let meetingMob = useSelector((state) => state.meeting.value.mob)
   
   let meeting = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting
+  console.log('map', meeting?.mob)
 
-  // stocker coordonnées, dire que la rencontre n'est pas résolue.
-  // dans un useEffect, vérifier si la rencontre est résolue.
-
-  if(mooves === 4){
-    if(meeting.mob){
+  if(mooves >= 4){
+    if(meeting?.mob){
       dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
       
     }else{
@@ -157,10 +155,10 @@ function Map() {
   // pushInfo in store for Header
   let msg = 'Cliques pour te déplacer';
   if(isOpen) msg = 'Tournes ta tuile'; 
-  if(!isOpen && meeting && !isAderyn) msg = 'Combats en jettant les dés';
-  if(!isOpen && meeting.mob === 'closed_chest' && !isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
-  if(!isOpen && meeting && isAderyn) msg = 'Combats ou continues d’avancer..';
-  if(!isOpen && meeting.mob === 'closed_chest' && isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
+  if(!isOpen && meeting && (!isAderyn || (isAderyn && mooves === 4))) msg = 'Combats en jettant les dés';
+  if(!isOpen && meeting?.mob === 'closed_chest' && !isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
+  if(!isOpen && meeting && (isAderyn && mooves < 4)) msg = 'Combats ou continues d’avancer..';
+  if(!isOpen && meeting?.mob === 'closed_chest' && isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
   dispatch( pushInfo( {userName: player[playerTurn].userName, type:player[playerTurn].type, nbTours, mooves, msg} ) );
   dispatch( pushPosition( {position: player[playerTurn].coords} ) )
 
@@ -172,7 +170,7 @@ function Map() {
     // avant-dernière id, carte jouée par le joueur
     const lastTileID = player.find((player) => player.id === playerTurn).coords; 
     const coords = lastTileID.split(';');
-    const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].data
+    const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].tile.data
     
     // logique rotation
     if( Number(coords[0] === previousCoords[0] && coords[1] < previousCoords[1]) ) setIsRotationValid(lastTileData[2] === 1)//gauche
@@ -223,10 +221,10 @@ function Map() {
             style={{width: '20px', height: '20px', padding: '5px', backgroundColor: 'white', opacity:.6, borderRadius: '50%', color : '#BC6900', cursor: 'pointer'}}
             onClick={() => {
               setRotation(rotation + 1);
-              let pioche = dataPiocheTemp
+              let pioche = JSON.parse(JSON.stringify(dataPiocheTemp))
               let i = playedCoords.length-1;
               pioche[i].rotation += 1;
-              pioche[i].data = shiftArray(pioche[i].data);
+              pioche[i].tile.data = shiftArray(pioche[i].tile.data);
               setDataPiocheTemp(pioche);
               setPlayedCoords([...playedCoords]);
             }} 
@@ -240,8 +238,9 @@ function Map() {
   }
 
   const shiftArray = (arr) => {
-    arr.unshift(arr.pop())
-    return arr
+    let arrTemp = [...arr]
+    arrTemp.unshift(arrTemp.pop())
+    return arrTemp
   }
   
   const onTileClick = (id) => {
@@ -293,29 +292,29 @@ function Map() {
         
         const portals = playedCoords.map((e,i)=> {return {isPortal: (dataPiocheTemp[i].specificity === 'portal'), portalCoords: e }})
         const lastTile = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)]
-        const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].data
+        const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].tile.data
         const lastTileID = player.find((player) => player.id === playerTurn).coords;
         const coords = lastTileID.split(';');
         const x = Number(coords[0])
         const y = Number(coords[1])
                 
         if(!isOpen){
-          if(!meeting || (meeting.mob === 'closed_chest' && mooves < 4)|| isAderyn){
+          if(!meeting || (meeting.mob === 'closed_chest' && mooves < 4)|| (isAderyn && mooves < 4)){
             if(playedCoords.length < dataPiocheTemp.length){
               isPlayable = (
-                ((lastTileData[0] && ((playedCoords.includes(`${x};${y -1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y -1}`)].data[2]) || !playedCoords.includes(`${x};${y -1}`) ) || (isArgentus && playedCoords.includes(`${x};${y-1}`)) ) && x === i && y-1 === j) ||
-                ((lastTileData[1] && ((playedCoords.includes(`${x -1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x -1};${y}`)].data[3]) || !playedCoords.includes(`${x -1};${y}`) ) || (isArgentus && playedCoords.includes(`${x-1};${y}`)) ) && x-1 === i && y === j) ||
-                ((lastTileData[2] && ((playedCoords.includes(`${x};${y +1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y +1}`)].data[0]) || !playedCoords.includes(`${x};${y +1}`) ) || (isArgentus && playedCoords.includes(`${x};${y+1}`)) ) && x === i && y+1 === j) ||
-                ((lastTileData[3] && ((playedCoords.includes(`${x +1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x +1};${y}`)].data[1]) || !playedCoords.includes(`${x +1};${y}`) ) || (isArgentus && playedCoords.includes(`${x+1};${y}`)) ) && x+1 === i && y === j) || 
+                ((lastTileData[0] && ((playedCoords.includes(`${x};${y -1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y -1}`)].tile.data[2]) || !playedCoords.includes(`${x};${y -1}`) ) || (isArgentus && playedCoords.includes(`${x};${y-1}`)) ) && x === i && y-1 === j) ||
+                ((lastTileData[1] && ((playedCoords.includes(`${x -1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x -1};${y}`)].tile.data[3]) || !playedCoords.includes(`${x -1};${y}`) ) || (isArgentus && playedCoords.includes(`${x-1};${y}`)) ) && x-1 === i && y === j) ||
+                ((lastTileData[2] && ((playedCoords.includes(`${x};${y +1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y +1}`)].tile.data[0]) || !playedCoords.includes(`${x};${y +1}`) ) || (isArgentus && playedCoords.includes(`${x};${y+1}`)) ) && x === i && y+1 === j) ||
+                ((lastTileData[3] && ((playedCoords.includes(`${x +1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x +1};${y}`)].tile.data[1]) || !playedCoords.includes(`${x +1};${y}`) ) || (isArgentus && playedCoords.includes(`${x+1};${y}`)) ) && x+1 === i && y === j) || 
                 (lastTile.specificity === 'portal' && portals.find(e => e.isPortal && e.portalCoords === `${i};${j}` && e.portalCoords !== `${x};${y}`))
 
               )            
             }else{   //après avoir joué toutes les tuiles
               isPlayable = ( 
-                ((lastTileData[0] && (playedCoords.includes(`${x};${y -1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y -1}`)].data[2]) || (isArgentus && playedCoords.includes(`${x};${y-1}`)) ) && x === i && y-1 === j) ||
-                ((lastTileData[1] && (playedCoords.includes(`${x -1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x -1};${y}`)].data[3]) || (isArgentus && playedCoords.includes(`${x-1};${y}`)) ) && x-1 === i && y === j) ||
-                ((lastTileData[2] && (playedCoords.includes(`${x};${y +1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y +1}`)].data[0]) || (isArgentus && playedCoords.includes(`${x};${y+1}`)) ) && x === i && y+1 === j) ||
-                ((lastTileData[3] && (playedCoords.includes(`${x +1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x +1};${y}`)].data[1]) || (isArgentus && playedCoords.includes(`${x+1};${y}`)) ) && x+1 === i && y === j) || 
+                ((lastTileData[0] && (playedCoords.includes(`${x};${y -1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y -1}`)].tile.data[2]) || (isArgentus && playedCoords.includes(`${x};${y-1}`)) ) && x === i && y-1 === j) ||
+                ((lastTileData[1] && (playedCoords.includes(`${x -1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x -1};${y}`)].tile.data[3]) || (isArgentus && playedCoords.includes(`${x-1};${y}`)) ) && x-1 === i && y === j) ||
+                ((lastTileData[2] && (playedCoords.includes(`${x};${y +1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y +1}`)].tile.data[0]) || (isArgentus && playedCoords.includes(`${x};${y+1}`)) ) && x === i && y+1 === j) ||
+                ((lastTileData[3] && (playedCoords.includes(`${x +1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x +1};${y}`)].tile.data[1]) || (isArgentus && playedCoords.includes(`${x+1};${y}`)) ) && x+1 === i && y === j) || 
                 (lastTile.specificity === 'portail' && portals.find(e => e.isPortal && e.portalCoords === `${i};${j}` && e.portalCoords !== `${x};${y}`))
               )  
             }
@@ -332,7 +331,7 @@ function Map() {
           isPlayable={isPlayable} 
           card={card}
           player={player}
-          mob={meeting.mob}
+          mob={meeting?.mob}
           isPlayed={isPlayed}
         />
       )

@@ -30,7 +30,7 @@ function Meeting() {
                 <div style={{width: '72px', height: '72px'}}>
                     <Image
                     alt='Coffre fermé'
-                    src={`/mobs/closed-chest.png`}
+                    src={`/mobs/closed_chest.png`}
                     width={100}
                     height={100}
                     />
@@ -59,7 +59,7 @@ function Meeting() {
                 <div style={{width: '72px', height: '72px'}}>
                     <Image
                     alt='Coffre fermé'
-                    src={`/mobs/closed-chest.png`}
+                    src={`/mobs/closed_chest.png`}
                     width={100}
                     height={100}
                     />
@@ -83,9 +83,9 @@ function Meeting() {
     let modalCombat; 
 
     useEffect(()=>{ 
-        //console.log(actualMeeting) 
+        console.log(actualMeeting) 
         if(actualMeeting){
-            if(actualMeeting.meeting.mob === 'closed-chest'){
+            if(actualMeeting.meeting.mob === 'closed_chest'){
                 setIsModalCoffreOpen(true)
             }
         }else{setIsModalCoffreOpen(false);}
