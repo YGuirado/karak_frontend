@@ -4,7 +4,7 @@ import React from 'react';
 import { useState, } from 'react';
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
-import { gameId, setCreator } from '../reducers/games';
+import { setCreator } from '../reducers/games';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -20,10 +20,8 @@ function Home() {
       .then(response => response.json())
       .then(data => {
         if (data.result === true) {
-          dispatch(gameId(data.id));
+          // dispatch(gameId(data.id));
           dispatch(setCreator())
-          //ajouter navigation vers share URL
-
           //hook de route useRouter de next/router 
           router.push(`/addplayers/${data.id}`)
         } else {
@@ -37,22 +35,23 @@ function Home() {
     console.log('id from url: ', id_array)
     if (id_array) {
       const id = id_array[1]
-      fetch(BACKEND_URL + '/joinGame', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id }),
-      }).then(response => response.json())
-        .then(data => {
-          if (data.result === true) {
-            //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
-            dispatch(gameId(id));
-            router.push('/addplayers/' + id)
-          } else if (data.gameStarted) {
-            alert('Sorry but the game is yet started');
-          } else {
-            alert('Sorry but we cannot join the game, check the url');
-          }
-        });
+      router.push(`/addplayers/${id}`)
+      // fetch(BACKEND_URL + '/joinGame', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ id: id }),
+      // }).then(response => response.json())
+      //   .then(data => {
+      //     if (data.result === true) {
+      //       //information de connexion à la DB pour mise à jour du compteur de joueurs du gameMaster ?
+      //       dispatch(gameId(id));
+      //       router.push('/addplayers/' + id)
+      //     } else if (data.gameStarted) {
+      //       alert('Sorry but the game is yet started');
+      //     } else {
+      //       alert('Sorry but we cannot join the game, check the url');
+      //     }
+      //   });
     } else {
       alert('Check the url, the format is incorrect')
     }
