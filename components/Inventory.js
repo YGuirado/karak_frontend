@@ -70,8 +70,8 @@ function Inventory() {
 
   const weaponsStyle = [{backgroundImage: 'url(inventaire/arme.png)',backgroundSize: 'contain'},{backgroundImage: 'url(inventaire/arme.png)',backgroundSize: 'contain'}];
   for(let i=0; i<inventoryPlayer.weapons.length; i++){
-    if(inventoryPlayer.weapons[i]){
-      weaponsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.weapons[i]}.png)`,backgroundSize: 'contain'}
+    if(inventoryPlayer.weapons[i][0]){
+      weaponsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.weapons[i][0]}.png)`,backgroundSize: 'contain'}
     }
   }
 
@@ -83,8 +83,8 @@ function Inventory() {
 
   const scrollsStyle = [{backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'},{backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'}, {backgroundImage: 'url(inventaire/parchemin.png)',backgroundSize: 'contain'}];
   for(let i=0; i<inventoryPlayer.scroll.length; i++){
-    if(inventoryPlayer.scroll[i]){
-      scrollsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.scroll[i]}.png)`,backgroundSize: 'contain'}
+    if(inventoryPlayer.scroll[i][0]){
+      scrollsStyle[i] = {backgroundImage: `url(inventaire/${inventoryPlayer.scroll[i][0]}.png)`,backgroundSize: 'contain'}
     }
   }
 

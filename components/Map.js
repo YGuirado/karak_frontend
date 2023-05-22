@@ -29,7 +29,7 @@ function Map() {
     {"type":"couloir","specificity":"portail","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_portail-1010"},
     {"type":"couloir","specificity":"salle","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
     {"type":"couloir","specificity":"portail","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_portail-1010"},
-    {"type":"couloir","specificity":"salle","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
+    {"type":"couloir","specificity":"salle","meeting": {mob: 'rat', strength: 5, loot: 'daggers', value:1},"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
     {"type":"couloir","specificity":"basique","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir-1010"},
     {"type":"couloir","specificity":"salle","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir_salle-1010"},
     {"type":"couloir","specificity":"basique","meeting": false,"data":[1,0,1,0],"isRotate": false,"rotation": 0,"img":"couloir-1010"},
