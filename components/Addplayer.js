@@ -73,9 +73,15 @@ function Addplayer() {
   const gamecreator = useSelector((state) => state.games.gamecreator);
   const playerNames_local = useSelector((state) => state.games.playerNames_local);
   const gameId = router.query.id
-  console.log('gameId: ', gameId)
+  console.log('gameId in Addplayer entry from router.query.id: ', gameId)
+  const gameId_from_reducer = useSelector((state) => state.games.id)
+  console.log('gameId in Addplayer entry from store: ', gameId_from_reducer)
+  console.log('router.isReady: ', router.isReady)
+  console.log('router.isPreview: ', router.isPreview);
 
   useEffect(() => {
+    console.log('gameID in useEffect: ', gameId)
+    console.log('gameID_from_reducer in useEffect: ', gameId_from_reducer)
     fetch(BACKEND_URL + '/joinGame', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -91,7 +97,7 @@ function Addplayer() {
           } else {
             alert('Sorry but we cannot join the game, check the url');
           }
-          router.push('/index/')
+          router.push('/')
         }
 
       })
