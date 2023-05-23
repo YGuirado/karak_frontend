@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTresor, useKey, updateInventory } from '../reducers/inventory';
-import { updateMeet } from '../reducers/meeting';
+import { updateMeet, removeMeet } from '../reducers/meeting';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -108,6 +108,10 @@ function Meeting() {
                         src={`/mobs/${actualMeeting.meeting.mob}.png`}
                         width={100}
                         height={100}
+                    alt='monstre'
+                    src={`/mobs/${actualMeeting?.meeting.mob}.png`}
+                    width={100}
+                    height={100}
                     />
                 </div>
                 <div style={{ marginLeft: '20px' }}>
@@ -219,24 +223,27 @@ function Meeting() {
     }
     
 
-    useEffect(()=>{
-                    console.log('actualMeeting from Meetings.js', actualMeeting) 
-        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest'){
-                    setIsModalCoffreOpen(true)
-                }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest'){
-                    setIsModalCombatOpen(true)
-                }else if(!actualMeeting){
-                    setIsModalCoffreOpen(false);
-                setIsModalCombatOpen(false)
+    useEffect(()=>{ 
+        console.log('actualMeeting from Meetings.js', actualMeeting)
+        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
+            console.log('coucou 1')
+            setIsModalCoffreOpen(true)
+        }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
+            setIsModalCombatOpen(true)
+            console.log('coucou 2')
+        }else if(!actualMeeting){
+            console.log('coucou 3')
+            setIsModalCoffreOpen(false);
+            setIsModalCombatOpen(false)
         }
-    },[actualMeeting])
-
-                return (
-                <div style={modalStyle}>
-                    {modal}
-                    {modalCombat}
-                </div>
-                )
+    },[actualMeeting, player])
+    
+    return (
+        <div style={modalStyle}>
+            {modal}
+            {modalCombat}
+        </div>
+    )
 };
 
                 export default Meeting;
