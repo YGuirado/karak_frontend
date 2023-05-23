@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTresor, useKey, updateInventory } from '../reducers/inventory';
-import { updateMeet, removeMeet } from '../reducers/meeting';
+import { updateMeet } from '../reducers/meeting';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -159,29 +159,28 @@ function Meeting() {
                                     <button
                                         type='button'
                                         onClick={() => {
-                                            if (isSlotScrollsFull || isSlotWeaponsFull || isSlotKeyFull) {
-                                                if ((actualMeeting.meeting.loot === 'heal_portal' || actualMeeting.meeting.loot === 'magic_shot') && isSlotScrollsFull) {
-                                                    console.log('tu as deja tous les slots scrolls complets')
-                                                    setShowSlot(true);
-                                                    dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
-                                                } else if (actualMeeting.meeting.loot === 'key' && isSlotKeyFull) {
-                                                    console.log('tu as deja tous le slot key complet')
-                                                } else {
-                                                    setShowSlot(true);
-                                                    console.log('tu as deja tous les slots weapons complets')
-                                                    dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
-                                                }
-                                                setShowLoot(false);
-                                                setIsModalCombatOpen(false);
+                                            
+                                            if ((actualMeeting.meeting.loot === 'heal_portal' || actualMeeting.meeting.loot === 'magic_shot') && isSlotScrollsFull) {
+                                            console.log('tu as deja tous les slots scrolls complets')
+                                            setShowSlot(true);
+                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
+                                            setIsModalCombatOpen(false);
+                                            } else if (actualMeeting.meeting.loot === 'key' && isSlotKeyFull) {
+                                            console.log('tu as deja tous le slot key complet')
+                                            setIsModalCombatOpen(false);
+                                            } else if ((actualMeeting.meeting.loot === 'daggers' || actualMeeting.meeting.loot === 'sword' || actualMeeting.meeting.loot === 'axe') && isSlotWeaponsFull) {
+                                            setShowSlot(true);
+                                            console.log('tu as deja tous les slots weapons complets')
+                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
+                                            setIsModalCombatOpen(false);
                                             } else {
-                                                setShowLoot(false);
-                                                setIsModalCombatOpen(false);
-                                                dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
+                                            setShowLoot(false);
+                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
+                                            setIsModalCombatOpen(false);
+                                            dispatch(updateMeet({ ...actualMeeting, isResolved: true }))
                                             }
-                                            dispatch(updateMeet({...actualMeeting, isResolved: true}))
-                                            //mettre à jour la pioche
-                                            //setIsModalCombatOpen(false)
-                                        }}
+                                            dispatch(updateMeet({...actualMeeting, isResolved: true}));
+                                            }}
                                     >
                                         Ramasse ton loot
                                     </button>
@@ -193,10 +192,10 @@ function Meeting() {
                             <button
                                 type='button'
                                 onClick={() => {
-                                    //dispatch(updateMeet({ ...actualMeeting, isResolved: true }));
-                                    //mettre à jour la pioche
-                                    //setIsModalCombatOpen(false)
-                                    setShowLoot(true);
+                                    //setShowLoot(true);
+                                    dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player }));
+                                    dispatch(updateMeet({...actualMeeting, isResolved: true}));
+                                    setIsModalCombatOpen(false);
                                 }}
                             >
                                 Gagner
@@ -205,7 +204,6 @@ function Meeting() {
                                 type='button'
                                 onClick={() => {
                                     dispatch(updateMeet({ ...actualMeeting, isSkiped: true }));
-                                    //mettre à jour la pioche
                                     setIsModalCombatOpen(false);
                                 }}
                             >
@@ -227,12 +225,14 @@ function Meeting() {
         }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
             setIsModalCombatOpen(true)
             console.log('coucou 2')
-        }else if(!actualMeeting){
-            console.log('coucou 3')
-            setIsModalCoffreOpen(false);
-            setIsModalCombatOpen(false)
+            console.log(actualMeeting)
         }
-    },[actualMeeting, player])
+        // else if(!actualMeeting){
+        //     console.log('coucou 3')
+        //     setIsModalCoffreOpen(false);
+        //     setIsModalCombatOpen(false)
+        // }
+    },[actualMeeting, player, position])
     
     return (
         <div style={modalStyle}>

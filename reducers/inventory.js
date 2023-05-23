@@ -3,9 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     value: [
         {type: 'aderyn', powers:[null,null], tresor: 12.5, life: 3, weapons: ['sword','sword'], key: 1, scroll: ['magic_shot','magic_shot','magic_shot'] },
-        {type: 'argentus', powers:[null,null], tresor: 10, life: 5, weapons: ['daggers',null], key: null, scroll: [null,'magic_shot',null] },
-        {type: 'taia', powers:[null,null], tresor:8, life: 5, weapons: [null,null], key: null, scroll: ['heal_portal',null,null] },
-        {type: 'horan', powers:[null,null], tresor: 11, life: 5, weapons: ['axe',null], key: null, scroll: [null,null,null] },
+        {type: 'argentus', powers:[null,null], tresor: 10, life: 5, weapons: ['daggers','daggers'], key: 1, scroll: ['magic_shot','magic_shot','magic_shot'] },
+        {type: 'taia', powers:[null,null], tresor:8, life: 5, weapons: ['daggers','daggers'], key: 1, scroll: ['heal_portal','magic_shot','magic_shot'] },
+        {type: 'horan', powers:[null,null], tresor: 11, life: 5, weapons: ['axe','daggers'], key: 1, scroll: ['magic_shot','magic_shot','magic_shot'] },
       ],
 };
 

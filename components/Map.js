@@ -84,7 +84,7 @@ function Map() {
   if(!isOpen && meeting && (isAderyn && mooves < 4)) msg = 'Combats ou continues d’avancer..';
   if(!isOpen && meeting?.mob === 'closed_chest' && isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
   dispatch( pushInfo( {userName: player[playerTurn].userName, type:player[playerTurn].type, nbTours, mooves, msg} ) );
-  dispatch( pushPosition( {position: player[playerTurn].coords} ) )
+  dispatch( pushPosition( {position: player[playerTurn].coords} ) );
 
 
   useEffect(() => {
@@ -118,7 +118,7 @@ function Map() {
           dispatch(updateMeet({...meetingReducer, isSkiped: false}))
         }
     }else if(isMeetingSkiped && meeting.mob !== 'closed_chest'){
-        dispatch(updateMeet({...meetingReducer, isSkiped: false}))
+          dispatch(updateMeet({...meetingReducer, isSkiped: false}))
         if(playerTurn < player.length -1){
           setPlayerTurn(playerTurn +1)
         }else{
@@ -197,7 +197,7 @@ function Map() {
   
   const onTileClick = (id) => {
     // cf. modalValid
-    if(playedCoords.includes(id)) {
+    if(playedCoords.includes(id) && meeting) {
     console.log('dispatch 3', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting)
     dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
     }
