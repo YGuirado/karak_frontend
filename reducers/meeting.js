@@ -33,6 +33,7 @@ export const meetingSlice = createSlice({
     },
     removeMeet: (state, action) => {
         state.value.splice(state.value.findIndex(e => e.coords === action.payload.coords),1)
+        console.log( current(state.value) )
     },
 
  },
