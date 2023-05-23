@@ -105,7 +105,7 @@ function Meeting() {
                 <div style={{ width: '72px', height: '72px' }}>
                     <Image
                         alt='monstre'
-                        src={`/mobs/${actualMeeting.meeting?.mob}.png`}
+                        src={`/mobs/${actualMeeting?.meeting.mob}.png`}
                         width={100}
                         height={100}
                     />
@@ -193,7 +193,7 @@ function Meeting() {
                             <button
                                 type='button'
                                 onClick={() => {
-                                    dispatch(updateMeet({ ...actualMeeting, isResolved: true }));
+                                    //dispatch(updateMeet({ ...actualMeeting, isResolved: true }));
                                     //mettre à jour la pioche
                                     //setIsModalCombatOpen(false)
                                     setShowLoot(true);
