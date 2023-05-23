@@ -105,13 +105,9 @@ function Meeting() {
                 <div style={{ width: '72px', height: '72px' }}>
                     <Image
                         alt='monstre'
-                        src={`/mobs/${actualMeeting.meeting.mob}.png`}
+                        src={`/mobs/${actualMeeting.meeting?.mob}.png`}
                         width={100}
                         height={100}
-                    alt='monstre'
-                    src={`/mobs/${actualMeeting?.meeting.mob}.png`}
-                    width={100}
-                    height={100}
                     />
                 </div>
                 <div style={{ marginLeft: '20px' }}>
