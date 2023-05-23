@@ -24,8 +24,6 @@ function Map() {
 
   let dataPioche = useSelector((state) => state.games.game.tiles)
   
-  
-
   const [dataPiocheTemp, setDataPiocheTemp] = useState(dataPioche)
   const [playedCoords, setPlayedCoords ] = useState([`${rowmid};${colmid}`]);
   const [player, setPlayer] = useState([
@@ -33,7 +31,8 @@ function Map() {
     {id: 1, userName: "Sam", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "argentus"}, 
     {id: 2, userName: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
     {id: 3, userName: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
-  const [playerTurn, setPlayerTurn] = useState(3);
+
+  const [playerTurn, setPlayerTurn] = useState(2);
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -43,16 +42,16 @@ function Map() {
   let meetingReducer = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords))
   let isMeetingResolved = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isResolved)
   let isMeetingSkiped = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isSkiped)
+
+  
     
   const isArgentus = (player[playerTurn].type === 'argentus');
   const isAderyn = (player[playerTurn].type === 'aderyn');
-
-  let meetingMob = useSelector((state) => state.meeting.value.mob)
   
   let meeting = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting
- 
   if(mooves >= 4){
     if(meeting?.mob){
+      console.log('dispatch 1', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting)
       dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
       
     }else{
@@ -66,8 +65,14 @@ function Map() {
       }
     }
     if(isMeetingSkiped && mooves === 4){
-      setPlayerTurn(playerTurn +1)
-      setMooves(0); 
+      if(playerTurn < player.length -1){
+        setPlayerTurn(playerTurn +1)
+        setMooves(0); 
+      }else{
+        setPlayerTurn(0);
+        setNbTours(nbTours +1) 
+        setMooves(0); 
+      }
     }
   }
 
@@ -99,7 +104,7 @@ function Map() {
   }, [playedCoords])
 
   useEffect(()=>{
-    if(isMeetingResolved){
+    if(isMeetingResolved){ //|| isMeetingSkiped
         setMooves(0)
         if(playerTurn < player.length -1){
           setPlayerTurn(playerTurn +1)
@@ -123,7 +128,10 @@ function Map() {
 
         setMooves(mooves +1)
         // cf. onTileClick
-        dispatch(pushMeet({meeting: dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting, coords: player[playerTurn].coords, isResolved: isMeetingResolved, isSkiped: isMeetingSkiped}))
+        console.log('dispatch 2', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting)
+        if(!isMeetingSkiped || !isMeetingResolved){
+          dispatch(pushMeet({meeting: dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting, coords: player[playerTurn].coords, isResolved: isMeetingResolved, isSkiped: isMeetingSkiped}))
+        }
       }} 
       icon={faCheck} />
   )
@@ -164,14 +172,17 @@ function Map() {
   
   const onTileClick = (id) => {
     // cf. modalValid
+    if(playedCoords.includes(id)) {
+    console.log('dispatch 3', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting)
     dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
-
+    }
+    
     if(isAderyn && playedCoords.includes(id) && dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords && playedCoords.includes(id)) +1].meeting) {
       setMooves(mooves +1)
     }else if(playedCoords.includes(id)){
       setMooves(mooves +1)
     }
-  
+    
     if(!playedCoords.includes(id)) {
       setPlayedCoords([...playedCoords, id]);
       setIsOpen(true)

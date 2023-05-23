@@ -135,7 +135,7 @@ function Meeting() {
                     <><button
                         type='button'
                         onClick={() => {
-                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            dispatch(updateMeet({...actualMeeting, isResolved: true}))
                             //mettre à jour la pioche
                             //setIsModalCombatOpen(false)
                             setShowLoot(true)
@@ -146,7 +146,7 @@ function Meeting() {
                     <button
                         type='button'
                         onClick={() => {
-                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            dispatch(updateMeet({...actualMeeting, isSkiped: true}))
                             //mettre à jour la pioche
                             setIsModalCombatOpen(false)                            
                         }}
@@ -160,14 +160,15 @@ function Meeting() {
     
 
     useEffect(()=>{ 
-        console.log(actualMeeting) 
-        if(actualMeeting){
-            if(actualMeeting.meeting.mob === 'closed_chest'){
-                setIsModalCoffreOpen(true)
-            }else{
-                setIsModalCombatOpen(true)
-            }
-        }else{setIsModalCoffreOpen(false);}
+        console.log('actualMeeting from Meetings.js', actualMeeting) 
+        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest'){
+            setIsModalCoffreOpen(true)
+        }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest'){
+            setIsModalCombatOpen(true)
+        }else if(!actualMeeting){
+            setIsModalCoffreOpen(false);
+            setIsModalCombatOpen(false)
+        }
     },[actualMeeting])
     
     return (
