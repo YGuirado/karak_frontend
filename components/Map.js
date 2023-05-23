@@ -147,6 +147,7 @@ function Map() {
       }
     }
     if(isMeetingSkiped && mooves === 4){
+      console.error('l 150 ,playerTurn: ', playerTurn);
       setPlayerTurn(playerTurn +1)
       setMooves(0); 
     }

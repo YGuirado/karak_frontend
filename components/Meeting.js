@@ -12,7 +12,9 @@ function Meeting() {
     const inventory = useSelector((state) => state.inventory.value);
     const inventoryPlayer = inventory[inventory.findIndex(e => e.type === player)]
     const position = useSelector((state) => state.position.value.position)
+    console.log('position: ', position);
     const actualMeeting = meeting.find(e => e.coords === position)
+    console.log('actualmeeting: ', actualMeeting)
     const [isModalCoffreOpen, setIsModalCoffreOpen] = useState(false);
     const [isModalCombatOpen, setIsModalCombatOpen] = useState(false);
     
@@ -120,7 +122,7 @@ function Meeting() {
     
 
     useEffect(()=>{ 
-        console.log(actualMeeting) 
+        console.log('actualMeeting: ', actualMeeting) 
         if(actualMeeting){
             if(actualMeeting.meeting.mob === 'closed_chest'){
                 setIsModalCoffreOpen(true)
