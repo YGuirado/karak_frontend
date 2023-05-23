@@ -2,58 +2,65 @@ import Tile from './tile';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faRotate } from '@fortawesome/free-solid-svg-icons';
-import { TransformWrapper, TransformComponent, Template } from "react-zoom-pan-pinch";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { pushInfo } from '../reducers/header';
 import { pushMeet, removeMeet, updateMeet } from '../reducers/meeting';
 import { pushPosition } from '../reducers/position';
+import { restoreLife } from '../reducers/inventory';
 
 
 function Map() {
   const dispatch = useDispatch();
 
+  //globals
   const row = 41;
   const col = 41;
   const rowmid = Math.floor(row/2);
   const colmid = Math.floor(col/2); 
-
-  
-  const dataStart = {type: 'start', "meeting": false, data: [1,1,1,1], "isRotate": true, "rotation": 0, img: 'depart_fountain-1111'}
   const dataEmpty = {type: 'empty',  "isRotate": false, "rotation": 0, tile:{img: '/tiles/empty.png', data: [0,0,0,0], type: 'empty'}}
 
-  let dataPioche = useSelector((state) => state.games.game.tiles)
   
+  //const dataStart = {type: 'start', "meeting": false, data: [1,1,1,1], "isRotate": true, "rotation": 0, img: 'depart_fountain-1111'}
+
+  let dataPioche = useSelector((state) => state.games.game.tiles)
   const [dataPiocheTemp, setDataPiocheTemp] = useState(dataPioche)
   const [playedCoords, setPlayedCoords ] = useState([`${rowmid};${colmid}`]);
+
+  //data to catch from DB
   const [player, setPlayer] = useState([
     {id: 0, userName: "Yo", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "aderyn"}, 
     {id: 1, userName: "Sam", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "argentus"}, 
     {id: 2, userName: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
     {id: 3, userName: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
 
+  //states for players turn
   const [playerTurn, setPlayerTurn] = useState(1);
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
-  const [rotation, setRotation] = useState(0);
-  const [isOpen, setIsOpen] = useState(false); 
-  const [isRotationValid, setIsRotationValid] = useState(false);
 
+  //states for tiles rotation
+  const [isOpen, setIsOpen] = useState(false); 
+  const [rotation, setRotation] = useState(0);
+  const [isRotationValid, setIsRotationValid] = useState(false);
+  
+  //meetings
   let meetingReducer = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords))
   let isMeetingResolved = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isResolved)
   let isMeetingSkiped = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isSkiped)
+  let meeting = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting
 
-  
-    
+  //powers identification
   const isArgentus = (player[playerTurn].type === 'argentus');
   const isAderyn = (player[playerTurn].type === 'aderyn');
   
-  let meeting = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting
+
   if(mooves >= 4){
+
+    //meeting
     if(meeting?.mob){
-      console.log('dispatch 1', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting)
       dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
-      
     }else{
       if(playerTurn < player.length -1){
         setPlayerTurn(playerTurn +1)
@@ -64,6 +71,7 @@ function Map() {
         setMooves(0); 
       }
     }
+    
     if(isMeetingSkiped && mooves === 4){
       if(playerTurn < player.length -1){
         setPlayerTurn(playerTurn +1)
@@ -88,6 +96,8 @@ function Map() {
 
 
   useEffect(() => {
+    //console.log(dataPioche)
+
     // dernière id, carte jouée par le joueur
     const previousLastTilesID = player.find((player) => player.id === playerTurn).prevCoords
     const previousCoords = previousLastTilesID.split(';');
@@ -105,10 +115,13 @@ function Map() {
 
   useEffect(()=>{
     if(isMeetingResolved ){ //|| isMeetingSkiped
-        dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting = null
         dispatch(removeMeet(meetingReducer))
-
+        let pioche = JSON.parse(JSON.stringify(dataPiocheTemp));
+        let i = playedCoords.findIndex(coord => coord === player[playerTurn].coords);
+        pioche[i].meeting = null
+        setDataPiocheTemp(pioche);
         setMooves(0)
+
         if(playerTurn < player.length -1){
           setPlayerTurn(playerTurn +1)
           dispatch(updateMeet({...meetingReducer, isSkiped: false}))
@@ -117,28 +130,29 @@ function Map() {
           setNbTours(nbTours +1)
           dispatch(updateMeet({...meetingReducer, isSkiped: false}))
         }
+
     }else if(isMeetingSkiped && meeting.mob !== 'closed_chest'){
+        player[playerTurn].coords = player[playerTurn].prevCoords
+        setMooves(0)
         dispatch(updateMeet({...meetingReducer, isSkiped: false}))
+
         if(playerTurn < player.length -1){
           setPlayerTurn(playerTurn +1)
         }else{
           setPlayerTurn(0);
           setNbTours(nbTours +1)
         }
+
     }else if(isMeetingSkiped && meeting.mob === 'closed_chest'){
-      if(mooves < 4){
-        console.log('coffre fermé OK marc')
-        setMooves(mooves +1)
-      }else{
+        dispatch(updateMeet({...meetingReducer, isSkiped: false}))
+        setMooves(0)
+
         if(playerTurn < player.length -1){
           setPlayerTurn(playerTurn +1)
-          dispatch(updateMeet({...meetingReducer, isSkiped: false}))
         }else{
           setPlayerTurn(0);
           setNbTours(nbTours +1)
-          dispatch(updateMeet({...meetingReducer, isSkiped: false}))
         }
-      }
     }
   },[isMeetingResolved, isMeetingSkiped, player, playerTurn])
   
@@ -150,10 +164,9 @@ function Map() {
       onClick={() => {
         setIsOpen(false);
         setRotation(0);
-
         setMooves(mooves +1)
+
         // cf. onTileClick
-        console.log('dispatch 2', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting)
         if(!isMeetingSkiped || !isMeetingResolved){
           dispatch(pushMeet({meeting: dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting, coords: player[playerTurn].coords, isResolved: isMeetingResolved, isSkiped: isMeetingSkiped}))
         }
@@ -196,10 +209,14 @@ function Map() {
   }
   
   const onTileClick = (id) => {
-    // cf. modalValid
+    //fonctionnalité dégradée life fountain
+    if(playedCoords.includes(id) && dataPiocheTemp[playedCoords.findIndex(coord => coord === id)].tile.specificity === 'fountain'){
+      dispatch(restoreLife(player[playerTurn].type))
+    }
+
+    //meeting
     if(playedCoords.includes(id)) {
-    console.log('dispatch 3', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting)
-    dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
+      dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
     }
     
     if(isAderyn && playedCoords.includes(id) && dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords && playedCoords.includes(id)) +1].meeting) {
@@ -245,7 +262,7 @@ function Map() {
           card = dataPiocheTemp[k];
         }
         
-        const portals = playedCoords.map((e,i)=> {return {isPortal: (dataPiocheTemp[i].specificity === 'portal'), portalCoords: e }})
+        const portals = playedCoords.map((e,i)=> {return {isPortal: (dataPiocheTemp[i].tile.specificity === 'portal'), portalCoords: e }})
         const lastTile = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)]
         const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].tile.data
         const lastTileID = player.find((player) => player.id === playerTurn).coords;
@@ -261,7 +278,7 @@ function Map() {
                 ((lastTileData[1] && ((playedCoords.includes(`${x -1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x -1};${y}`)].tile.data[3]) || !playedCoords.includes(`${x -1};${y}`) ) || (isArgentus && playedCoords.includes(`${x-1};${y}`)) ) && x-1 === i && y === j) ||
                 ((lastTileData[2] && ((playedCoords.includes(`${x};${y +1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y +1}`)].tile.data[0]) || !playedCoords.includes(`${x};${y +1}`) ) || (isArgentus && playedCoords.includes(`${x};${y+1}`)) ) && x === i && y+1 === j) ||
                 ((lastTileData[3] && ((playedCoords.includes(`${x +1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x +1};${y}`)].tile.data[1]) || !playedCoords.includes(`${x +1};${y}`) ) || (isArgentus && playedCoords.includes(`${x+1};${y}`)) ) && x+1 === i && y === j) || 
-                (lastTile.specificity === 'portal' && portals.find(e => e.isPortal && e.portalCoords === `${i};${j}` && e.portalCoords !== `${x};${y}`))
+                (lastTile.tile.specificity === 'portal' && portals.find(e => e.isPortal && e.portalCoords === `${i};${j}` && e.portalCoords !== `${x};${y}`))
 
               )            
             }else{   //après avoir joué toutes les tuiles
@@ -270,7 +287,7 @@ function Map() {
                 ((lastTileData[1] && (playedCoords.includes(`${x -1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x -1};${y}`)].tile.data[3]) || (isArgentus && playedCoords.includes(`${x-1};${y}`)) ) && x-1 === i && y === j) ||
                 ((lastTileData[2] && (playedCoords.includes(`${x};${y +1}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x};${y +1}`)].tile.data[0]) || (isArgentus && playedCoords.includes(`${x};${y+1}`)) ) && x === i && y+1 === j) ||
                 ((lastTileData[3] && (playedCoords.includes(`${x +1};${y}`) && dataPiocheTemp[playedCoords.findIndex(coord => coord === `${x +1};${y}`)].tile.data[1]) || (isArgentus && playedCoords.includes(`${x+1};${y}`)) ) && x+1 === i && y === j) || 
-                (lastTile.specificity === 'portail' && portals.find(e => e.isPortal && e.portalCoords === `${i};${j}` && e.portalCoords !== `${x};${y}`))
+                (lastTile.tile.specificity === 'portail' && portals.find(e => e.isPortal && e.portalCoords === `${i};${j}` && e.portalCoords !== `${x};${y}`))
               )  
             }
           }

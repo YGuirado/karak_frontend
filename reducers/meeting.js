@@ -32,14 +32,8 @@ export const meetingSlice = createSlice({
         } ) ;
     },
     removeMeet: (state, action) => {
-        console.log('removeMeet', current(state.value))
-        console.log('removeMeet', action.payload)
-        state.value.find((e,i) => {
-            if(e.coords === action.payload.coords){
-                //console.log('removeMeet', current(e))
-                state.value.splice(i,1)
-            } 
-        } ) ;
+        state.value.splice(state.value.findIndex(e => e.coords === action.payload.coords),1)
+        console.log( current(state.value) )
     },
 
  },
