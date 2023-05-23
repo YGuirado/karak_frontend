@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 //import styles from '../styles/Meeting.module.css';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTresor, useKey } from '../reducers/inventory';
+import { updateTresor, useKey, updateInventory } from '../reducers/inventory';
 import { updateMeet } from '../reducers/meeting';
 
 function Meeting() {
@@ -15,8 +15,18 @@ function Meeting() {
     const actualMeeting = meeting.find(e => e.coords === position)
     const [isModalCoffreOpen, setIsModalCoffreOpen] = useState(false);
     const [isModalCombatOpen, setIsModalCombatOpen] = useState(false);
+
+    const [isSlotWeaponsFull, setIsSlotWeaponsFull] = useState(false);
+    const [isSlotKeyFull, setIsSlotKeyFull] = useState(false);
+    const [isSlotScrollsFull, setIsSlotScrollsFull] = useState(false);
+
+    const [showLoot, setShowLoot] = useState(false);
     
     //console.log( inventoryPlayer)
+
+    // if(inventoryPlayer.weapons.every(weapon => weapon !== null)) setIsSlotWeaponsFull(true);
+    // if(inventoryPlayer.key !== null) setIsSlotKeyFull(true);
+    // if(inventoryPlayer.scroll.every(scroll => scroll !== null)) setIsSlotScrollsFull(true);
 
     let modalStyle = {}
     if(isModalCoffreOpen || isModalCombatOpen){
@@ -93,12 +103,42 @@ function Meeting() {
                     />
                 </div>
                 <div style={{marginLeft: '20px'}}>
-                    <button
+                    {showLoot ? (<div style={{width: '72px', height: '72px'}}>
+                    <Image
+                    alt='monstre'
+                    src={`/inventory/${actualMeeting.meeting.loot}.png`}
+                    width={100}
+                    height={100}
+                    />
+                <button
+                        type='button'
+                        onClick={() => {
+                            if((actualMeeting.meeting.loot === 'heal_portal' || actualMeeting.meeting.loot === 'magic_shot') && isSlotScrollsFull){
+
+                            }
+                            else if(actualMeeting.meeting.loot === 'key' && isSlotKeyFull){
+
+                            }
+                            else{
+
+                            }
+                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            //mettre à jour la pioche
+                            //setIsModalCombatOpen(false)
+                            setShowLoot(false)
+                            setIsModalCombatOpen(false)
+                            dispatch(updateInventory({loot: actualMeeting.meeting.loot, player}))
+                        }}
+                    >
+                        Ramasse ton loot
+                    </button></div>) : (                   
+                    <><button
                         type='button'
                         onClick={() => {
                             dispatch(updateMeet({...actualMeeting, isResolved: true}))
                             //mettre à jour la pioche
-                            setIsModalCombatOpen(false)
+                            //setIsModalCombatOpen(false)
+                            setShowLoot(true)
                         }}
                     >
                         Gagner
@@ -108,11 +148,11 @@ function Meeting() {
                         onClick={() => {
                             dispatch(updateMeet({...actualMeeting, isSkiped: true}))
                             //mettre à jour la pioche
-                            setIsModalCombatOpen(false)
+                            setIsModalCombatOpen(false)                            
                         }}
                     >
                         Perdre
-                    </button> 
+                    </button></>)} 
                 </div>
             </div>
         )

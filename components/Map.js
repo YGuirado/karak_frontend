@@ -49,7 +49,6 @@ function Map() {
   const isAderyn = (player[playerTurn].type === 'aderyn');
   
   let meeting = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting
-
   if(mooves >= 4){
     if(meeting?.mob){
       console.log('dispatch 1', dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting)
