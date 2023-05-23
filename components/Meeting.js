@@ -104,113 +104,63 @@ function Meeting() {
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                 <div style={{ width: '72px', height: '72px' }}>
                     <Image
-                        alt='monstre'
-                        src={`/mobs/${actualMeeting?.meeting.mob}.png`}
-                        width={100}
-                        height={100}
+                    alt='monstre'
+                    src={`/mobs/${actualMeeting.meeting.mob}.png`}
+                    width={100}
+                    height={100}
                     />
                 </div>
-                <div style={{ marginLeft: '20px' }}>
-                    {showLoot ? (
-                        <div style={{ width: '72px', height: '72px' }}>
-                            <Image
-                                alt='monstre'
-                                src={`/inventory/${actualMeeting.meeting.loot}.png`}
-                                width={100}
-                                height={100}
-                            />
-                            {showSlot ? (
-                                <div>
-                                    <Image
-                                        alt='weapon1'
-                                        src={`/inventory/${inventoryPlayer.weapons[0]}.png`}
-                                        width={100}
-                                        height={100}
-                                        onClick={() => {
-                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed: 0 }));
-                                            setShowSlot(false);
-                                            setIsModalCombatOpen(false);
-                                        }}
-                                    />
-                                    <button
-                                        type='button'
-                                        onClick={() => {
-                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed: 1 }));
-                                            setShowSlot(false);
-                                            setIsModalCombatOpen(false);
-                                        }}
-                                    >
-                                        Slot 2
-                                    </button>
-                                    <Image
-                                        alt='weapon3'
-                                        src={`/inventory/${inventoryPlayer.weapons[1]}.png`}
-                                        width={100}
-                                        height={100}
-                                        onClick={() => {
-                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed: 1 }));
-                                            setShowSlot(false);
-                                            setIsModalCombatOpen(false);
-                                        }}
-                                    />
-                                </div>
-                            ) : (
-                                <div>
-                                    <button
-                                        type='button'
-                                        onClick={() => {
-                                            
-                                            if ((actualMeeting.meeting.loot === 'heal_portal' || actualMeeting.meeting.loot === 'magic_shot') && isSlotScrollsFull) {
-                                            console.log('tu as deja tous les slots scrolls complets')
-                                            setShowSlot(true);
-                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
-                                            setIsModalCombatOpen(false);
-                                            } else if (actualMeeting.meeting.loot === 'key' && isSlotKeyFull) {
-                                            console.log('tu as deja tous le slot key complet')
-                                            setIsModalCombatOpen(false);
-                                            } else if ((actualMeeting.meeting.loot === 'daggers' || actualMeeting.meeting.loot === 'sword' || actualMeeting.meeting.loot === 'axe') && isSlotWeaponsFull) {
-                                            setShowSlot(true);
-                                            console.log('tu as deja tous les slots weapons complets')
-                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
-                                            setIsModalCombatOpen(false);
-                                            } else {
-                                            setShowLoot(false);
-                                            dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player, slotChosed }));
-                                            setIsModalCombatOpen(false);
-                                            dispatch(updateMeet({ ...actualMeeting, isResolved: true }))
-                                            }
-                                            dispatch(updateMeet({...actualMeeting, isResolved: true}));
-                                            }}
-                                    >
-                                        Ramasse ton loot
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <>
-                            <button
-                                type='button'
-                                onClick={() => {
-                                    //setShowLoot(true);
-                                    dispatch(updateInventory({ loot: actualMeeting.meeting.loot, player }));
-                                    dispatch(updateMeet({...actualMeeting, isResolved: true}));
-                                    setIsModalCombatOpen(false);
-                                }}
-                            >
-                                Gagner
-                            </button>
-                            <button
-                                type='button'
-                                onClick={() => {
-                                    dispatch(updateMeet({ ...actualMeeting, isSkiped: true }));
-                                    setIsModalCombatOpen(false);
-                                }}
-                            >
-                                Perdre
-                            </button>
-                        </>
-                    )}
+                <div style={{marginLeft: '20px'}}>
+                    {showLoot ? (<div style={{width: '72px', height: '72px'}}>
+                    <Image
+                    alt='monstre'
+                    src={`/inventory/${actualMeeting.meeting.loot}.png`}
+                    width={100}
+                    height={100}
+                    />
+                <button
+                        type='button'
+                        onClick={() => {
+                            if((actualMeeting.meeting.loot === 'heal_portal' || actualMeeting.meeting.loot === 'magic_shot') && isSlotScrollsFull){
+
+                            }
+                            else if(actualMeeting.meeting.loot === 'key' && isSlotKeyFull){
+
+                            }
+                            else{
+
+                            }
+                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            //mettre à jour la pioche
+                            //setIsModalCombatOpen(false)
+                            setShowLoot(false)
+                            setIsModalCombatOpen(false)
+                            dispatch(updateInventory({loot: actualMeeting.meeting.loot, player}))
+                        }}
+                    >
+                        Ramasse ton loot
+                    </button></div>) : (                   
+                    <><button
+                        type='button'
+                        onClick={() => {
+                            dispatch(updateMeet({...actualMeeting, isResolved: true}))
+                            //mettre à jour la pioche
+                            //setIsModalCombatOpen(false)
+                            setShowLoot(true)
+                        }}
+                    >
+                        Gagner
+                    </button>
+                    <button
+                        type='button'
+                        onClick={() => {
+                            dispatch(updateMeet({...actualMeeting, isSkiped: true}))
+                            //mettre à jour la pioche
+                            setIsModalCombatOpen(false)                            
+                        }}
+                    >
+                        Perdre
+                    </button></>)} 
                 </div>
             </div>
         );
@@ -218,21 +168,16 @@ function Meeting() {
     
 
     useEffect(()=>{ 
-        console.log('actualMeeting from Meetings.js', actualMeeting)
-        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
-            console.log('coucou 1')
+        console.log('actualMeeting from Meetings.js', actualMeeting) 
+        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest'){
             setIsModalCoffreOpen(true)
-        }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
+        }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest'){
             setIsModalCombatOpen(true)
-            console.log('coucou 2')
-            console.log(actualMeeting)
+        }else if(!actualMeeting){
+            setIsModalCoffreOpen(false);
+            setIsModalCombatOpen(false)
         }
-        // else if(!actualMeeting){
-        //     console.log('coucou 3')
-        //     setIsModalCoffreOpen(false);
-        //     setIsModalCombatOpen(false)
-        // }
-    },[actualMeeting, player, position])
+    },[actualMeeting])
     
     return (
         <div style={modalStyle}>

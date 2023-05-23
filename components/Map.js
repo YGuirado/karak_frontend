@@ -6,7 +6,7 @@ import { TransformWrapper, TransformComponent, Template } from "react-zoom-pan-p
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { pushInfo } from '../reducers/header';
-import { pushMeet, removeMeet, updateMeet } from '../reducers/meeting';
+import { pushMeet, updateMeet } from '../reducers/meeting';
 import { pushPosition } from '../reducers/position';
 
 
@@ -32,7 +32,7 @@ function Map() {
     {id: 2, userName: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
     {id: 3, userName: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
 
-  const [playerTurn, setPlayerTurn] = useState(1);
+  const [playerTurn, setPlayerTurn] = useState(2);
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -104,10 +104,7 @@ function Map() {
   }, [playedCoords])
 
   useEffect(()=>{
-    if(isMeetingResolved ){ //|| isMeetingSkiped
-        dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting = null
-        dispatch(removeMeet(meetingReducer))
-
+    if(isMeetingResolved){ //|| isMeetingSkiped
         setMooves(0)
         if(playerTurn < player.length -1){
           setPlayerTurn(playerTurn +1)
@@ -117,30 +114,8 @@ function Map() {
           setNbTours(nbTours +1)
           dispatch(updateMeet({...meetingReducer, isSkiped: false}))
         }
-    }else if(isMeetingSkiped && meeting.mob !== 'closed_chest'){
-          dispatch(updateMeet({...meetingReducer, isSkiped: false}))
-        if(playerTurn < player.length -1){
-          setPlayerTurn(playerTurn +1)
-        }else{
-          setPlayerTurn(0);
-          setNbTours(nbTours +1)
-        }
-    }else if(isMeetingSkiped && meeting.mob === 'closed_chest'){
-      if(mooves < 4){
-        console.log('coffre fermé OK marc')
-        setMooves(mooves +1)
-      }else{
-        if(playerTurn < player.length -1){
-          setPlayerTurn(playerTurn +1)
-          dispatch(updateMeet({...meetingReducer, isSkiped: false}))
-        }else{
-          setPlayerTurn(0);
-          setNbTours(nbTours +1)
-          dispatch(updateMeet({...meetingReducer, isSkiped: false}))
-        }
-      }
     }
-  },[isMeetingResolved, isMeetingSkiped, player, playerTurn])
+  },[isMeetingResolved, isMeetingSkiped, player])
   
   let modalValid;
   if(isRotationValid)

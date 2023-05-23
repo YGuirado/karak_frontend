@@ -9,14 +9,10 @@ function Tile(props) {
       />
     )
   }
-
+  
   let debug = true; 
   let debugInfo;
   if(debug) {
-    if(props.card.meeting){
-      console.log(props.card.meeting.mob)
-    }
-
     debugInfo = (
       <div style={{position: 'absolute', width: '100px', height: '100px', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
       <div style={{width: '100px'}}>&nbsp;&nbsp;{props.card.tile.data[0]}</div>
