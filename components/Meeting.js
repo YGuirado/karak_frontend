@@ -25,7 +25,7 @@ function Meeting() {
     //console.log( inventoryPlayer)
 
     // if(inventoryPlayer.weapons.every(weapon => weapon !== null)) setIsSlotWeaponsFull(true);
-    // if(inventoryPlayer.key !== null) setIsSlotKeyFull(true);
+     if(inventoryPlayer.key !== null) setIsSlotKeyFull(true);
     // if(inventoryPlayer.scroll.every(scroll => scroll !== null)) setIsSlotScrollsFull(true);
 
     let modalStyle = {}
