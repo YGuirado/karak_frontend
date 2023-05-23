@@ -23,8 +23,8 @@ export const gamesSlice = createSlice({
       // due to implementation and go back to addplayer 
       // it is better to add the players
       state.playerNames_local.push(...action.payload);
-      console.log('Exit AddPlayerNames, state.playerName: ', state.playerNames_local)
-      console.log('Exit AddPlayerNames, state.playerName: ', current(state.playerNames_local))
+      console.log('Exit AddPlayerNames_local, state.playerName_local: ', state.playerNames_local)
+      console.log('REDUX Exit AddPlayerNames_local, state.playerName_local: ', current(state.playerNames_local))
     },
 
     setCreator: (state) => {
