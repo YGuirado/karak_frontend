@@ -193,7 +193,7 @@ function Meeting() {
                             <button
                                 type='button'
                                 onClick={() => {
-                                    dispatch(updateMeet({ ...actualMeeting, isResolved: true }));
+                                    //dispatch(updateMeet({ ...actualMeeting, isResolved: true }));
                                     //mettre à jour la pioche
                                     //setIsModalCombatOpen(false)
                                     setShowLoot(true);
