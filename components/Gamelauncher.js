@@ -100,7 +100,7 @@ function Gamelauncher() {
                     console.log(data_game.game);
                     console.log('To restart game: \n',
                         FRONTEND_URL + '/kArAkRePlAy/' + gameId +
-                        playerHeroeNames.reduce((acc, couple) => acc + `/"${couple.username}_${couple.heroe}"`, ''))
+                        playerHeroeNames.reduce((acc, couple) => acc + `/${couple.username}_${couple.heroe.replaceAll(' ', '_')}`, ''))
                     dispatch(setGame(data_game.game))
                     router.push(`/game/${gameId}`)
                 } else {
