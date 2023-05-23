@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTresor, useKey, updateInventory } from '../reducers/inventory';
-import { updateMeet } from '../reducers/meeting';
+import { updateMeet, removeMeet } from '../reducers/meeting';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -97,7 +97,7 @@ function Meeting() {
                 <div style={{width: '72px', height: '72px'}}>
                     <Image
                     alt='monstre'
-                    src={`/mobs/${actualMeeting.meeting.mob}.png`}
+                    src={`/mobs/${actualMeeting?.meeting.mob}.png`}
                     width={100}
                     height={100}
                     />
@@ -122,10 +122,9 @@ function Meeting() {
                             else{
 
                             }
-                            //dispatch(updateMeet({...actualMeeting, isResolved: true}))
-                            //mettre à jour la pioche
-                            //setIsModalCombatOpen(false)
+                            //mettre à jour la pioche meeting = null
                             setShowLoot(false)
+                            dispatch(updateMeet({...actualMeeting, isResolved: true}))
                             setIsModalCombatOpen(false)
                             dispatch(updateInventory({loot: actualMeeting.meeting.loot, player}))
                         }}
@@ -135,9 +134,6 @@ function Meeting() {
                     <><button
                         type='button'
                         onClick={() => {
-                            dispatch(updateMeet({...actualMeeting, isResolved: true}))
-                            //mettre à jour la pioche
-                            //setIsModalCombatOpen(false)
                             setShowLoot(true)
                         }}
                     >
@@ -148,7 +144,8 @@ function Meeting() {
                         onClick={() => {
                             dispatch(updateMeet({...actualMeeting, isSkiped: true}))
                             //mettre à jour la pioche
-                            setIsModalCombatOpen(false)                            
+                            setIsModalCombatOpen(false)
+                            //dispatch(updateMeet({...actualMeeting, isSkiped: false}))                          
                         }}
                     >
                         Perdre
@@ -160,16 +157,19 @@ function Meeting() {
     
 
     useEffect(()=>{ 
-        console.log('actualMeeting from Meetings.js', actualMeeting) 
-        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest'){
+        console.log('actualMeeting from Meetings.js', actualMeeting)
+        if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
+            console.log('coucou 1')
             setIsModalCoffreOpen(true)
-        }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest'){
+        }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
             setIsModalCombatOpen(true)
+            console.log('coucou 2')
         }else if(!actualMeeting){
+            console.log('coucou 3')
             setIsModalCoffreOpen(false);
             setIsModalCombatOpen(false)
         }
-    },[actualMeeting])
+    },[actualMeeting, player])
     
     return (
         <div style={modalStyle}>
