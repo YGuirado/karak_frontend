@@ -15,7 +15,7 @@ export const gamesSlice = createSlice({
   reducers: {
     setId: (state, action) => {
       state.id = action.payload;
-      console.log('REDUX Exit setID, state.id: ', state.id);
+      console.log(state.id);
     },
 
     addPlayerNames_local: (state, action) => {
@@ -29,13 +29,12 @@ export const gamesSlice = createSlice({
 
     setCreator: (state) => {
       state.gamecreator = true
-      console.log('REDUX setCreator is called')
     },
 
     setPlayerHeroeNames: (state, action) => {
       // action.payload is an array of {username:..., heroe:...}
       state.playerHeroeNames = action.payload;
-      console.log('REDUX Exit setPlayerHeroeNames, state.playerHeroeNames: ', state.playerHeroeNames);
+      console.log('Exit setPlayerHeroeNames, state.playerHeroeNames: ', state.playerHeroeNames);
     },
 
     setGame: (state, action) => {
