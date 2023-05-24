@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { setPlayerHeroeNames, setGame } from '../reducers/games';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
-//import Pusher from ????;
 import { PusherProvider } from '@harelpls/use-pusher';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
