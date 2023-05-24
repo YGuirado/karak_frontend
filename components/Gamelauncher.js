@@ -8,12 +8,13 @@ import { useRouter } from 'next/router';
 import { setPlayerHeroeNames, setGame } from '../reducers/games';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
-import { PusherProvider } from '@harelpls/use-pusher';
+import Pusher from 'pusher-js';
+// import { PusherProvider } from '@harelpls/use-pusher';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
-const pusher = new Pusher('121231c34487c7ba2092', { cluster: 'eu' });
+const pusher = new Pusher('2945f99e59578cb5c02a', { cluster: 'eu' });
 const BACKEND_ADDRESS = BACKEND_URL;
 
 function Gamelauncher() {
@@ -66,6 +67,7 @@ function Gamelauncher() {
     }
 
     useEffect(() => {
+        return;
         const local_intervalID = setInterval(fetch_getPlayerHeroe, 1000 * 5)
         // setIntervalID(local_intervalID)(on appelle la fonction tt les 5sc)
         console.log('set intervalID: ', local_intervalID)
@@ -123,26 +125,35 @@ function Gamelauncher() {
     const pusherUser = useSelector((state) => state.games.playerNames_local[0]);
 
     useEffect(() => {
-        fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'PUT' });
-        console.log('Mount after fetch');
+        (async () => {
+            fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'PUT' });
+            console.log('Pusher: Mount after fetch');
 
-        const subscription = pusher.subscribe('karak-development');
-        subscription.bind('pusher:subscription_succeeded', () => {
-            subscription.bind('message', handleReceiveMessage);
-        });
+            const channel = await pusher.subscribe('karak-development');
+            channel.bind('pusher:subscription_succeeded', () => {
+                channel.bind('message', handleReceiveMessage);
+            });
+            // channel.bind_global((a,b) => {
+            //     console.log(a, '/yes/', b)
+            //     channel.bind('message', handleReceiveMessage);
+            //  } );
+            // console.log('Pusher: Mount after fetch l136');
 
-        pusher.log = (message) => {
-            if (window.console && window.console.log) {
-                window.console.log('it\'s a pusher.log: ', message);
-            }
-        };
+            pusher.log = (message) => {
+                if (window.console && window.console.log) {
+                    window.console.log('Pusher: it\'s a pusher.log: ', message);
+                }
+            };
+        })();
 
-        return () => fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`,
-            { method: 'DELETE' });
+        return () => {
+            console.log('Pusher: leave');
+            fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'DELETE' });
+        }
     }, [pusherUser]);
 
     const handleReceiveMessage = (data) => {
-        console.log('Entry in handleReceiveMessage, messages added:  ', data);
+        console.log('Pusher: Entry in handleReceiveMessage, messages added:  ', data);
         // setMessages(messages => [...messages, data]);
     };
 
@@ -157,7 +168,7 @@ function Gamelauncher() {
             createdAt: new Date(),
             id: Math.floor(Math.random() * 100000),
         };
-        console.log('Fetch/POST the message to backend, payload: ', payload);
+        console.log('Pusher: Fetch/POST the message to backend, payload: ', payload);
         fetch(`${BACKEND_ADDRESS}/users/${pusherUser}/messages`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -182,15 +193,17 @@ function Gamelauncher() {
             <div className={styles.subContainer}>
 
                 <div className={styles.urlSection}>
+
                     <CircularProgress sx={{ color: '#324E01' }} />
+
                     <span className={styles.h2}>
                         {nbJoueurs} joueurs ont rejoint la partie
                     </span>
 
                     {gamecreator &&
                         (<div title="Démarrer la partie"  >
-                            <button onClick={handleSendMessage('test pusher')} className={styles.largeBtn}>
-                                <span>{nbJoueurs}</span>
+                            <button onClick={handleStartGame} className={styles.largeBtn}>
+                                <span>Démarrer à {nbJoueurs}</span>
                             </button>
                         </div>)
                     }
@@ -198,20 +211,16 @@ function Gamelauncher() {
                         {playerHeroeNames_jsx}
                     </div>
                     {testPusher &&
-                        (<div title="test pusher"  >
-                            <button onClick={handleStartGame} className={styles.largeBtn}>
+                        <div title="test pusher"  >
+                            <button onClick={() => handleSendMessage('test pusher ' + gameId)} className={styles.largeBtn}>
+                                <span>test send pusher</span>
                             </button>
-                        </div>)
+                        </div>
                     }
                 </div>
 
             </div>
-
-        </div>
-
-
-
-    )
+        </div>)
 };
 
 export default Gamelauncher;
