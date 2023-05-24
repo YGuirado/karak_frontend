@@ -6,10 +6,11 @@ import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux'
 import { useRouter } from 'next/router';
 import { setPlayerHeroeNames, setGame } from '../reducers/games';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
 function Gamelauncher() {
     const [nbJoueurs, setNbJoueurs] = useState(0)
@@ -97,6 +98,9 @@ function Gamelauncher() {
             .then(data_game => {
                 if (data_game.result === true) {
                     console.log(data_game.game);
+                    console.log('To restart game: \n',
+                        FRONTEND_URL + '/kArAkRePlAy/' + gameId +
+                        playerHeroeNames.reduce((acc, couple) => acc + `/${couple.username}_${couple.heroe.replaceAll(' ', '_')}`, ''))
                     dispatch(setGame(data_game.game))
                     router.push(`/game/${gameId}`)
                 } else {
@@ -107,7 +111,7 @@ function Gamelauncher() {
     }
 
 
-const karakCircularProgress =styled (CircularProgress)({color : "#324E01"})
+    const karakCircularProgress = styled(CircularProgress)({ color: "#324E01" })
 
     return (
         <div className={styles.container}>
@@ -120,7 +124,7 @@ const karakCircularProgress =styled (CircularProgress)({color : "#324E01"})
             <div className={styles.subContainer}>
 
                 <div className={styles.urlSection}>
-                <CircularProgress sx={{color: '#324E01'}}/>
+                    <CircularProgress sx={{ color: '#324E01' }} />
                     <span className={styles.h2}>
                         {nbJoueurs} joueurs ont rejoint la partie
                     </span>

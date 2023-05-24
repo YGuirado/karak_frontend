@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 //import styles from '../styles/Meeting.module.css';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTresor, useKey, updateInventory } from '../reducers/inventory';
-import { updateMeet, removeMeet } from '../reducers/meeting';
+import { updateTresor, useKey, updateInventory, looseLife } from '../reducers/inventory';
+import { updateMeet } from '../reducers/meeting';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -129,6 +129,7 @@ function Meeting() {
                         type='button'
                         onClick={() => {
                             dispatch(updateMeet({...actualMeeting, isSkiped: true}))
+                            dispatch(looseLife(player))
                             //mettre à jour la pioche
                             setIsModalCombatOpen(false)
                             //dispatch(updateMeet({...actualMeeting, isSkiped: false}))                          
@@ -143,15 +144,11 @@ function Meeting() {
     
 
     useEffect(()=>{ 
-        console.log('actualMeeting from Meetings.js', actualMeeting)
         if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
-            console.log('coucou 1')
             setIsModalCoffreOpen(true)
         }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
             setIsModalCombatOpen(true)
-            console.log('coucou 2')
         }else if(!actualMeeting){
-            console.log('coucou 3')
             setIsModalCoffreOpen(false);
             setIsModalCombatOpen(false)
         }

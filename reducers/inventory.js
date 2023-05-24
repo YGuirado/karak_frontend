@@ -16,6 +16,14 @@ export const inventorySlice = createSlice({
     updateTresor: (state, action) => { 
         state.value[state.value.findIndex(e => e.type === action.payload)].tresor += 1;
     },
+    looseLife: (state, action) => { 
+      if(state.value[state.value.findIndex(e => e.type === action.payload)].life > 0){
+        state.value[state.value.findIndex(e => e.type === action.payload)].life -= 1;
+      }
+    },
+    restoreLife: (state, action) => { 
+        state.value[state.value.findIndex(e => e.type === action.payload)].life = 5;
+    },
     updateTresorDragon: (state, action) => { 
         state.value[state.value.findIndex(e => e.type === action.payload)].tresor += 1.5;
     },
@@ -60,5 +68,5 @@ export const inventorySlice = createSlice({
  },
 });
 
-export const { updateTresor, updateTresorDragon, useKey, updateInventory } = inventorySlice.actions;
+export const { updateTresor, updateTresorDragon, useKey, updateInventory, looseLife, restoreLife } = inventorySlice.actions;
 export default inventorySlice.reducer;
