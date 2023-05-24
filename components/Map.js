@@ -38,8 +38,7 @@ function Map() {
     {id: 2, userName: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
     {id: 3, userName: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
 
-  //states for players turn
-  const [playerTurn, setPlayerTurn] = useState(1);
+  const [playerTurn, setPlayerTurn] = useState(0);
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
 
