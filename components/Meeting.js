@@ -5,8 +5,6 @@ import { faDice, faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDi
 import { useSelector, useDispatch } from 'react-redux';
 import { useKey, updateInventory, looseLife } from '../reducers/inventory';
 import { updateMeet } from '../reducers/meeting';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDice, faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix } from '@fortawesome/free-solid-svg-icons';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -110,7 +108,7 @@ function Meeting() {
             if(dice2 === 5) setSecondDice(<FontAwesomeIcon icon={faDiceFive} color='#324E01' size='2xl'/>);
             if(dice2 === 6) setSecondDice(<FontAwesomeIcon icon={faDiceSix} color='#324E01' size='2xl'/>);
             
-            setTotalCombatDice(20);
+            setTotalCombatDice(dice1+dice2);
 
             if(inventoryPlayer.weapons[0] === 'daggers') {
                 if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceOne} color='#9F3329' size='2xl'/>, 1]);
@@ -185,7 +183,7 @@ function Meeting() {
                     <button onClick={ () => {
                         totalCombatDice > actualMeeting.meeting.strength ? 
                         (setShowLoot(true), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null])) : 
-                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), setIsModalCombatOpen(false), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer(null))
+                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), setIsModalCombatOpen(false), dispatch(looseLife(player)), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null]))
                     }}>OK</button></>}
                     </div></> )}             
                 </div>
