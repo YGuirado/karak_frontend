@@ -9,6 +9,7 @@ import { setPlayerHeroeNames, setGame } from '../reducers/games';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PusherProvider } from '@harelpls/use-pusher';
+import { initInventory } from '../reducers/inventory';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
@@ -106,6 +107,7 @@ function Gamelauncher() {
                         FRONTEND_URL + '/kArAkRePlAy/' + gameId +
                         playerHeroeNames.reduce((acc, couple) => acc + `/${couple.username}_${couple.heroe.replaceAll(' ', '_')}`, ''))
                     dispatch(setGame(data_game.game))
+                    dispatch(initInventory(data_game.game.players))
                     router.push(`/game/${gameId}`)
                 } else {
                     alert('Bad luck : Cannot get the game');

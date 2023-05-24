@@ -1,20 +1,24 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
-    value: [
-        {type: 'aderyn', powers:[null,null], tresor: 0, life: 3, weapons: ['sword','sword'], key: 1, scroll: ['magic_shot','magic_shot','magic_shot'] },
-        {type: 'argentus', powers:[null,null], tresor: 0, life: 5, weapons: ['daggers','daggers'], key: null, scroll: ['heal_portal','magic_shot',null] },
-        {type: 'taia', powers:[null,null], tresor: 0, life: 5, weapons: [null,null], key: null, scroll: ['heal_portal','heal_portal','heal_portal'] },
-        {type: 'horan', powers:[null,null], tresor: 0, life: 5, weapons: ['axe',null], key: null, scroll: [null,null,null] },
-      ],
+    value: [],
 };
+
+// {type: 'aderyn', powers:[null,null], tresor: 0, life: 3, weapons: ['sword','sword'], key: 1, scroll: ['magic_shot','magic_shot','magic_shot'] },
+// {type: 'argentus', powers:[null,null], tresor: 0, life: 5, weapons: ['daggers','daggers'], key: null, scroll: ['heal_portal','magic_shot',null] },
+// {type: 'taia', powers:[null,null], tresor: 0, life: 5, weapons: [null,null], key: null, scroll: ['heal_portal','heal_portal','heal_portal'] },
+// {type: 'horan', powers:[null,null], tresor: 0, life: 5, weapons: ['axe',null], key: null, scroll: [null,null,null] },
 
 export const inventorySlice = createSlice({
     name: 'inventory',
     initialState,
     reducers: {
+    initInventory: (state, action) => { 
+      console.log(action.payload)
+      state.value = action.payload
+    },
     updateTresor: (state, action) => { 
-        state.value[state.value.findIndex(e => e.type === action.payload)].tresor += 1;
+        state.value[state.value.findIndex(e => e.type === action.payload)].treasure += 1;
     },
     looseLife: (state, action) => { 
       if(state.value[state.value.findIndex(e => e.type === action.payload)].life > 0){
@@ -25,7 +29,7 @@ export const inventorySlice = createSlice({
         state.value[state.value.findIndex(e => e.type === action.payload)].life = 5;
     },
     updateTresorDragon: (state, action) => { 
-        state.value[state.value.findIndex(e => e.type === action.payload)].tresor += 1.5;
+        state.value[state.value.findIndex(e => e.type === action.payload)].treasure += 1.5;
     },
     useKey: (state, action) => { 
         state.value[state.value.findIndex(e => e.type === action.payload)].key = null;
@@ -68,5 +72,5 @@ export const inventorySlice = createSlice({
  },
 });
 
-export const { updateTresor, updateTresorDragon, useKey, updateInventory, looseLife, restoreLife } = inventorySlice.actions;
+export const { initInventory, updateTresor, updateTresorDragon, useKey, updateInventory, looseLife, restoreLife } = inventorySlice.actions;
 export default inventorySlice.reducer;
