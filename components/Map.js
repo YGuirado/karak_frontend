@@ -92,6 +92,7 @@ function Map() {
 
 
   useEffect(() => {
+    console.log(dataPiocheTemp)
     // dernière id, carte jouée par le joueur
     let playerTemp = JSON.parse(JSON.stringify(player))
     const previousLastTilesID = playerTemp[playerTurn].prevCoords

@@ -24,7 +24,7 @@ function Meeting() {
     const [firstDice, setFirstDice] =useState(null);
     const [secondDice, setSecondDice] =useState(null);
     const [totalCombatDice, setTotalCombatDice] = useState(null);
-    const [totalStuffOnPlayer, setTotalStuffOnPlayer] = useState(0);
+    const [totalStuffOnPlayer, setTotalStuffOnPlayer] = useState([null, null]);
     
 
     let modalStyle = {}
@@ -94,39 +94,39 @@ function Meeting() {
             const dice1 = Math.floor(Math.random() * 6) + 1;
             const dice2 = Math.floor(Math.random() * 6) + 1;
 
-            if(dice1 === 1) setFirstDice(<FontAwesomeIcon icon={faDiceOne} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice1 === 2) setFirstDice(<FontAwesomeIcon icon={faDiceTwo} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice1 === 3) setFirstDice(<FontAwesomeIcon icon={faDiceThree} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice1 === 4) setFirstDice(<FontAwesomeIcon icon={faDiceFour} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice1 === 5) setFirstDice(<FontAwesomeIcon icon={faDiceFive} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice1 === 6) setFirstDice(<FontAwesomeIcon icon={faDiceSix} style={{color: "#145d20", size: 'lg',}} />);
+            if(dice1 === 1) setFirstDice(<FontAwesomeIcon icon={faDiceOne} color='#324E01' size='2xl'/>);
+            if(dice1 === 2) setFirstDice(<FontAwesomeIcon icon={faDiceTwo} color='#324E01' size='2xl'/>);
+            if(dice1 === 3) setFirstDice(<FontAwesomeIcon icon={faDiceThree} color='#324E01' size='2xl'/>);
+            if(dice1 === 4) setFirstDice(<FontAwesomeIcon icon={faDiceFour} color='#324E01' size='2xl'/>);
+            if(dice1 === 5) setFirstDice(<FontAwesomeIcon icon={faDiceFive} color='#324E01' size='2xl'/>);
+            if(dice1 === 6) setFirstDice(<FontAwesomeIcon icon={faDiceSix} color='#324E01' size='2xl'/>);
 
-            if(dice2 === 1) setSecondDice(<FontAwesomeIcon icon={faDiceOne} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice2 === 2) setSecondDice(<FontAwesomeIcon icon={faDiceTwo} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice2 === 3) setSecondDice(<FontAwesomeIcon icon={faDiceThree} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice2 === 4) setSecondDice(<FontAwesomeIcon icon={faDiceFour} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice2 === 5) setSecondDice(<FontAwesomeIcon icon={faDiceFive} style={{color: "#145d20", size: 'lg',}} />);
-            if(dice2 === 6) setSecondDice(<FontAwesomeIcon icon={faDiceSix} style={{color: "#145d20", size: 'lg',}} />);
+            if(dice2 === 1) setSecondDice(<FontAwesomeIcon icon={faDiceOne} color='#324E01' size='2xl'/>);
+            if(dice2 === 2) setSecondDice(<FontAwesomeIcon icon={faDiceTwo} color='#324E01' size='2xl'/>);
+            if(dice2 === 3) setSecondDice(<FontAwesomeIcon icon={faDiceThree} color='#324E01' size='2xl'/>);
+            if(dice2 === 4) setSecondDice(<FontAwesomeIcon icon={faDiceFour} color='#324E01' size='2xl'/>);
+            if(dice2 === 5) setSecondDice(<FontAwesomeIcon icon={faDiceFive} color='#324E01' size='2xl'/>);
+            if(dice2 === 6) setSecondDice(<FontAwesomeIcon icon={faDiceSix} color='#324E01' size='2xl'/>);
             
             setTotalCombatDice(20);
 
             if(inventoryPlayer.weapons[0] === 'daggers') {
-                if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer(1);
-                else if (inventoryPlayer.weapons[1] === 'daggers') setTotalStuffOnPlayer(2);
-                else if (inventoryPlayer.weapons[1] === 'sword') setTotalStuffOnPlayer(3);
-                else if (inventoryPlayer.weapons[1] === 'axe') setTotalStuffOnPlayer(4);
+                if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceOne} color='#9F3329' size='2xl'/>, 1]);
+                else if (inventoryPlayer.weapons[1] === 'daggers') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceTwo} color='#9F3329' size='2xl'/>, 2]);
+                else if (inventoryPlayer.weapons[1] === 'sword') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceThree} color='#9F3329' size='2xl'/>, 3]);
+                else if (inventoryPlayer.weapons[1] === 'axe') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceFour} color='#9F3329' size='2xl'/>, 4]);
             }
             else if(inventoryPlayer.weapons[0] === 'sword') {
-                if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer(2);
-                else if (inventoryPlayer.weapons[1] === 'daggers') setTotalStuffOnPlayer(3);
-                else if (inventoryPlayer.weapons[1] === 'sword') setTotalStuffOnPlayer(4);
-                else if (inventoryPlayer.weapons[1] === 'axe') setTotalStuffOnPlayer(5);
+                if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceTwo} color='#9F3329' size='2xl'/>, 2]);
+                else if (inventoryPlayer.weapons[1] === 'daggers') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceThree} color='#9F3329' size='2xl'/>, 3]);
+                else if (inventoryPlayer.weapons[1] === 'sword') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceFour} color='#9F3329' size='2xl'/>, 4]);
+                else if (inventoryPlayer.weapons[1] === 'axe') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceFive} color='#9F3329' size='2xl'/>, 5]);
             }
             else if(inventoryPlayer.weapons[0] === 'axe') {
-                if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer(3);
-                else if (inventoryPlayer.weapons[1] === 'daggers') setTotalStuffOnPlayer(4);
-                else if (inventoryPlayer.weapons[1] === 'sword') setTotalStuffOnPlayer(5);
-                else if (inventoryPlayer.weapons[1] === 'axe') setTotalStuffOnPlayer(6);
+                if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceThree} color='#9F3329' size='2xl'/>, 3]);
+                else if (inventoryPlayer.weapons[1] === 'daggers') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceFour} color='#9F3329' size='2xl'/>, 4]);
+                else if (inventoryPlayer.weapons[1] === 'sword') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceFive} color='#9F3329' size='2xl'/>, 5]);
+                else if (inventoryPlayer.weapons[1] === 'axe') setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceSix} color='#9F3329' size='2xl'/>, 6]);
             }           
 
         }
@@ -167,25 +167,23 @@ function Meeting() {
                                 setFirstDice(null),
                                 setSecondDice(null),
                                 setTotalCombatDice(null),
-                                setTotalStuffOnPlayer(0))
+                                setTotalStuffOnPlayer([null, null]))
                             }}
                         >
                         Ramasse ton loot
                     </button></div>) : (<>
-                        {showButton && <FontAwesomeIcon icon={faDice} shake style={{size: 'lg',}} 
+                        {showButton && <FontAwesomeIcon icon={faDice} shake color='#312F2C' size='2xl'
                         onClick={() =>{ rollDice(), setShowButton(!showButton)}}/>}
                     <div>
-                    {firstDice}
-                    {secondDice}
-                    {/* <div>Bonus équipement: {totalStuffOnPlayer} </div>
-                    <div>Résultat combat: {totalCombatDice+totalStuffOnPlayer}</div> */}
+                    {firstDice}&nbsp;
+                    {secondDice}&nbsp;
+                    {totalStuffOnPlayer[0]}
                     {!showButton &&<>
-                    <div>Bonus équipement: {totalStuffOnPlayer} </div>
-                    <div>Résultat combat: {totalCombatDice+totalStuffOnPlayer}</div>
+                    <div>Résultat combat: {totalCombatDice + totalStuffOnPlayer[1]}</div>
                     <button onClick={ () => {
                         totalCombatDice > actualMeeting.meeting.strength ? 
-                        (setShowLoot(true), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer(0)) : 
-                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), setIsModalCombatOpen(false), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer(0))
+                        (setShowLoot(true), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null])) : 
+                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), setIsModalCombatOpen(false), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer(null))
                     }}>OK</button></>}
                     </div></> )}             
                 </div>
@@ -193,21 +191,32 @@ function Meeting() {
         )
     }
 
+    let playersScore = [];
     for(let i=0; i<inventory.length; i++){
-        let playersScore = <div>{inventory[i].type} tresor: {inventory[i].tresor}</div>
+        playersScore.push(
+        <div style={{display: 'flex', width: '100%', marginLeft: '40px', marginTop: '0px', alignItems: 'center',}}>
+            <Image 
+                key={i}
+                alt={inventory[i].type} 
+                width={72}
+                height={72}
+                style={{ borderRadius: '15%' }}
+                src={`/heros/${inventory[i].type}.png`}
+            />
+            <p style={{ marginLeft: '20px', marginTop: '10px', marginBottom: '10px', width: '100px', fontFamily: 'Permanent Marker', fontSize: '20px'}}>{inventory[i].username}</p>
+            <p style={{ marginLeft: '20px', marginTop: '10px', marginBottom: '10px', width: '60px', height: '60px', backgroundColor: '#E6A840', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'Permanent Marker', fontSize: '20px'}}>{inventory[i].treasure}</p>
+        </div>
+        )
+        playersScore.sort()
     }
 
     let scoreBoard;
     if(showScoreBoard) {
         scoreBoard = (
             <div style={{ marginLeft: "-20px", top: '1px', position: 'absolute', backgroundColor: '#E8E7DD', height: '60vh', width: '100%', display: 'flex', borderBottomRightRadius:' 20px',borderBottomLeftRadius: '20px', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
-                <div>Player1 tresors : 15</div>
-                <div>Player2 tresors : 15</div>
-                <div>Player3 tresors : 15</div>
-                <div>Player4 tresors : 15</div>
-                <div>Player5 tresors : 15</div>
+                {playersScore}
                 <button>Nouvelle partie</button>
-                </div>
+            </div>
         );
     }
     
