@@ -108,7 +108,7 @@ function Meeting() {
             if(dice2 === 5) setSecondDice(<FontAwesomeIcon icon={faDiceFive} color='#324E01' size='2xl'/>);
             if(dice2 === 6) setSecondDice(<FontAwesomeIcon icon={faDiceSix} color='#324E01' size='2xl'/>);
             
-            setTotalCombatDice(dice1+dice2);
+            setTotalCombatDice(dice1 + dice2);
 
             if(inventoryPlayer.weapons[0] === 'daggers') {
                 if(inventoryPlayer.weapons[1] === null) setTotalStuffOnPlayer([<FontAwesomeIcon icon={faDiceOne} color='#9F3329' size='2xl'/>, 1]);
@@ -183,7 +183,7 @@ function Meeting() {
                     <button onClick={ () => {
                         totalCombatDice > actualMeeting.meeting.strength ? 
                         (setShowLoot(true), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null])) : 
-                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), setIsModalCombatOpen(false), dispatch(looseLife(player)), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null]))
+                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), dispatch(looseLife(player)), setIsModalCombatOpen(false), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null,null]))
                     }}>OK</button></>}
                     </div></> )}             
                 </div>
@@ -192,22 +192,23 @@ function Meeting() {
     }
 
     let playersScore = [];
-    for(let i=0; i<inventory.length; i++){
+    const inventoryTemp = [...inventory]
+    const sortedScore = inventoryTemp.sort((a,b) =>  b.treasure - a.treasure)
+    for(let i=0; i<sortedScore.length; i++){
         playersScore.push(
         <div style={{display: 'flex', width: '100%', marginLeft: '40px', marginTop: '0px', alignItems: 'center',}}>
             <Image 
                 key={i}
-                alt={inventory[i].type} 
+                alt={sortedScore[i].type} 
                 width={72}
                 height={72}
                 style={{ borderRadius: '15%' }}
-                src={`/heros/${inventory[i].type}.png`}
+                src={`/heros/${sortedScore[i].type}.png`}
             />
-            <p style={{ marginLeft: '20px', marginTop: '10px', marginBottom: '10px', width: '100px', fontFamily: 'Permanent Marker', fontSize: '20px'}}>{inventory[i].username}</p>
-            <p style={{ marginLeft: '20px', marginTop: '10px', marginBottom: '10px', width: '60px', height: '60px', backgroundColor: '#E6A840', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'Permanent Marker', fontSize: '20px'}}>{inventory[i].treasure}</p>
+            <p style={{ marginLeft: '20px', marginTop: '10px', marginBottom: '10px', width: '100px', fontFamily: 'Permanent Marker', fontSize: '20px'}}>{sortedScore[i].username}</p>
+            <p style={{ marginLeft: '20px', marginTop: '10px', marginBottom: '10px', width: '60px', height: '60px', backgroundColor: '#E6A840', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontFamily: 'Permanent Marker', fontSize: '20px'}}>{sortedScore[i].treasure}</p>
         </div>
         )
-        playersScore.sort()
     }
 
     let scoreBoard;
