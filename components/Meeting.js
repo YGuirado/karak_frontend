@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 //import styles from '../styles/Meeting.module.css';
 import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDice, faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { useKey, updateInventory, looseLife } from '../reducers/inventory';
 import { updateMeet } from '../reducers/meeting';
