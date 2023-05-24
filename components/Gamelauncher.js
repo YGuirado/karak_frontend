@@ -130,7 +130,7 @@ function Gamelauncher() {
                 subscription.bind('message', handleReceiveMessage);
             });
 
-            return () => fetch(`${BACKEND_ADDRESS}/users/${playerNames_local}`, { method: 'DELETE' });
+            return () => fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'DELETE' });
         }, [pusherUser]);
 
         const handleReceiveMessage = (data) => {
