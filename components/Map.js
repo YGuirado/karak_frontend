@@ -22,11 +22,14 @@ function Map() {
   const dataEmpty = {type: 'empty',  "isRotate": false, "rotation": 0, tile:{img: '/tiles/empty.png', data: [0,0,0,0], type: 'empty'}}
 
   
-  //const dataStart = {type: 'start', "meeting": false, data: [1,1,1,1], "isRotate": true, "rotation": 0, img: 'depart_fountain-1111'}
-
+  //data tuiles
   let dataPioche = useSelector((state) => state.games.game.tiles)
   const [dataPiocheTemp, setDataPiocheTemp] = useState(dataPioche)
-  const [playedCoords, setPlayedCoords ] = useState([`${rowmid};${colmid}`]);
+  let playedCoordsTemp = [];
+  dataPiocheTemp.filter( e => { if(e.isPlayed !== null) playedCoordsTemp.push(e.isPlayed)  } )
+  const [playedCoords, setPlayedCoords ] = useState(playedCoordsTemp);
+
+  
 
   //data to catch from DB
   const [player, setPlayer] = useState([
@@ -96,8 +99,6 @@ function Map() {
 
 
   useEffect(() => {
-    //console.log(dataPioche)
-
     // dernière id, carte jouée par le joueur
     const previousLastTilesID = player.find((player) => player.id === playerTurn).prevCoords
     const previousCoords = previousLastTilesID.split(';');
@@ -227,12 +228,20 @@ function Map() {
     
     if(!playedCoords.includes(id)) {
       setPlayedCoords([...playedCoords, id]);
+      let pioche = JSON.parse(JSON.stringify(dataPiocheTemp))
+      let i = playedCoords.length;
+      pioche[i].isPlayed = id;
+      setDataPiocheTemp(pioche);
       setIsOpen(true)
     }
     
     //ajouter les coordonnées de la dernière carte jouée à l'ensemble des cartes jouées
     if(!playedCoords.includes(id)) {
       setPlayedCoords([...playedCoords, id])
+      let pioche = JSON.parse(JSON.stringify(dataPiocheTemp))
+      let i = playedCoords.length;
+      pioche[i].isPlayed = id;
+      setDataPiocheTemp(pioche);
     };
 
     //attribuer les coordonnées de la dernière carte jouée par chaque joueur

@@ -68,6 +68,19 @@ function Inventory() {
     
   }
 
+  //gestion des pouvoirs
+  let powers = [];
+  //for(let i=0; i<inventoryPlayers.length; i++){
+    for(let j=0; j<2; j++){
+      powers.push(
+        <img
+            style={{width: '35px', margin: '10%'}}
+            src={`/inventory/pouvoirs/${inventoryPlayer.type}_${j +1}.png`}
+        />
+      )
+    }
+  //}
+
   const weaponsStyle = [{backgroundImage: 'url(/inventory/weapon.png)',backgroundSize: 'contain'},{backgroundImage: 'url(/inventory/weapon.png)',backgroundSize: 'contain'}];
   for(let i=0; i<inventoryPlayer.weapons.length; i++){
     if(inventoryPlayer.weapons[i]){
@@ -109,14 +122,7 @@ function Inventory() {
         </div>
 
         <div className={styles.pouvoirs}>
-          <img
-            style={{width: '35px', margin: '10%'}}
-            src={`/inventory/pouvoirs/horan-1.png`}
-          />
-          <img
-            style={{width: '35px', margin: '10%'}}
-            src={`/inventory/pouvoirs/horan-2.png`}
-          />
+          {powers}
           <p className='tresor' style={{width: '35px', height: '35px', margin: '10%', backgroundColor: '#E6A840', borderRadius: '50%', textAlign: 'center', paddingTop:'5px',fontSize: '16px', fontFamily: 'Permanent Marker'}}>
             {inventoryPlayer.tresor}
           </p>
