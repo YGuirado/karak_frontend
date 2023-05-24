@@ -9,6 +9,7 @@ import { setPlayerHeroeNames, setGame } from '../reducers/games';
 import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import { PusherProvider } from '@harelpls/use-pusher';
+import { initInventory } from '../reducers/inventory';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
@@ -106,6 +107,7 @@ function Gamelauncher() {
                         FRONTEND_URL + '/kArAkRePlAy/' + gameId +
                         playerHeroeNames.reduce((acc, couple) => acc + `/${couple.username}_${couple.heroe.replaceAll(' ', '_')}`, ''))
                     dispatch(setGame(data_game.game))
+                    dispatch(initInventory(data_game.game.players))
                     router.push(`/game/${gameId}`)
                 } else {
                     alert('Bad luck : Cannot get the game');
@@ -117,85 +119,101 @@ function Gamelauncher() {
 
     //copié-collé à travailler pour Pusher :
 
-  //  export default function ChatScreen({ navigation, route: { params } }) {
-        const [messages, setMessages] = useState([]);
-        const [messageText, setMessageText] = useState('');
-        const pusherUser = useSelector((state) => state.games.playerNames_local[0]);
+    //  export default function ChatScreen({ navigation, route: { params } }) {
+    // const [messages, setMessages] = useState([]);
+    // const [messageText, setMessageText] = useState('');
+    const pusherUser = useSelector((state) => state.games.playerNames_local[0]);
 
-        useEffect(() => {
-            fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'PUT' });
+    useEffect(() => {
+        fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'PUT' });
+        console.log('Mount after fetch');
 
-            const subscription = pusher.subscribe('chat');
-            subscription.bind('pusher:subscription_succeeded', () => {
-                subscription.bind('message', handleReceiveMessage);
-            });
+        const subscription = pusher.subscribe('karak-development');
+        subscription.bind('pusher:subscription_succeeded', () => {
+            subscription.bind('message', handleReceiveMessage);
+        });
 
-            return () => fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`, { method: 'DELETE' });
-        }, [pusherUser]);
-
-        const handleReceiveMessage = (data) => {
-            //setMessages(messages => [...messages, data]);
-        };
-
-        const handleSendMessage = () => {
-            if (!messageText) {
-                return;
+        pusher.log = (message) => {
+            if (window.console && window.console.log) {
+                window.console.log('it\'s a pusher.log: ', message);
             }
-
-            const payload = {
-                text: messageText,
-                username: params.username,
-                createdAt: new Date(),
-                id: Math.floor(Math.random() * 100000),
-            };
-
-            fetch(`${BACKEND_ADDRESS}/message`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-            });
-
-            setMessageText('');
         };
-        //Fin du copié-collé pour Pusher
 
-        const karakCircularProgress = styled(CircularProgress)({ color: "#324E01" })
+        return () => fetch(`${BACKEND_ADDRESS}/users/${pusherUser}`,
+            { method: 'DELETE' });
+    }, [pusherUser]);
 
-        return (
-            <div className={styles.container}>
+    const handleReceiveMessage = (data) => {
+        console.log('Entry in handleReceiveMessage, messages added:  ', data);
+        // setMessages(messages => [...messages, data]);
+    };
 
-                <div className={styles.headerContainer}>
-                    <span className={styles.logoLetter}>K</span>
-                    <p className={styles.headerText}>En attente des joueurs</p>
-                </div>
+    const handleSendMessage = (message) => {
+        if (!message) {
+            return;
+        }
 
-                <div className={styles.subContainer}>
+        const payload = {
+            text: message,
+            username: pusherUser,
+            createdAt: new Date(),
+            id: Math.floor(Math.random() * 100000),
+        };
+        console.log('Fetch/POST the message to backend, payload: ', payload);
+        fetch(`${BACKEND_ADDRESS}/users/${pusherUser}/messages`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
 
-                    <div className={styles.urlSection}>
-                        <CircularProgress sx={{ color: '#324E01' }} />
-                        <span className={styles.h2}>
-                            {nbJoueurs} joueurs ont rejoint la partie
-                        </span>
+        // setMessageText('');
+    };
+    //Fin du copié-collé pour Pusher
 
-                        {gamecreator &&
-                            (<div title="Démarrer la partie"  >
-                                <button onClick={handleStartGame} className={styles.largeBtn}>
-                                    <span>Démarrer à {nbJoueurs}</span>
-                                </button>
-                            </div>)
-                        }
-                        <div>
-                            {playerHeroeNames_jsx}
-                        </div>
+    const karakCircularProgress = styled(CircularProgress)({ color: "#324E01" })
+
+    const testPusher = true
+    return (
+        <div className={styles.container}>
+
+            <div className={styles.headerContainer}>
+                <span className={styles.logoLetter}>K</span>
+                <p className={styles.headerText}>En attente des joueurs</p>
+            </div>
+
+            <div className={styles.subContainer}>
+
+                <div className={styles.urlSection}>
+                    <CircularProgress sx={{ color: '#324E01' }} />
+                    <span className={styles.h2}>
+                        {nbJoueurs} joueurs ont rejoint la partie
+                    </span>
+
+                    {gamecreator &&
+                        (<div title="Démarrer la partie"  >
+                            <button onClick={handleSendMessage('test pusher')} className={styles.largeBtn}>
+                                <span>{nbJoueurs}</span>
+                            </button>
+                        </div>)
+                    }
+                    <div>
+                        {playerHeroeNames_jsx}
                     </div>
-
+                    {testPusher &&
+                        (<div title="test pusher"  >
+                            <button onClick={handleStartGame} className={styles.largeBtn}>
+                            </button>
+                        </div>)
+                    }
                 </div>
 
             </div>
 
+        </div>
 
 
-        )
-    };
 
-    export default Gamelauncher;
+    )
+};
+
+export default Gamelauncher;

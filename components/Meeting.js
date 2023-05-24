@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 //import styles from '../styles/Meeting.module.css';
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateTresor, useKey, updateInventory } from '../reducers/inventory';
-import { updateMeet, removeMeet } from '../reducers/meeting';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDice, faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix } from '@fortawesome/free-solid-svg-icons';
+import { useKey, updateInventory, looseLife } from '../reducers/inventory';
+import { updateMeet } from '../reducers/meeting';
 
 function Meeting() {
     const dispatch = useDispatch();
@@ -51,9 +49,8 @@ function Meeting() {
                         onClick={() => {
                             if(inventoryPlayer.key){
                                 dispatch(useKey(player))
-                                dispatch(updateTresor(player))
+                                dispatch(updateInventory({loot: actualMeeting.meeting.loot, player}))
                                 dispatch(updateMeet({...actualMeeting, isResolved: true}))
-                                //mettre à jour la pioche
                                 setIsModalCoffreOpen(false)
                             }
                         }}
