@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 // import { RelaunchGame } from '../../../components/RelaunchGame'
@@ -42,9 +43,8 @@ export default function RelaunchGame() {
         // console.log('temp_array: ', temp_array);
         dispatch(addPlayerNames_local(temp_array))
         dispatch(setPlayerHeroeNames(couples.map(cc => {
-            const dd = cc.slice(1, -1)
             // {username:..., heroe:...}
-            return { username: dd.split('_')[0], heroe: dd.split('_')[1] }
+            return { username: cc.split('_')[0], heroe: cc.split('_').slice(1).join(' ') }
         })))
 
         fetch(BACKEND_URL + '/getGame', {
