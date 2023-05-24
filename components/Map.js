@@ -29,25 +29,19 @@ function Map() {
   dataPiocheTemp.filter( e => { if(e.isPlayed !== null) playedCoordsTemp.push(e.isPlayed)  } )
   const [playedCoords, setPlayedCoords ] = useState(playedCoordsTemp);
 
-  //data to catch from DB
-  let playerTemp = useSelector((state) => state.games.game.players) // lecture de la DB via redux
-  const [player, setPlayer] = useState(playerTemp)
-  // const [player, setPlayer] = useState([
-  //   {id: 0, username: "Yo", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "aderyn"}, 
-  //   {id: 1, username: "Sam", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "argentus"}, 
-  //   {id: 2, username: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
-  //   {id: 3, username: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
-
-  const [playerTurn, setPlayerTurn] = useState(0);
-  const [mooves, setMooves] = useState(0);
-  const [nbTours, setNbTours] = useState(1);
-
   //states for tiles rotation
   const [isOpen, setIsOpen] = useState(false); 
   const [rotation, setRotation] = useState(0);
   const [isRotationValid, setIsRotationValid] = useState(false);
-  
-  //meetings
+
+  //data players
+  let playerTemp = useSelector((state) => state.inventory.value) // lecture de la DB via redux
+  const [player, setPlayer] = useState(playerTemp)
+  const [playerTurn, setPlayerTurn] = useState(0);
+  const [mooves, setMooves] = useState(0);
+  const [nbTours, setNbTours] = useState(1);
+
+  //data meetings
   let meetingReducer = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords))
   let isMeetingResolved = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isResolved)
   let isMeetingSkiped = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isSkiped)
@@ -251,17 +245,6 @@ function Map() {
     playerTemp[playerTurn].prevCoords = playerTemp[playerTurn].coords;
     playerTemp[playerTurn].coords = id;
     setPlayer(playerTemp);
-
-    // player[playerTurn].prevCoords = player.coords;
-    // player[playerTurn].coords = id;
-    // const allPlayers = player;
-    // allPlayers.filter((player) => {
-    //   if(player.id === playerTurn){
-    //     player.prevCoords = player.coords;
-    //     player.coords = id;
-    //   }
-    // })
-    //setPlayer([... allPlayers]);
   };
 
   const carte = []
