@@ -23,39 +23,33 @@ function Map() {
 
   
   //data tuiles
-  let dataPioche = useSelector((state) => state.games.game.tiles)
+  let dataPioche = useSelector((state) => state.games.game.tiles) // lecture de la DB via redux
   const [dataPiocheTemp, setDataPiocheTemp] = useState(dataPioche)
   let playedCoordsTemp = [];
   dataPiocheTemp.filter( e => { if(e.isPlayed !== null) playedCoordsTemp.push(e.isPlayed)  } )
   const [playedCoords, setPlayedCoords ] = useState(playedCoordsTemp);
 
-  
-
-  //data to catch from DB
-  const [player, setPlayer] = useState([
-    {id: 0, userName: "Yo", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "aderyn"}, 
-    {id: 1, userName: "Sam", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "argentus"}, 
-    {id: 2, userName: "Katy", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "taia"}, 
-    {id: 3, userName: "Marc", coords: `${rowmid};${colmid}`, prevCoords: `${rowmid};${colmid}`, type: "horan"}]);
-
-  const [playerTurn, setPlayerTurn] = useState(0);
-  const [mooves, setMooves] = useState(0);
-  const [nbTours, setNbTours] = useState(1);
-
   //states for tiles rotation
   const [isOpen, setIsOpen] = useState(false); 
   const [rotation, setRotation] = useState(0);
   const [isRotationValid, setIsRotationValid] = useState(false);
-  
-  //meetings
+
+  //data players
+  let playerTemp = useSelector((state) => state.inventory.value) // lecture de la DB via redux
+  const [player, setPlayer] = useState(playerTemp)
+  const [playerTurn, setPlayerTurn] = useState(0);
+  const [mooves, setMooves] = useState(0);
+  const [nbTours, setNbTours] = useState(1);
+
+  //data meetings
   let meetingReducer = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords))
   let isMeetingResolved = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isResolved)
   let isMeetingSkiped = useSelector((state) => state.meeting.value.find(e => e.coords === player[playerTurn].coords)?.isSkiped)
   let meeting = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting
 
   //powers identification
-  const isArgentus = (player[playerTurn].type === 'argentus');
-  const isAderyn = (player[playerTurn].type === 'aderyn');
+  const isArgentus = (player[playerTurn].type === 'Argentus');
+  const isAderyn = (player[playerTurn].type === 'Aderyn');
   
 
   if(mooves >= 4){
@@ -93,16 +87,18 @@ function Map() {
   if(!isOpen && meeting?.mob === 'closed_chest' && !isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
   if(!isOpen && meeting && (isAderyn && mooves < 4)) msg = 'Combats ou continues d’avancer..';
   if(!isOpen && meeting?.mob === 'closed_chest' && isAderyn) msg = 'Ouvres le coffre ou continues d’avancer..';
-  dispatch( pushInfo( {userName: player[playerTurn].userName, type:player[playerTurn].type, nbTours, mooves, msg} ) );
+  dispatch( pushInfo( {username: player[playerTurn].username, type:player[playerTurn].type, nbTours, mooves, msg} ) );
   dispatch( pushPosition( {position: player[playerTurn].coords} ) )
 
 
   useEffect(() => {
     // dernière id, carte jouée par le joueur
-    const previousLastTilesID = player.find((player) => player.id === playerTurn).prevCoords
-    const previousCoords = previousLastTilesID.split(';');
+    let playerTemp = JSON.parse(JSON.stringify(player))
+    const previousLastTilesID = playerTemp[playerTurn].prevCoords
+    const previousCoords = playerTemp[playerTurn].prevCoords.split(';');
+
     // avant-dernière id, carte jouée par le joueur
-    const lastTileID = player.find((player) => player.id === playerTurn).coords; 
+    const lastTileID = player[playerTurn].coords; 
     const coords = lastTileID.split(';');
     const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].tile.data
     
@@ -209,6 +205,7 @@ function Map() {
   }
   
   const onTileClick = (id) => {
+    console.log('click on', id)
     //fonctionnalité dégradée life fountain
     if(playedCoords.includes(id) && dataPiocheTemp[playedCoords.findIndex(coord => coord === id)].tile.specificity === 'fountain'){
       dispatch(restoreLife(player[playerTurn].type))
@@ -244,14 +241,10 @@ function Map() {
     };
 
     //attribuer les coordonnées de la dernière carte jouée par chaque joueur
-    const allPlayers = player;
-    allPlayers.filter((player) => {
-      if(player.id === playerTurn){
-        player.prevCoords = player.coords;
-        player.coords = id;
-      }
-    })
-    setPlayer([... allPlayers]);
+    let playerTemp = JSON.parse(JSON.stringify(player))
+    playerTemp[playerTurn].prevCoords = playerTemp[playerTurn].coords;
+    playerTemp[playerTurn].coords = id;
+    setPlayer(playerTemp);
   };
 
   const carte = []
@@ -273,7 +266,7 @@ function Map() {
         const portals = playedCoords.map((e,i)=> {return {isPortal: (dataPiocheTemp[i].tile.specificity === 'portal'), portalCoords: e }})
         const lastTile = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)]
         const lastTileData = dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].tile.data
-        const lastTileID = player.find((player) => player.id === playerTurn).coords;
+        const lastTileID = player[playerTurn].coords;
         const coords = lastTileID.split(';');
         const x = Number(coords[0])
         const y = Number(coords[1])

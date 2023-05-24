@@ -17,7 +17,7 @@ function Header() {
   return (
     <div>
         <div className={styles.player} style={{color: `${color}`}}>
-            {info.userName}
+            {info.username}
         </div>
         <div className={styles.tour}>
             Tour {info.nbTours} &rsaquo; Deplacement {info.mooves}/4
