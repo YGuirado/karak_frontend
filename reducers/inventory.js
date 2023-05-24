@@ -17,9 +17,6 @@ export const inventorySlice = createSlice({
       console.log(action.payload)
       state.value = action.payload
     },
-    updateTresor: (state, action) => { 
-        state.value[state.value.findIndex(e => e.type === action.payload)].treasure += 1;
-    },
     looseLife: (state, action) => { 
       if(state.value[state.value.findIndex(e => e.type === action.payload)].life > 0){
         state.value[state.value.findIndex(e => e.type === action.payload)].life -= 1;
@@ -27,9 +24,6 @@ export const inventorySlice = createSlice({
     },
     restoreLife: (state, action) => { 
         state.value[state.value.findIndex(e => e.type === action.payload)].life = 5;
-    },
-    updateTresorDragon: (state, action) => { 
-        state.value[state.value.findIndex(e => e.type === action.payload)].treasure += 1.5;
     },
     useKey: (state, action) => { 
         state.value[state.value.findIndex(e => e.type === action.payload)].key = null;
@@ -51,9 +45,9 @@ export const inventorySlice = createSlice({
             playerIndex.key = action.payload.loot;
             }
         } else if(action.payload.loot === 'open_chest'){
-            playerIndex.tresor += 1
+            playerIndex.treasure += 1
         } else if(action.payload.loot === 'dragon_open_chest'){
-            playerIndex.tresor += 1.5
+            playerIndex.treasure += 1.5
         } else{
             const emptySlotIndex = playerIndex.weapons.findIndex(weapons => weapons === null);
               if (emptySlotIndex !== -1) {
