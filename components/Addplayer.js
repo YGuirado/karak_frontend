@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { RWebShare } from "react-web-share";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL; 
 const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
 function ValueLabelComponent(props) {
@@ -223,7 +223,7 @@ slider : le mettre au nbr de joueurs inscrits +1
       <div className={styles.playersNames}>
         {playerInputs}
         <div>
-          <button onClick={() => handleLaunchGame()} className={styles.mediumBtn}><span>Lancer la partie</span></button>
+          <button onClick={() => handleLaunchGame()} className={styles.largeBtn}><span>Lancer la partie</span></button>
         </div>
         <div>
           {playerHeroeNames_jsx}
