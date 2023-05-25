@@ -5,8 +5,10 @@ import { useKey, updateInventory, looseLife } from '../reducers/inventory';
 import { updateMeet } from '../reducers/meeting';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDice, faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 function Meeting() {
+    const router = useRouter()
     const dispatch = useDispatch();
     const meeting = useSelector((state) => state.meeting.value);
     const player = useSelector((state) => state.header.value.type);
