@@ -1,7 +1,153 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 
 const initialState = {
-    value: [],
+    value: [
+      {
+        "player": {
+          "_id": "646b4fe7f17a77f407ade982",
+          "name": "Aderyn",
+          "powers": [
+            "attack_from_behind",
+            "crawled_walk"
+          ]
+        },
+        "type": "Aderyn",
+        "username": "",
+        "turn": false,
+        "life": 5,
+        "weapons": [
+          null,
+          null
+        ],
+        "key": null,
+        "scroll": [
+          null,
+          null,
+          null
+        ],
+        "treasure": 0,
+        "malediction": false,
+        "coords": "20;20",
+        "prevCoords": "20;20",
+        "_id": "646f046920e995a47c6be17f"
+      },
+      {
+        "player": {
+          "_id": "646b4fe7f17a77f407ade981",
+          "name": "Horan",
+          "powers": [
+            "double_attack",
+            "reincarnation"
+          ]
+        },
+        "type": "Horan",
+        "username": "",
+        "turn": false,
+        "life": 5,
+        "weapons": [
+          null,
+          null
+        ],
+        "key": null,
+        "scroll": [
+          null,
+          null,
+          null
+        ],
+        "treasure": 0,
+        "malediction": false,
+        "coords": "20;20",
+        "prevCoords": "20;20",
+        "_id": "646f046920e995a47c6be180"
+      },
+      {
+        "player": {
+          "_id": "646b4fe7f17a77f407ade983",
+          "name": "Lord-Xanros",
+          "powers": [
+            "Sacrifice",
+            "Substitution"
+          ]
+        },
+        "type": "Lord-Xanros",
+        "username": "",
+        "turn": false,
+        "life": 5,
+        "weapons": [
+          null,
+          null
+        ],
+        "key": null,
+        "scroll": [
+          null,
+          null,
+          null
+        ],
+        "treasure": 0,
+        "malediction": false,
+        "coords": "20;20",
+        "prevCoords": "20;20",
+        "_id": "646f046920e995a47c6be181"
+      },
+      {
+        "player": {
+          "_id": "646b4fe7f17a77f407ade985",
+          "name": "Taia",
+          "powers": [
+            "premonition",
+            "fate_weaver"
+          ]
+        },
+        "type": "Taia",
+        "username": "",
+        "turn": false,
+        "life": 5,
+        "weapons": [
+          null,
+          null
+        ],
+        "key": null,
+        "scroll": [
+          null,
+          null,
+          null
+        ],
+        "treasure": 0,
+        "malediction": false,
+        "coords": "20;20",
+        "prevCoords": "20;20",
+        "_id": "646f046920e995a47c6be182"
+      },
+      {
+        "player": {
+          "_id": "646b4fe7f17a77f407ade984",
+          "name": "Victorius",
+          "powers": [
+            "combat_trainer",
+            "unstoppable"
+          ]
+        },
+        "type": "Victorius",
+        "username": "",
+        "turn": false,
+        "life": 5,
+        "weapons": [
+          null,
+          null
+        ],
+        "key": null,
+        "scroll": [
+          null,
+          null,
+          null
+        ],
+        "treasure": 0,
+        "malediction": false,
+        "coords": "20;20",
+        "prevCoords": "20;20",
+        "_id": "646f046920e995a47c6be183"
+      }
+    ],
 };
 
 // {type: 'aderyn', powers:[null,null], tresor: 0, life: 3, weapons: ['sword','sword'], key: 1, scroll: ['magic_shot','magic_shot','magic_shot'] },

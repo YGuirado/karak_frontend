@@ -26,8 +26,7 @@ function Map() {
   let dataPioche = useSelector((state) => state.games.game.tiles) // lecture de la DB via redux
   const [dataPiocheTemp, setDataPiocheTemp] = useState(dataPioche)
   let playedCoordsTemp = [];
-  let pioche = JSON.parse(JSON.stringify(dataPiocheTemp));
-  pioche.filter( e => { if(e.isPlayed !== null) playedCoordsTemp.push(e.isPlayed)  } )
+  dataPiocheTemp.filter( e => { if(e.isPlayed !== null) playedCoordsTemp.push(e.isPlayed)  } )
   const [playedCoords, setPlayedCoords ] = useState(playedCoordsTemp);
 
   //states for tiles rotation

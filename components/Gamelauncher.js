@@ -12,7 +12,7 @@ import Pusher from 'pusher-js';
 import { initInventory } from '../reducers/inventory';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-//const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
 const pusher = new Pusher('2945f99e59578cb5c02a', { cluster: 'eu' });
 const BACKEND_ADDRESS = BACKEND_URL;
@@ -104,9 +104,9 @@ function Gamelauncher() {
             .then(data_game => {
                 if (data_game.result === true) {
                     console.log(data_game.game);
-                    // console.log('To restart game: \n',
-                    //     FRONTEND_URL + '/kArAkRePlAy/' + gameId +
-                    //     playerHeroeNames.reduce((acc, couple) => acc + `/${couple.username}_${couple.heroe.replaceAll(' ', '_')}`, ''))
+                    console.log('To restart game: \n',
+                        FRONTEND_URL + '/kArAkRePlAy/' + gameId +
+                        playerHeroeNames.reduce((acc, couple) => acc + `/${couple.username}_${couple.heroe.replaceAll(' ', '_')}`, ''))
                     dispatch(setGame(data_game.game))
                     dispatch(initInventory(data_game.game.players))
                     router.push(`/game/${gameId}`)
