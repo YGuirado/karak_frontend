@@ -181,9 +181,12 @@ function Meeting() {
                     {!showButton &&<>
                     <div>Résultat combat: {totalCombatDice + totalStuffOnPlayer[1]}</div>
                     <button onClick={ () => {
-                        totalCombatDice > actualMeeting.meeting.strength ? 
-                        (setShowLoot(true), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null])) : 
-                        (dispatch(updateMeet({...actualMeeting, isSkiped: true})), dispatch(looseLife(player)), setIsModalCombatOpen(false), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null,null]))
+                        if((totalCombatDice + totalStuffOnPlayer[1]) > actualMeeting.meeting.strength){
+                            (setShowLoot(true), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null, null]))
+                        }else{
+                            if((totalCombatDice + totalStuffOnPlayer[1]) < actualMeeting.meeting.strength){ dispatch(looseLife(player)) }
+                            (dispatch(updateMeet({...actualMeeting, isSkiped: true})), setIsModalCombatOpen(false), setShowButton(!showButton), setFirstDice(null), setSecondDice(null), setTotalCombatDice(null), setTotalStuffOnPlayer([null,null]))
+                        }
                     }}>OK</button></>}
                     </div></> )}             
                 </div>
@@ -216,22 +219,20 @@ function Meeting() {
         scoreBoard = (
             <div style={{ marginLeft: "-20px", top: '1px', position: 'absolute', backgroundColor: '#E8E7DD', height: '60vh', width: '100%', display: 'flex', borderBottomRightRadius:' 20px',borderBottomLeftRadius: '20px', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
                 {playersScore}
-                <button>Nouvelle partie</button>
+                <button onClick={router.push('/')}>
+                    Nouvelle partie
+                </button>
             </div>
         );
     }
     
 
     useEffect(()=>{ 
-        console.log('actualMeeting from Meetings.js', actualMeeting)
         if(actualMeeting && actualMeeting.meeting.mob === 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
-            console.log('coucou 1')
             setIsModalCoffreOpen(true)
         }else if(actualMeeting && actualMeeting.meeting.mob !== 'closed_chest' && !actualMeeting.isSkiped && !actualMeeting.isResolved ){
             setIsModalCombatOpen(true)
-            console.log('coucou 2')
         }else if(!actualMeeting){
-            console.log('coucou 3')
             setIsModalCoffreOpen(false);
             setIsModalCombatOpen(false)
         }

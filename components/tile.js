@@ -10,11 +10,11 @@ function Tile(props) {
     )
   }
 
-  let debug = false; 
+  let debug = true; 
   let debugInfo;
   if(debug) {
     if(props.card.meeting){
-      console.log(props.card.meeting.mob)
+      console.log(props.id, props.card.meeting.mob)
     }
 
     debugInfo = (

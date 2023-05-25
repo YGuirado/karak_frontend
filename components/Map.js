@@ -36,8 +36,10 @@ function Map() {
 
   //data players
   let playerTemp = useSelector((state) => state.inventory.value) // lecture de la DB via redux
+  const playerNames_local = useSelector((state) => state.games.playerNames_local) // lecture de la DB via redux
+
   const [player, setPlayer] = useState(playerTemp)
-  const [playerTurn, setPlayerTurn] = useState(0);
+  const [playerTurn, setPlayerTurn] = useState(0); //player[playerTurn] 
   const [mooves, setMooves] = useState(0);
   const [nbTours, setNbTours] = useState(1);
 
@@ -53,9 +55,9 @@ function Map() {
   
 
   if(mooves >= 4){
-
     //meeting
     if(meeting?.mob){
+      console.log("dispatch meeting 1")
       dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
     }else{
       if(playerTurn < player.length -1){
@@ -92,11 +94,11 @@ function Map() {
 
 
   useEffect(() => {
-    console.log(dataPiocheTemp)
+    console.log(playerTemp)
+  
     // dernière id, carte jouée par le joueur
-    let playerTemp = JSON.parse(JSON.stringify(player))
-    const previousLastTilesID = playerTemp[playerTurn].prevCoords
-    const previousCoords = playerTemp[playerTurn].prevCoords.split(';');
+    let playersTemp = JSON.parse(JSON.stringify(player))
+    const previousCoords = playersTemp[playerTurn].prevCoords.split(';');
 
     // avant-dernière id, carte jouée par le joueur
     const lastTileID = player[playerTurn].coords; 
@@ -165,6 +167,7 @@ function Map() {
 
         // cf. onTileClick
         if(!isMeetingSkiped || !isMeetingResolved){
+          console.log("dispatch meeting 2")
           dispatch(pushMeet({meeting: dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords)].meeting, coords: player[playerTurn].coords, isResolved: isMeetingResolved, isSkiped: isMeetingSkiped}))
         }
       }} 
@@ -206,7 +209,6 @@ function Map() {
   }
   
   const onTileClick = (id) => {
-    console.log('click on', id)
     //fonctionnalité dégradée life fountain
     if(playedCoords.includes(id) && dataPiocheTemp[playedCoords.findIndex(coord => coord === id)].tile.specificity === 'fountain'){
       dispatch(restoreLife(player[playerTurn].type))
@@ -214,6 +216,7 @@ function Map() {
 
     //meeting
     if(playedCoords.includes(id)) {
+      console.log("dispatch meeting 3")
       dispatch(pushMeet(dataPiocheTemp[playedCoords.findIndex(coord => coord === player[playerTurn].coords) +1].meeting))
     }
     
@@ -272,7 +275,7 @@ function Map() {
         const x = Number(coords[0])
         const y = Number(coords[1])
                 
-        if(!isOpen){
+        if(!isOpen && playerNames_local.includes(player[playerTurn].username)){
           if(!meeting || (meeting.mob === 'closed_chest' && mooves < 4)|| (isAderyn && mooves < 4)){
             if(playedCoords.length < dataPiocheTemp.length){
               isPlayable = (
