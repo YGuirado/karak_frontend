@@ -13,7 +13,7 @@ import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 import { RWebShare } from "react-web-share";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL; 
-const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
+// const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
 function ValueLabelComponent(props) {
   const { children, value } = props;
@@ -189,7 +189,8 @@ slider : le mettre au nbr de joueurs inscrits +1
             <RWebShare
               data={{
                 text: "Rejoins moi sur une partie de Karak !",
-                url: FRONTEND_URL + '/addplayers/' + gameId,
+                // url: FRONTEND_URL + '/addplayers/' + gameId,
+                url: '/addplayers/' + gameId,
                 title: "Karak",
               }}
               onClick={() => console.log("shared successfully!")}
