@@ -64,10 +64,10 @@ function Home() {
 
       <div className={styles.logocontainer}>
         <img src="logo-karak.png" alt="Logo" className={styles.logo} />
-        <span className={styles.title}>
+        {/* <span className={styles.title}>
           Welcome to Karak!
-        </span>
-        <span className={styles.h2}>
+        </span> */}
+        <span className={styles.introSlider} style={{textAlign: 'center'}}>
           Jouez en famille ou entre amis, <br /> même à distance.
         </span>
       </div>
