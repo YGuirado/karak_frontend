@@ -221,7 +221,7 @@ function Meeting() {
         scoreBoard = (
             <div style={{ marginLeft: "-20px", top: '1px', position: 'absolute', backgroundColor: '#E8E7DD', height: '60vh', width: '100%', display: 'flex', borderBottomRightRadius:' 20px',borderBottomLeftRadius: '20px', flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
                 {playersScore}
-                <button onClick={router.push('/')}>
+                <button onClick={() => router.push('/')}>
                     Nouvelle partie
                 </button>
             </div>
