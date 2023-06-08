@@ -170,7 +170,7 @@ slider : le mettre au nbr de joueurs inscrits +1
     return (
       <div key={ii}>
         {/* {couple.username + ' is ' + couple.heroe} */}
-        {couple.username + ' has join the game'}
+        {couple.username + ' à rejoint la partie'}
       </div>
     )
   })
